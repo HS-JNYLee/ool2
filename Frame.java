@@ -8,17 +8,11 @@ import java.awt.Dimension;
 public class Frame extends JFrame {
 
     public Frame() {
-        // 부모 클래스인 JFrame의 생성자 호출
         super("");
-
-        // 창을 닫았을 때 프로그램 종료
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        // 라벨 추가
         JLabel label = new JLabel("Character");
         getContentPane().add(label, BorderLayout.NORTH);
 
-        // 패널 생성
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BorderLayout());
 
@@ -32,7 +26,6 @@ public class Frame extends JFrame {
         button2.setPreferredSize(buttonSize);
         button3.setPreferredSize(buttonSize);
 
-        // 패널의 SOUTH 위치에 버튼 추가
         buttonPanel.add(button1, BorderLayout.WEST);
         buttonPanel.add(button2, BorderLayout.CENTER);
         buttonPanel.add(button3, BorderLayout.EAST);
@@ -48,7 +41,6 @@ public class Frame extends JFrame {
     }
 
     public static void main(String[] args) {
-        // Frame 클래스의 인스턴스 생성
-        Frame myFrameWithButtons = new Frame();
+        Frame Frame = new Frame();
     }
 }
