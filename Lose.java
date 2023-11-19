@@ -1,7 +1,7 @@
 public class Lose {
-    public String getImgLink() {
-        return imgLink;
-    } //패배시 이미지 삽입
+    //public String getImgLink() {
+      // return imgLink;
+    //} //패배시 이미지 삽입
 
 
 
@@ -15,11 +15,6 @@ public class Lose {
         else
             return false;
     }
-
-
-
-
-
 
 
 }

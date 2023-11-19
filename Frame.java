@@ -8,7 +8,7 @@ public class Frame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(null);  // 레이아웃 매니저를 null로 설정
 
-        JLabel label = new JLabel("Character");
+        JLabel label = new JLabel("");
         label.setBounds(100, 100, 100, 30);  // 레이블의 위치와 크기 설정
         add(label);
 
@@ -19,26 +19,30 @@ public class Frame extends JFrame {
 
         // 버튼 생성 및 배치
         JButton button1 = new JButton("식량");
-        button1.setBounds(10, 360, 200, 70);  // 버튼의 위치와 크기 설정
+        button1.setBounds(10, 480, 200, 70);  // 버튼의 위치와 크기 설정
         add(button1);
 
         JButton button2 = new JButton("물");
-        button2.setBounds(300, 360, 200, 70);  // 버튼의 위치와 크기 설정
+        button2.setBounds(350, 480, 200, 70);  // 버튼의 위치와 크기 설정
         add(button2);
 
         JButton button3 = new JButton("무기");
-        button3.setBounds(580, 360, 200, 70);  // 버튼의 위치와 크기 설정
+        button3.setBounds(680, 480, 200, 70);  // 버튼의 위치와 크기 설정
         add(button3);
 
+        // 가운데에 위치할 패널 생성
+        JPanel panel = new JPanel();
+        panel.setBounds(00, 40, 900, 420);  // 패널의 위치와 크기 설정
+        panel.setBackground(Color.GRAY);  // 패널의 배경색 설정
+        add(panel);  // 패널 추가
+
         // 창 크기 설정
-        setSize(800, 500);
+        setSize(900, 600);
 
         setLocationRelativeTo(null);
 
         setVisible(true);
     }
-
-    public static void main(String[] args) {
-        Frame GFrame = new Frame();
-    }
 }
+
+
