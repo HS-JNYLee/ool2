@@ -7,9 +7,9 @@ public class Win {
         this.inventory = inventory;
     }
 
-    public boolean chWin() {
+    public boolean chWin(Character c, Mon m) {
         // 이기면 true, 지면 false
-        if(Character.Atk > Mon.Atk){
+        if(c.Atk > m.Atk){
             return true;
         }
         else
