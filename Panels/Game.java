@@ -263,29 +263,79 @@ class InventoryPanel extends JPanel {
     JPanel exitPanel;
 
     InventoryPanel() {
+        Font f = new Font("NanumGothic", Font.BOLD, 20);
         setLayout(new GridLayout(1, 3, 5, 2));
 
         equipedWeaponPanel = new JPanel();
         equipedWeaponPanel.setBackground(Color.WHITE);
-        JLabel equipedWeapon = new JLabel("무기A");
         equipedWeaponPanel.setLayout(new BoxLayout(equipedWeaponPanel, BoxLayout.Y_AXIS));
+
+        JLabel equipedWeapon = new JLabel("무기A");
+        equipedWeapon.setFont(f);
         equipedWeapon.setAlignmentY(Component.CENTER_ALIGNMENT);
-        equipedWeapon.add(Box.createVerticalGlue());
+        equipedWeapon.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        equipedWeaponPanel.add(Box.createVerticalGlue());
         equipedWeaponPanel.add(equipedWeapon);
-        equipedWeapon.add(Box.createVerticalGlue());
+        equipedWeaponPanel.add(Box.createVerticalGlue());
+
         add(equipedWeaponPanel);
 
         ownedWeaponPanel = new JPanel();
         ownedWeaponPanel.setBackground(Color.WHITE);
-        ownedWeaponPanel.setLayout(new GridLayout(1, 4));
-        ownedWeaponPanel.add(new JLabel("무기A"));
-        ownedWeaponPanel.add(new JLabel("무기B"));
-        ownedWeaponPanel.add(new JLabel("무기C"));
-        ownedWeaponPanel.add(new JLabel("무기D"));
-        add(ownedWeaponPanel);
+        ownedWeaponPanel.setLayout(new BoxLayout(ownedWeaponPanel, BoxLayout.X_AXIS));
+
+        JLabel A = new JLabel("무기A");
+        A.setFont(f);
+        A.setBackground(Color.RED);
+        A.setOpaque(true);
+        A.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JLabel B = new JLabel("무기B");
+        B.setFont(f);
+        B.setBackground(Color.BLUE);
+        B.setOpaque(true);
+        B.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JLabel C = new JLabel("무기C");
+        C.setFont(f);
+        C.setBackground(Color.RED);
+        C.setOpaque(true);
+        C.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JLabel D = new JLabel("무기D");
+        D.setBackground(Color.BLUE);
+        D.setOpaque(true);
+        D.setAlignmentX(Component.CENTER_ALIGNMENT);
+        D.setFont(f);
+        ownedWeaponPanel.add(A);
+        ownedWeaponPanel.add(Box.createRigidArea(new Dimension(5, 0)));
+        ownedWeaponPanel.add(B);
+        ownedWeaponPanel.add(Box.createRigidArea(new Dimension(5, 0)));
+        ownedWeaponPanel.add(C);
+        ownedWeaponPanel.add(Box.createRigidArea(new Dimension(5, 0)));
+        ownedWeaponPanel.add(D);
+
+        JPanel ownedWeaponPanelWrapper = new JPanel();
+        ownedWeaponPanelWrapper.setLayout(new BoxLayout(ownedWeaponPanelWrapper, BoxLayout.Y_AXIS));
+        ownedWeaponPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        ownedWeaponPanelWrapper.add(Box.createVerticalGlue());
+        ownedWeaponPanelWrapper.add(ownedWeaponPanel);
+        ownedWeaponPanelWrapper.add(Box.createVerticalGlue());
+
+        add(ownedWeaponPanelWrapper);
 
         exitPanel = new JPanel();
         exitPanel.setBackground(Color.WHITE);
+
+        exitPanel.setLayout(new BoxLayout(exitPanel, BoxLayout.Y_AXIS));
+
+        JLabel exitLabel = new JLabel("도망친다");
+        exitLabel.setAlignmentY(Component.CENTER_ALIGNMENT);
+        exitLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        exitLabel.setFont(f);
+        exitPanel.add(Box.createVerticalGlue());
+        exitPanel.add(exitLabel);
+        exitPanel.add(Box.createVerticalGlue());
+
         add(exitPanel);
     }
 }
