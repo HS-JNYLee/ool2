@@ -61,7 +61,7 @@ public class Frame extends JFrame {
         layeredPane.setBackground(Color.BLACK);  // 배경색 변경
         add(layeredPane);
 
-        ImageIcon icon1 = new ImageIcon("src/resources/character1.png");
+        ImageIcon icon1 = new ImageIcon("src/resources/images/character1.png");
         JButton character1Button = new JButton(icon1);
         character1Button.setBackground(Color.BLACK);  // 버튼 배경색 변경
         character1Button.setForeground(Color.WHITE);  // 글씨 색 변경
@@ -78,7 +78,7 @@ public class Frame extends JFrame {
         });
         layeredPane.add(character1Button, Integer.valueOf(2));
 
-        ImageIcon icon2 = new ImageIcon("src/resources/character2.png");
+        ImageIcon icon2 = new ImageIcon("src/resources/images/character2.png");
         JButton character2Button = new JButton(icon2);
         character2Button.setBounds(550, 30, icon2.getIconWidth(), icon2.getIconHeight());
         character2Button.setBackground(Color.BLACK);  // 버튼 배경색 변경
