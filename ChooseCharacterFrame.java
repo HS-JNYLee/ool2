@@ -1,8 +1,12 @@
+import src.main.gui.Panels.SettingPanel.SettingPanel;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import javax.sound.sampled.*;
+import java.io.File;
 
-public class Frame extends JFrame {
+public class ChooseCharacterFrame extends JFrame {
     private Character character;
     private JProgressBar ch1Bar1;
     private JProgressBar ch1Bar2;
@@ -13,8 +17,8 @@ public class Frame extends JFrame {
     private JProgressBar ch2Bar2;
     private JProgressBar ch2Bar3;
     private JProgressBar ch2Bar4;
-
-    public Frame() {
+    private Clip clip;
+    public ChooseCharacterFrame() {
         super("Game");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(null);
@@ -27,7 +31,27 @@ public class Frame extends JFrame {
         label.setForeground(Color.WHITE);  // 글씨 색 변경
         add(label);
 
+        try {
+            File bgmFile = new File("src.sounds.soundsample.wav");
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(bgmFile);
+
+            clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            // 무한 반복하도록 설정합니다.
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
+            // 배경음악을 재생합니다.
+            clip.start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         JButton settingButton = new JButton("설정");
+        settingButton.addActionListener(new ActionListener() {  //음량 조절
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                SettingPanel settingPanel = new SettingPanel(clip);  //음악 재생 clip
+                JOptionPane.showMessageDialog(ChooseCharacterFrame.this, settingPanel, "설정", JOptionPane.PLAIN_MESSAGE);
+            }
+        });
         settingButton.setBounds(1, 1, 60, 30);
         settingButton.setBackground(Color.WHITE);  // 버튼 배경색 변경
         settingButton.setForeground(Color.BLACK);  // 글씨 색 변경
@@ -201,6 +225,6 @@ public class Frame extends JFrame {
     }
 
     public static void main(String[] args) {
-        new Frame();
+        new ChooseCharacterFrame();
     }
 }

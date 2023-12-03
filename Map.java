@@ -1,9 +1,9 @@
 //서울, 부천, 수원, 평택, 대전, 대구, 부산, 제주도
 public class Map {
     private String name;  // 지역 이름
-    private Mon monster;  // 해당 지역의 몬스터
+    private Monster monster;  // 해당 지역의 몬스터
 
-    public Map(String name, Mon monster) {  // 맵 생성 (지역 이름, 몬스터)
+    public Map(String name, Monster monster) {  // 맵 생성 (지역 이름, 몬스터)
         this.name = name;
         this.monster = monster;
     }
@@ -17,11 +17,11 @@ public class Map {
         this.name = name;
     }
 
-    public Mon getMonster() {
+    public Monster getMonster() {
         return monster;
     }
 
-    public void setMonster(Mon monster) {
+    public void setMonster(Monster monster) {
         this.monster = monster;
     }
 }

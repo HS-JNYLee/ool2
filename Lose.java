@@ -5,11 +5,11 @@ public class Lose {
 
 
 
-    public boolean MonWin(Character c,Mon m) {   //mon가 Atk이 더 높아 플레이어가 졌을 시
+    public boolean MonWin(Character c, Monster m) {   //mon가 Atk이 더 높아 플레이어가 졌을 시
 // 지면true 이기면 false
-        if(c.Atk<m.Atk){
+        if(c.attack<m.attack){
             //여기서 Character Hp 감소
-            Character.decreaseHp(10); //지면 체력 10 감소
+            c.decreaseHp(10); //지면 체력 10 감소
             return true;                //Mon.Atk-Cha.Atk으로 변경 가능(하스처럼)
         }
         else
