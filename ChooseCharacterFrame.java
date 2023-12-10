@@ -32,12 +32,15 @@ public class ChooseCharacterFrame extends JFrame {
         add(label);
 
         try {
-            File bgmFile = new File("src.sounds.soundsample.wav");
+            File bgmFile = new File("C:\\Users\\gnswl\\Desktop\\jjihun\\객지 2\\객지 프로젝트\\ool2\\src\\sounds\\soundsample.wav");
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(bgmFile);
 
             clip = AudioSystem.getClip();
             clip.open(audioInputStream);
             // 무한 반복하도록 설정합니다.
+            clip.stop();
+            // 클립을 처음으로 되감습니다.
+            clip.setFramePosition(0);
             clip.loop(Clip.LOOP_CONTINUOUSLY);
             // 배경음악을 재생합니다.
             clip.start();
