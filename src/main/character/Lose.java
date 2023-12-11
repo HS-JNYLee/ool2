@@ -1,3 +1,5 @@
+package src.main.character;
+
 public class Lose {
     //public String getImgLink() {
       // return imgLink;
@@ -5,7 +7,7 @@ public class Lose {
 
 
 
-    public boolean MonWin(Character1 c, Monster m) {   //mon가 Atk이 더 높아 플레이어가 졌을 시
+    public boolean MonWin(Character c, Monster m) {   //mon가 Atk이 더 높아 플레이어가 졌을 시
 // 지면true 이기면 false
         if(c.attack<m.attack){
             //여기서 Character Hp 감소

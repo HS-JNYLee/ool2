@@ -44,7 +44,7 @@ public class MainFrame extends JFrame {
 
         Character c = new Character();
         c.setFullness(100);
-        c.setWater(100);
+        c.increaseWater(100);
         c.setAttack(20);
 
         Monster m = new Monster(10, "오우거");

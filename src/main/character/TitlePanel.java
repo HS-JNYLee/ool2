@@ -1,4 +1,4 @@
-import src.main.gui.Panels.SettingPanel.SettingPanel;
+package src.main.character;
 
 import javax.swing.*;
 import java.awt.*;
@@ -47,7 +47,7 @@ public class TitlePanel extends JFrame {
         startButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //ChooseCharacterFrame 이동
+                //src.main.character.ChooseCharacterFrame 이동
                 ChooseCharacterFrame chooseCharacterFrame = new ChooseCharacterFrame();
                 chooseCharacterFrame.setVisible(true);
                 TitlePanel.this.setVisible(false);
