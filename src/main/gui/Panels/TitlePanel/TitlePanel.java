@@ -49,7 +49,6 @@ public class TitlePanel extends JFrame {
         startButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            //ChooseCharacterFrame 이동
 
             }
         });
@@ -67,7 +66,7 @@ public class TitlePanel extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
               //   settingPanel = new SettingPanel(clip);  //음악 재생 clip
-              //  JOptionPane.showMessageDialog(ChooseCharacterFrame.this, settingPanel, "설정", JOptionPane.PLAIN_MESSAGE);
+             //  JOptionPane.showMessageDialog(ChooseCharacterFrame.this, settingPanel, "설정", JOptionPane.PLAIN_MESSAGE);
             }
         });
         infoButtonPanel.add(infoButton);  // 버튼을 패널에 추가
