@@ -8,12 +8,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.HashMap;
-import java.util.Map;
 
 public class InventoryPanel extends JPanel {
     JPanel equipedWeaponPanel;
-    JPanel ownedWeaponPanel;
+    JLayeredPane ownedWeaponPanel;
     JPanel exitPanel;
 
     public InventoryPanel(Inventory i) {
@@ -45,10 +43,9 @@ public class InventoryPanel extends JPanel {
 
         add(equipedWeaponPanel);
 
-        ownedWeaponPanel = new JPanel(); // 소지한 무기의 패널
+        ownedWeaponPanel = new JLayeredPane();
         ownedWeaponPanel.setBackground(CommonPanelFunction.hexToRgb("252525"));
-        ownedWeaponPanel.setLayout(new BoxLayout(ownedWeaponPanel, BoxLayout.X_AXIS));
-        JLayeredPane layeredPane = new JLayeredPane();
+
         for (int idx = 0; idx < i.getWeapons().size(); idx++) {
             JLabel weaponLabel = new JLabel(i.getWeapons().get(idx).getName());
             JLabel hoverLabel = new JLabel();
@@ -57,27 +54,22 @@ public class InventoryPanel extends JPanel {
             weaponLabel.setBackground(CommonPanelFunction.hexToRgb("D0D0D0"));
             weaponLabel.setForeground(Color.WHITE);
             weaponLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-            weaponLabel.addMouseListener(new MouseHoverListener(i.getWeapons().get(idx), hoverLabel, equipedWeapon));
-            ownedWeaponPanel.add(weaponLabel);
-            ownedWeaponPanel.add(hoverLabel);
-            ownedWeaponPanel.add(Box.createRigidArea(new Dimension(5, 0)));
-            int x = idx * 75 + 10; // x 좌표 설정
-            int y = 0; // 높이에 따른 y 좌표 설정
+            weaponLabel.addMouseListener(new OwnedItemMouseListener(i.getWeapons().get(idx), hoverLabel, equipedWeapon));
+            int x = idx % 3 * 85 + 20; // x 좌표 설정
+            int y = idx / 3 * 40 + 60; // 높이에 따른 y 좌표 설정
 
             weaponLabel.setBounds(x, y, 70, 30);
             hoverLabel.setBounds(x, y, 70, 30);
 
-            layeredPane.add(weaponLabel, idx);
-            layeredPane.add(hoverLabel, idx);
+            ownedWeaponPanel.add(weaponLabel, idx);
+            ownedWeaponPanel.add(hoverLabel, idx);
         }
 
         JPanel ownedWeaponPanelWrapper = new JPanel();
         ownedWeaponPanelWrapper.setLayout(new BoxLayout(ownedWeaponPanelWrapper, BoxLayout.Y_AXIS));
         ownedWeaponPanelWrapper.setBackground(CommonPanelFunction.hexToRgb("252525"));
 
-        ownedWeaponPanelWrapper.add(Box.createVerticalGlue());
-        ownedWeaponPanelWrapper.add(layeredPane);
-        ownedWeaponPanelWrapper.add(Box.createVerticalGlue());
+        ownedWeaponPanelWrapper.add(ownedWeaponPanel);
 
         add(ownedWeaponPanelWrapper);
 
@@ -99,15 +91,15 @@ public class InventoryPanel extends JPanel {
         add(exitPanel);
     }
 
-    class MouseHoverListener extends MouseAdapter {
+    class OwnedItemMouseListener extends MouseAdapter {
         Weapon weapon;
         JLabel hoverLabel;
-        JLabel equipedLabel;
+        JLabel equippedLabel;
 
-        public MouseHoverListener(Weapon weapon, JLabel hoverLabel, JLabel equipedLabel) {
+        public OwnedItemMouseListener(Weapon weapon, JLabel hoverLabel, JLabel equippedLabel) {
             this.weapon = weapon;
             this.hoverLabel = hoverLabel;
-            this.equipedLabel = equipedLabel;
+            this.equippedLabel = equippedLabel;
         }
 
         @Override
@@ -126,7 +118,7 @@ public class InventoryPanel extends JPanel {
 
         @Override
         public void mouseClicked(MouseEvent e) {
-            equipedLabel.setText(weapon.getName());
+            equippedLabel.setText(weapon.getName());
         }
     }
 }
