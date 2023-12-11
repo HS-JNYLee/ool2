@@ -22,4 +22,11 @@ public class CharacterInfoPanel extends JPanel {
         add(this.eventLog);
     }
 
+    public void setEventLogPanelVisible(Boolean b) {
+        SwingUtilities.invokeLater(() -> {
+            eventLog.setVisible(b); // 이벤트 로그 패널의 가시성 설정
+            revalidate(); // 레이아웃 재배치
+            repaint(); // 다시 그리기
+        });
+    }
 } // 중앙 패널

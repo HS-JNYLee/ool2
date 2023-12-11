@@ -2,6 +2,7 @@ package src.main.gui.Panels;// panel switching
 import src.main.character.Character;
 import src.main.character.Monster;
 import src.main.character.Win;
+import src.main.environment.RegionMap;
 import src.main.gui.Panels.CharacterInfo.*;
 import src.main.gui.Panels.TimeSettings.TimeSettingsPanel;
 import src.main.app.common.CommonPanelFunction;
@@ -23,6 +24,8 @@ public class MainFrame extends JFrame {
     private final int width = 900;
 
     private final int height = 600;
+
+    private final EventLogPanel[] eventLog = {new EventLogPanel("")};
 
     public MainFrame() {
         this.setTitle("Main Frame");
@@ -48,9 +51,13 @@ public class MainFrame extends JFrame {
         c.setAttack(20);
 
         Monster m = new Monster(10, "오우거");
+        RegionMap rm = new RegionMap();
         // 디버깅용 나중에 지울 것
+        eventLog[0] = new EventLogPanel(m);
+
 
         timeSettingsPanel = new TimeSettingsPanel( width, (int) (height * 0.1));
+        timeSettingsPanel.getTimeStamp().setTtRegion(rm.getNodes().get(1).getValue()); // 초기 지역 설정
         timeSettingsPanel.setPreferredSize(new Dimension(width, (int) (height * 0.1)));
         timeSettingsPanel.setBackground(CommonPanelFunction.hexToRgb("303030"));
         add(timeSettingsPanel, BorderLayout.NORTH);
@@ -61,7 +68,6 @@ public class MainFrame extends JFrame {
         PlayerCharacterPanel playerCharacter = new PlayerCharacterPanel();
         playerCharacter.setBackground(CommonPanelFunction.hexToRgb("303030"));
 
-        final EventLogPanel[] eventLog = {new EventLogPanel(m)};
         eventLog[0].setBackground(CommonPanelFunction.hexToRgb("303030"));
 
         characterInfoPanel = new CharacterInfoPanel(status, playerCharacter, eventLog[0]);
@@ -81,7 +87,7 @@ public class MainFrame extends JFrame {
                     Win w = new Win(i);
                     eventLog[0] = new EventLogPanel(w.reward());
                     characterInfoPanel.add(eventLog[0]);
-                    eventLog[0].setMouseEvent();
+                    eventLog[0].setMouseEvent(rm.getNode(timeSettingsPanel.getTimeStamp().getTt().getRegion()).getNeighbors()); // 다음 지역 이동 이벤트
                 }else {
                     eventLog[0] = new EventLogPanel("패배...");
                     characterInfoPanel.add(eventLog[0]);
@@ -95,6 +101,7 @@ public class MainFrame extends JFrame {
                 characterInfoPanel.remove(eventLog[0]);
                 eventLog[0] = new EventLogPanel("무사히 도망쳤습니다.");
                 characterInfoPanel.add(eventLog[0]);
+                eventLog[0].setMouseEvent(rm.getNode(timeSettingsPanel.getTimeStamp().getTt().getRegion()).getNeighbors()); // 다음 지역 이동 이벤트
                 characterInfoPanel.revalidate();
             }
         };
@@ -112,5 +119,11 @@ public class MainFrame extends JFrame {
         setSize(width, height);
         setVisible(true);
     }
-
+    public void handleButtonClick(String buttonText) {
+        timeSettingsPanel.getTimeStamp().setTtRegion(buttonText); // 초기 지역 설정
+        timeSettingsPanel.getTimeStamp().getTt().startThread();
+        characterInfoPanel.remove(eventLog[0]);
+        revalidate();
+        repaint();
+    }
 }
