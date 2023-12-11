@@ -1,3 +1,5 @@
+package src.main.inventory;
+
 /**
  * 작성자 : JNYLee
  * 마지막 수정 : 23.11.13

@@ -1,3 +1,5 @@
+package src.main.inventory;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +25,16 @@ public class Inventory {
     }
 
     public List<Weapon> getWeapon() {
+        return weapon;
+    }
+    
+    // 소지한 아이템 [무기]의 배열 리턴
+    public List<Weapon> getWeapons() {
+        return weapon;
+    }
+
+    public List<Weapon> addWeapon(Weapon w) {
+        weapon.add(w);
         return weapon;
     }
 }

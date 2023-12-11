@@ -1,3 +1,4 @@
+package src.main.inventory;
 
 /**
  * 작성자 : JNYLee
@@ -12,14 +13,14 @@ public class Weapon extends Item{
     private boolean equiped; // 현재 장착하고 있는지
 
     // constructor
-    Weapon() {
+    public Weapon() {
         this.name = "";
         this.remainNumber = 0;
         this.attackStatus = 0;
         equiped = false;
     }
 
-    Weapon(String name, int remainNumber, int attackStatus) {
+    public Weapon(String name, int remainNumber, int attackStatus) {
         this.name = name;
         this.remainNumber = remainNumber;
         this.attackStatus = attackStatus;
