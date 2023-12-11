@@ -2,6 +2,7 @@ package src.main.environment;
 
 import src.main.gui.Panels.TimeSettings.TimestampPanel;
 
+import javax.swing.*;
 import java.time.LocalTime;
 
 /**
@@ -17,18 +18,31 @@ public class TimestampThread extends Thread{
     private TimestampThread intervalTime; // 스레드로 초마다 돌릴 객체 생성
     private  TimestampPanel.TimestampLabel realtime;
     private  TimestampPanel.TimestampLabel dayLabel;
+    private boolean running = true; // 스레드 실행 플래그
+
+    public void stopThread() {
+        running = false; // 스레드 일시 중지
+    }
+
+    public void startThread() {
+        if(!running) {
+            running = true; // 스레드 다시 시작
+            new Thread(this::run).start();
+        }
+    }
+
     @Override
     public void run() {
-        while (true) {
-            try { // 초마다 1시간씩 증가f
+        while (running) { // 실행 플래그가 true일 때만 루프 실행
+            try {
                 time = time.plusHours(1);
                 if(time.getHour() == 0) {
                     day++;
-                    dayLabel.setText("Day " + String.format("%02d",day));
+                    SwingUtilities.invokeLater(() -> dayLabel.setText("Day " + String.format("%02d",day)));
                 }
-                realtime.setText(String.valueOf(time));
+                SwingUtilities.invokeLater(() -> realtime.setText(String.valueOf(time)));
                 Thread.sleep(500);
-            }catch (InterruptedException e) {
+            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }

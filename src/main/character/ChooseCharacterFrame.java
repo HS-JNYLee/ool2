@@ -46,7 +46,7 @@ public class ChooseCharacterFrame extends JFrame {
         add(label);
 
         try {
-            File bgmFile = new File("C:\\Users\\gnswl\\Desktop\\jjihun\\객지 2\\객지 프로젝트\\ool2\\src\\sounds\\soundsample.wav");
+            File bgmFile = new File("src/sounds/soundsample.wav");
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(bgmFile);
 
             clip = AudioSystem.getClip();

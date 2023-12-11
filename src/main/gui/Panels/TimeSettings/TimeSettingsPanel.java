@@ -19,5 +19,9 @@ public class TimeSettingsPanel extends JPanel {
         timeStamp.setPreferredSize(new Dimension ((int) (width * 0.7), height));
         add(timeStamp, BorderLayout.EAST);
     }
+
+    public TimestampPanel getTimeStamp() {
+        return timeStamp;
+    }
 }
 
