@@ -6,13 +6,19 @@ import src.main.environment.RegionMap;
 import src.main.gui.Panels.CharacterInfo.*;
 import src.main.gui.Panels.TimeSettings.TimeSettingsPanel;
 import src.main.app.common.CommonPanelFunction;
+import src.main.inventory.Food;
 import src.main.inventory.Inventory;
+import src.main.inventory.Water;
 import src.main.inventory.Weapon;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
+import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 import javax.swing.*;
 
 public class MainFrame extends JFrame {
@@ -26,8 +32,21 @@ public class MainFrame extends JFrame {
     private final int height = 600;
 
     private final EventLogPanel[] eventLog = {new EventLogPanel("")};
+    Character c;
+    Inventory i;
+    Monster m;
+    RegionMap rm;
+    StatusPanel status;
+    PlayerCharacterPanel playerCharacter;
+    JLayeredPane foodPanel;
+    JLayeredPane waterPanel;
+    JLayeredPane ownedWeaponPanel;
+    JPanel equippedWeaponPanel;
+    JPanel exitPanel;
+    MouseAdapter exitEvent;
 
-    public MainFrame() {
+    public MainFrame(Character c) {
+        this.c = c;
         this.setTitle("Main Frame");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         getContentPane().setBackground(CommonPanelFunction.hexToRgb("303030"));
@@ -37,7 +56,17 @@ public class MainFrame extends JFrame {
         setLayout(b);
 
         // 디버깅용 나중에 지울 것
-        Inventory i = new Inventory();
+        i = new Inventory();
+
+        i.addFood(new Food(1, 20));
+        i.addFood(new Food(2, 22));
+        i.addFood(new Food(3, 12));
+        i.addFood(new Food(4, 33));
+        i.addWater(new Water(1, 20));
+        i.addWater(new Water(45, 11));
+        i.addWater(new Water(2, 2));
+        i.addWater(new Water(12, 21));
+
         i.addWeapon(new Weapon("불의 검", 1, 999));
         i.addWeapon(new Weapon("물의 검", 2, 777));
         i.addWeapon(new Weapon("흙의 검", 3, 888));
@@ -45,27 +74,22 @@ public class MainFrame extends JFrame {
         i.addWeapon(new Weapon("빛의 검", 4, 666));
         i.setEquipedWeapon(i.getWeapons().get(0));
 
-        Character c = new Character();
-        c.setFullness(100);
-        c.increaseWater(100);
-        c.setAttack(20);
-
-        Monster m = new Monster(10, "오우거");
-        RegionMap rm = new RegionMap();
+        m = new Monster(10, "오우거");
+        rm = new RegionMap();
         // 디버깅용 나중에 지울 것
+
         eventLog[0] = new EventLogPanel(m);
 
-
-        timeSettingsPanel = new TimeSettingsPanel( width, (int) (height * 0.1));
+        timeSettingsPanel = new TimeSettingsPanel(width, (int) (height * 0.1));
         timeSettingsPanel.getTimeStamp().setTtRegion(rm.getNodes().get(1).getValue()); // 초기 지역 설정
         timeSettingsPanel.setPreferredSize(new Dimension(width, (int) (height * 0.1)));
         timeSettingsPanel.setBackground(CommonPanelFunction.hexToRgb("303030"));
         add(timeSettingsPanel, BorderLayout.NORTH);
 
-        StatusPanel status = new StatusPanel();
+        status = new StatusPanel();
         status.setBackground(CommonPanelFunction.hexToRgb("303030"));
 
-        PlayerCharacterPanel playerCharacter = new PlayerCharacterPanel();
+        playerCharacter = new PlayerCharacterPanel();
         playerCharacter.setBackground(CommonPanelFunction.hexToRgb("303030"));
 
         eventLog[0].setBackground(CommonPanelFunction.hexToRgb("303030"));
@@ -75,27 +99,30 @@ public class MainFrame extends JFrame {
         characterInfoPanel.setBackground(CommonPanelFunction.hexToRgb("303030"));
         add(characterInfoPanel, BorderLayout.CENTER);
 
+        foodPanel = new JLayeredPane();
+        waterPanel = new JLayeredPane();
+        ownedWeaponPanel = new JLayeredPane();
+        inventoryPanel = new InventoryPanel(i, foodPanel, waterPanel, ownedWeaponPanel);
 
-        JPanel equipedWeaponPanel = new JPanel();
-        JLayeredPane ownedWeaponPanel = new JLayeredPane();
-        JPanel exitPanel = new JPanel();
-        equipedWeaponPanel.addMouseListener(new MouseAdapter() { // '싸운다'를 클릭했을 때
+        equippedWeaponPanel = new JPanel();
+        exitPanel = new JPanel();
+        equippedWeaponPanel.addMouseListener(new MouseAdapter() { // '싸운다'를 클릭했을 때
             @Override
             public void mouseClicked(MouseEvent e) {
                 characterInfoPanel.remove(eventLog[0]);
-                if(c.getAttack() > m.getAttack()) {
+                if (c.getAttack() > m.getAttack()) {
                     Win w = new Win(i);
                     eventLog[0] = new EventLogPanel(w.reward());
                     characterInfoPanel.add(eventLog[0]);
                     eventLog[0].setMouseEvent(rm.getNode(timeSettingsPanel.getTimeStamp().getTt().getRegion()).getNeighbors()); // 다음 지역 이동 이벤트
-                }else {
+                } else {
                     eventLog[0] = new EventLogPanel("패배...");
                     characterInfoPanel.add(eventLog[0]);
                 }
                 characterInfoPanel.revalidate();
             }
         });
-        MouseAdapter exitEvent = new MouseAdapter() {
+        exitEvent = new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 characterInfoPanel.remove(eventLog[0]);
@@ -106,12 +133,13 @@ public class MainFrame extends JFrame {
             }
         };
 
-        if(c.getFullness() == 100 && c.getWater() == 100) {
+        if (c.getFullness() == 100 && c.getWater() == 100) {
             exitPanel.addMouseListener(exitEvent);
-        }else {
+        } else {
             exitPanel.removeMouseListener(exitEvent);
         }
-        inventoryPanel = new InventoryPanel(i, equipedWeaponPanel, ownedWeaponPanel, exitPanel);
+        setNight();
+
         inventoryPanel.setPreferredSize(new Dimension(width, (int) (height * 0.3)));
         inventoryPanel.setBackground(CommonPanelFunction.hexToRgb("303030"));
         add(inventoryPanel, BorderLayout.SOUTH);
@@ -119,11 +147,69 @@ public class MainFrame extends JFrame {
         setSize(width, height);
         setVisible(true);
     }
+
+
     public void handleButtonClick(String buttonText) {
         timeSettingsPanel.getTimeStamp().setTtRegion(buttonText); // 초기 지역 설정
-        timeSettingsPanel.getTimeStamp().getTt().startThread();
+        int hour = timeSettingsPanel.getTimeStamp().getTt().getTime().getHour();
+        if(hour > 9) timeSettingsPanel.getTimeStamp().setTtDay(timeSettingsPanel.getTimeStamp().getTt().getDay() + 1); // 초기 지역 설정
+        timeSettingsPanel.getTimeStamp().getTt().resetThread(); // 시간 초기화
+        timeSettingsPanel.getTimeStamp().getTt().startThread(); // 시간 시작
         characterInfoPanel.remove(eventLog[0]);
-        revalidate();
-        repaint();
+        SwingUtilities.invokeLater(() -> {
+            remove(inventoryPanel);
+            inventoryPanel = new InventoryPanel(i, foodPanel, waterPanel, ownedWeaponPanel);
+            inventoryPanel.setPreferredSize(new Dimension(width, (int) (height * 0.3)));
+            inventoryPanel.setBackground(CommonPanelFunction.hexToRgb("303030"));
+            add(inventoryPanel, BorderLayout.SOUTH);
+            revalidate();
+            repaint();
+        });
+    }
+
+    public void setNight() {
+        final AtomicInteger watchedValue = new AtomicInteger(0);
+        final ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+        final boolean[] isNight = {false};
+        final boolean[] isMorning = {false};
+
+        // 시간 감지용
+        executor.scheduleAtFixedRate(() -> {
+            int currentValue = timeSettingsPanel.getTimeStamp().getTt().getTime().getHour();
+            watchedValue.set(currentValue);
+
+            if ((watchedValue.get() < 6 || 21 <= watchedValue.get()) && !isNight[0]) {
+                isNight[0] = true;
+                isMorning[0] = false;
+                timeSettingsPanel.getTimeStamp().getTt().stopThread();
+
+                SwingUtilities.invokeLater(() -> {
+                    remove(inventoryPanel);
+                    characterInfoPanel.remove(eventLog[0]);
+                    eventLog[0] = new EventLogPanel(m);
+                    characterInfoPanel.add(eventLog[0]);
+                    characterInfoPanel.revalidate();
+                    inventoryPanel = new InventoryPanel(i, equippedWeaponPanel, ownedWeaponPanel, exitPanel);
+                    inventoryPanel.setPreferredSize(new Dimension(width, (int) (height * 0.3)));
+                    inventoryPanel.setBackground(CommonPanelFunction.hexToRgb("303030"));
+                    add(inventoryPanel, BorderLayout.SOUTH);
+                    revalidate();
+                    repaint();
+                });
+            } else if (6 <= watchedValue.get() && watchedValue.get() < 21 && !isMorning[0]) {
+                isMorning[0] = true;
+                isNight[0] = false;
+
+                SwingUtilities.invokeLater(() -> {
+                    remove(inventoryPanel);
+                    inventoryPanel = new InventoryPanel(i, foodPanel, waterPanel, ownedWeaponPanel);
+                    inventoryPanel.setPreferredSize(new Dimension(width, (int) (height * 0.3)));
+                    inventoryPanel.setBackground(CommonPanelFunction.hexToRgb("303030"));
+                    add(inventoryPanel, BorderLayout.SOUTH);
+                    revalidate();
+                    repaint();
+                });
+            }
+        }, 0, 100, TimeUnit.MILLISECONDS); // 0.5초마다 실행
     }
 }

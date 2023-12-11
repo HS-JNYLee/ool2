@@ -14,7 +14,7 @@ import java.time.LocalTime;
 public class TimestampThread extends Thread{
     private String region; // 현재 지역
     private int day; // 생존한 일수
-    private LocalTime time = LocalTime.of(9, 0, 0); // 오늘의 시간 00:00:00 부터 시작
+    private LocalTime time = LocalTime.of(6, 0, 0); // 오늘의 시간 00:00:00 부터 시작
     private TimestampThread intervalTime; // 스레드로 초마다 돌릴 객체 생성
     private  TimestampPanel.TimestampLabel realtime;
     private  TimestampPanel.TimestampLabel dayLabel;
@@ -22,6 +22,9 @@ public class TimestampThread extends Thread{
 
     public void stopThread() {
         running = false; // 스레드 일시 중지
+    }
+    public void resetThread() {
+        time = LocalTime.of(6, 0, 0); // 오늘의 시간 00:00:00 부터 시작
     }
 
     public void startThread() {
@@ -41,7 +44,7 @@ public class TimestampThread extends Thread{
                     SwingUtilities.invokeLater(() -> dayLabel.setText("Day " + String.format("%02d",day)));
                 }
                 SwingUtilities.invokeLater(() -> realtime.setText(String.valueOf(time)));
-                Thread.sleep(500);
+                Thread.sleep(100);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

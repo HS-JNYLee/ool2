@@ -55,6 +55,13 @@ public class TimestampPanel extends JPanel {
         repaint();
     }
 
+    public void setTtDay(int day) {
+        tt.setDay(day);
+        this.day.setText("Day " + String.format("%02d", day));
+        revalidate();
+        repaint();
+    }
+
     public void setRegion(TimestampLabel region) {
         this.region = region;
     }

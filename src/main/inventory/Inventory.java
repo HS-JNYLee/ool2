@@ -4,40 +4,36 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Inventory {
-    private List<Food> food;
+    private List<Food> foods;
 
-    private List<Water> water;
-    private List<Weapon> weapon;
+    private List<Water> waters;
+    private List<Weapon> weapons;
 
     private Weapon equipedWeapon;
 
     public Inventory() {
-        this.food = new ArrayList<>();
-        this.water = new ArrayList<>();
-        this.weapon = new ArrayList<>();
+        this.foods = new ArrayList<>();
+        this.waters = new ArrayList<>();
+        this.weapons = new ArrayList<>();
     }
 
     // getters and setters
-    public List<Food> getFood() {
-        return food;
+    public List<Food> getFoods() {
+        return foods;
     }
 
-    public List<Water> getWater() {
-        return water;
+    public List<Water> getWaters() {
+        return waters;
     }
 
-    public List<Weapon> getWeapon() {
-        return weapon;
-    }
-    
-    // 소지한 아이템 [무기]의 배열 리턴
     public List<Weapon> getWeapons() {
-        return weapon;
+        return weapons;
     }
+
 
     public List<Weapon> addWeapon(Weapon w) {
-        weapon.add(w);
-        return weapon;
+        weapons.add(w);
+        return weapons;
     }
 
     public void setEquipedWeapon(Weapon equipedWeapon) {
@@ -46,5 +42,22 @@ public class Inventory {
 
     public Weapon getEquipedWeapon() {
         return equipedWeapon;
+    }
+
+    public void setFoods(List<Food> foods) {
+        this.foods = foods;
+    }
+
+    public void setWaters(List<Water> waters) {
+        this.waters = waters;
+    }
+
+    public List<Water> addWater(Water water) {
+        waters.add(water);
+        return  waters;
+    }
+    public List<Food> addFood(Food food) {
+        foods.add(food);
+        return  foods;
     }
 }
