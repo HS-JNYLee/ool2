@@ -6,7 +6,7 @@ import javax.swing.*;
 
 public class PlayerCharacterPanel extends JPanel { // 캐릭터를 보여주는 화면
     JLabel characterImageLabel;
-    PlayerCharacterPanel() {
+    public PlayerCharacterPanel() {
         String characterImageLink = "src/resources/images/character1.png";
         ImageIcon characterImageIcon = new ImageIcon(characterImageLink);
         characterImageLabel = new JLabel(characterImageIcon);

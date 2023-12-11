@@ -1,3 +1,5 @@
+package src.main.character;
+
 import src.main.inventory.Weapon;
 
 /**

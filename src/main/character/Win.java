@@ -1,3 +1,5 @@
+package src.main.character;
+
 import src.main.inventory.Food;
 import src.main.inventory.Inventory;
 import src.main.inventory.Water;
@@ -12,7 +14,7 @@ public class Win {
         this.inventory = inventory;
     }
 
-    public boolean chWin(Character1 c, Monster m) {
+    public boolean chWin(Character c, Monster m) {
         // 이기면 true, 지면 false
         if(c.attack > m.attack){
             return true;
@@ -21,7 +23,7 @@ public class Win {
             return false;
     }
 
-    public void Reward() {
+    public String reward() {
         // 승리 시 보상 (식량, 물, 무기)
         Random random = new Random();
         int rewardIndex = random.nextInt(3);
@@ -30,14 +32,17 @@ public class Win {
             // 식량 지급
             Food food = new Food( 3, 10);
             inventory.getFood().add(food);
+            return "<html><div style='text-align:center;'>승리하였습니다.<br>식량을 획득하였습니다.</div></html>";
         } else if (rewardIndex == 1) {
             // 물 지급
             Water water = new Water( 3, 10);
             inventory.getWater().add(water);
+            return "<html><div style='text-align:center;'>승리하였습니다.<br>물을 획득하였습니다.</div></html>";
         } else {
             // 무기 지급
-            Weapon weapon = new Weapon ("weaopon",1, 20); //
+            Weapon weapon = new Weapon ("weapon",1, 20); //
             inventory.getWeapon().add(weapon);
+            return "<html><div style='text-align:center;'>승리하였습니다.<br>무기를 획득하였습니다.</div></html>";
         }
     }
 }

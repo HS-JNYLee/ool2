@@ -1,3 +1,5 @@
+package src.main.character;
+
 import src.main.gui.Panels.SettingPanel.SettingPanel;
 
 import javax.swing.*;
@@ -15,8 +17,8 @@ public class ChooseCharacterFrame extends JFrame {
     private JLabel availablePointsLabel2;  // 클래스 필드로 선언
 
     // private int availablePoints = 20; // 최대로 사용 가능한 포인트
-    private Character1 character1;
-    private Character2 character2;
+    private Character character1;
+    private Character character2;
     private JProgressBar ch1Bar1;
     private JProgressBar ch1Bar2;
     private JProgressBar ch1Bar3;
@@ -32,8 +34,8 @@ public class ChooseCharacterFrame extends JFrame {
         super("Game");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(null);
-        character1 = new Character1();
-        character2 = new Character2();
+        character1 = new Character();
+        character2 = new Character();
         Ch1setvalue(character1); //초기값
         Ch2setvalue(character2);
         // 배경화면을 검은색으로 설정
@@ -196,46 +198,46 @@ public class ChooseCharacterFrame extends JFrame {
         layeredPane.add(character2Button, Integer.valueOf(1));
         layeredPane.setLayer(layeredPane, 0);
         //능력치 그래프 옆에 있는 버튼들
-        JButton ch1HpButton = createIncreaseButton(ch1Bar1, character1, "+", availablePoints, availablePointsLabel);
+        JButton ch1HpButton = createIncreaseButton1(ch1Bar1, character1, "+", availablePoints, availablePointsLabel);
         ch1HpButton.setBounds(360, 370, 40, 20);
         ch1HpButton.setBackground(Color.WHITE);  // 버튼 배경색 변경
         add(ch1HpButton);
 
         // "ATK +1" 버튼
-        JButton ch1AtkButton = createIncreaseButton(ch1Bar2, character1, "+", availablePoints, availablePointsLabel);
+        JButton ch1AtkButton = createIncreaseButton1(ch1Bar2, character1, "+", availablePoints, availablePointsLabel);
         ch1AtkButton.setBounds(360, 390, 40, 20);
         ch1AtkButton.setBackground(Color.WHITE);  // 버튼 배경색 변경
         add(ch1AtkButton);
 
         // "FULLness +1" 버튼
-        JButton ch1FullnessButton = createIncreaseButton(ch1Bar3, character1, "+", availablePoints, availablePointsLabel);
+        JButton ch1FullnessButton = createIncreaseButton1(ch1Bar3, character1, "+", availablePoints, availablePointsLabel);
         ch1FullnessButton.setBounds(360, 410, 40, 20);
         ch1FullnessButton.setBackground(Color.WHITE);  // 버튼 배경색 변경
         add(ch1FullnessButton);
 
         // "WATER +1" 버튼
-        JButton ch1WaterButton = createIncreaseButton(ch1Bar4, character1, "+", availablePoints, availablePointsLabel);
+        JButton ch1WaterButton = createIncreaseButton1(ch1Bar4, character1, "+", availablePoints, availablePointsLabel);
         ch1WaterButton.setBounds(360, 430, 40, 20);
         ch1WaterButton.setBackground(Color.WHITE);  // 버튼 배경색 변경
         add(ch1WaterButton);
 
         // 오른쪽 캐릭터에 대한 버튼 생성
-        JButton ch2HpButton = createIncreaseButton(ch2Bar1, character2, "+", availablePoints2, availablePointsLabel2);
+        JButton ch2HpButton = createIncreaseButton2(ch2Bar1, character2, "+", availablePoints2, availablePointsLabel2);
         ch2HpButton.setBounds(760, 370, 40, 20);
         ch2HpButton.setBackground(Color.WHITE);  // 버튼 배경색 변경
         add(ch2HpButton);
 
-        JButton ch2AtkButton = createIncreaseButton(ch2Bar2, character2, "+", availablePoints2, availablePointsLabel2);
+        JButton ch2AtkButton = createIncreaseButton2(ch2Bar2, character2, "+", availablePoints2, availablePointsLabel2);
         ch2AtkButton.setBounds(760, 390, 40, 20);
         ch2AtkButton.setBackground(Color.WHITE);  // 버튼 배경색 변경
         add(ch2AtkButton);
 
-        JButton ch2FullnessButton = createIncreaseButton(ch2Bar3, character2, "+", availablePoints2, availablePointsLabel2);
+        JButton ch2FullnessButton = createIncreaseButton2(ch2Bar3, character2, "+", availablePoints2, availablePointsLabel2);
         ch2FullnessButton.setBounds(760, 410, 40, 20);
         ch2FullnessButton.setBackground(Color.WHITE);  // 버튼 배경색 변경
         add(ch2FullnessButton);
 
-        JButton ch2WaterButton = createIncreaseButton(ch2Bar4, character2, "+", availablePoints2, availablePointsLabel2);
+        JButton ch2WaterButton = createIncreaseButton2(ch2Bar4, character2, "+", availablePoints2, availablePointsLabel2);
         ch2WaterButton.setBounds(760, 430, 40, 20);
         ch2WaterButton.setBackground(Color.WHITE);  // 버튼 배경색 변경
         add(ch2WaterButton);
@@ -266,20 +268,20 @@ public class ChooseCharacterFrame extends JFrame {
         setVisible(true);
     }
 
-    private void Ch1setvalue(Character1 character1) {  //캐릭터 1
+    private void Ch1setvalue(Character character) {  //캐릭터 1
         // 캐릭터 초기값 설정
-        character1.setHp(80);
-        character1.setAtk(10);
-        character1.SetFullness(70);
-        character1.SetWater(40);
+        character.setHp(80);
+        character.setAttack(10);
+        character.increaseFullness(70);
+        character.increaseWater(40);
     }
 
-    private void Ch2setvalue(Character2 character2) {  //캐릭터 2
+    private void Ch2setvalue(Character character2) {  //캐릭터 2
         // 캐릭터 초기값 설정
         character2.setHp(70);
-        character2.setAtk(10);
-        character2.SetFullness(50);
-        character2.SetWater(60);
+        character2.setAttack(10);
+        character2.increaseFullness(50);
+        character2.setWater(60);
     }
 
     private void updateProgressBar(JProgressBar progressBar, int value) {
@@ -289,7 +291,7 @@ public class ChooseCharacterFrame extends JFrame {
     public static void main(String[] args) {
         new ChooseCharacterFrame();
     }
-    private JButton createIncreaseButton(JProgressBar progressBar, Character1 character1, String property, AtomicInteger availablePoints, JLabel availablePointsLabel) {
+    private JButton createIncreaseButton1(JProgressBar progressBar, Character character, String property, AtomicInteger availablePoints, JLabel availablePointsLabel) {
         JButton button = new JButton(property);
         button.addActionListener(e -> {
             int currentPoints = this.availablePoints.get();
@@ -300,16 +302,16 @@ public class ChooseCharacterFrame extends JFrame {
 
                 switch (property) {
                     case "HP":
-                        character1.increaseHp(1);
+                        character.increaseHp(1);
                         break;
                     case "ATK":
-                        character1.increaseAtk(1);
+                        character.increaseAttack(1);
                         break;
                     case "FULLness":
-                        character1.increaseFullness(1);
+                        character.increaseFullness(1);
                         break;
                     case "WATER":
-                        character1.increaseWater(1);
+                        character.increaseWater(1);
                         break;
                 }
 
@@ -320,7 +322,7 @@ public class ChooseCharacterFrame extends JFrame {
         return button;
     }
 
-    private JButton createIncreaseButton(JProgressBar progressBar, Character2 character2, String property, AtomicInteger availablePoints, JLabel availablePointsLabel) {
+    private JButton createIncreaseButton2(JProgressBar progressBar, Character character2, String property, AtomicInteger availablePoints, JLabel availablePointsLabel) {
         JButton button = new JButton(property);
         button.addActionListener(e -> {
             int currentPoints2 = availablePoints2.get();
@@ -334,7 +336,7 @@ public class ChooseCharacterFrame extends JFrame {
                         character2.increaseHp(1);
                         break;
                     case "ATK":
-                        character2.increaseAtk(1);
+                        character2.increaseAttack(1);
                         break;
                     case "FULLness":
                         character2.increaseFullness(1);

@@ -1,11 +1,15 @@
 package src.main.gui.Panels.CharacterInfo;
 
+import src.main.character.Monster;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
-class EventLogPanel extends JPanel {
+public class EventLogPanel extends JPanel {
     JPanel monsterEventPanel;
-    EventLogPanel() {
+    public EventLogPanel(Monster m) {
         setLayout(new BorderLayout());
 
         monsterEventPanel = new JPanel();
@@ -28,8 +32,7 @@ class EventLogPanel extends JPanel {
         gbc.weighty = 0.9;
         monsterEventPanel.add(monsterImageLabel, gbc);
 
-        String mosterAttack = "100";
-        JLabel monsterStatus = new JLabel("공격력 : " + mosterAttack);
+        JLabel monsterStatus = new JLabel("["+m.getName()+"] "+"공격력 : " + m.getAttack());
         Font f = new Font("NanumGothic", Font.BOLD, 20);
         monsterStatus.setFont(f);
         monsterStatus.setForeground(Color.WHITE);
@@ -40,4 +43,43 @@ class EventLogPanel extends JPanel {
 
         add(monsterEventPanel, BorderLayout.CENTER);
     }
+
+    public EventLogPanel(String event) {
+        setLayout(new BorderLayout());
+
+        monsterEventPanel = new JPanel();
+        monsterEventPanel.setLayout(new GridBagLayout());
+        monsterEventPanel.setBackground(Color.BLACK);
+
+        JLabel monsterStatus = new JLabel(event);
+        Font f = new Font("NanumGothic", Font.BOLD, 20);
+        monsterStatus.setFont(f);
+        monsterStatus.setForeground(Color.WHITE);
+        setBackground(Color.BLACK);
+        monsterStatus.setHorizontalAlignment(SwingConstants.CENTER);
+        monsterEventPanel.add(monsterStatus);
+
+        add(monsterEventPanel, BorderLayout.CENTER);
+    }
+
+    public void setMouseEvent() {
+        monsterEventPanel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                JLabel monsterStatus = new JLabel("다음 지역으로 이동합니다.");
+                Font f = new Font("NanumGothic", Font.BOLD, 20);
+                monsterStatus.setFont(f);
+                monsterStatus.setForeground(Color.WHITE);
+                setBackground(Color.BLACK);
+                monsterStatus.setHorizontalAlignment(SwingConstants.CENTER);
+                monsterEventPanel = new JPanel();
+                monsterEventPanel.setLayout(new GridBagLayout());
+                monsterEventPanel.setBackground(Color.BLACK);
+                monsterEventPanel.add(monsterStatus);
+                removeAll();
+                add(monsterEventPanel, BorderLayout.CENTER);
+            }
+        });
+    }
+
 }
