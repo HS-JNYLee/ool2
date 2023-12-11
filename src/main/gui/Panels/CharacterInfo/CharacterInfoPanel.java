@@ -11,19 +11,15 @@ public class CharacterInfoPanel extends JPanel {
 
     EventLogPanel eventLog; // 이벤트 정보가 나오는 창
 
-    public CharacterInfoPanel() {
+    public CharacterInfoPanel(StatusPanel status, PlayerCharacterPanel playerCharacter, EventLogPanel eventLog) {
         setLayout(new GridLayout(1, 3));
-        status = new StatusPanel();
-        status.setBackground(CommonPanelFunction.hexToRgb("303030"));
+        this.status = status;
+        this.playerCharacter = playerCharacter;
+        this.eventLog = eventLog;
 
-        playerCharacter = new PlayerCharacterPanel();
-        playerCharacter.setBackground(CommonPanelFunction.hexToRgb("303030"));
-
-        eventLog = new EventLogPanel();
-        eventLog.setBackground(CommonPanelFunction.hexToRgb("303030"));
-
-        add(status);
-        add(playerCharacter);
-        add(eventLog);
+        add(this.status);
+        add(this.playerCharacter);
+        add(this.eventLog);
     }
+
 } // 중앙 패널

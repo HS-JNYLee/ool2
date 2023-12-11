@@ -9,7 +9,7 @@ public class StatusPanel extends JPanel {
     BodyStatusPanel bodyStatus; // 캐릭터 몸상태를 알려주는 패널
     FightStatusPanel fightStatus; // 캐릭터의 전투 능력치를 알려주는 패널
 
-    StatusPanel() {
+    public StatusPanel() {
         setLayout(new GridLayout(2, 1, 0, 5));
 
         bodyStatus = new BodyStatusPanel();

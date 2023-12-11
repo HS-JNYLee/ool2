@@ -14,12 +14,14 @@ public class InventoryPanel extends JPanel {
     JLayeredPane ownedWeaponPanel;
     JPanel exitPanel;
 
-    public InventoryPanel(Inventory i) {
+    public InventoryPanel(Inventory i, JPanel equipedWeaponPanel, JLayeredPane ownedWeaponPanel, JPanel exitPanel) {
+        this.equipedWeaponPanel = equipedWeaponPanel;
+        this.ownedWeaponPanel = ownedWeaponPanel;
+        this.exitPanel = exitPanel;
 
         Font f = new Font("NanumGothic", Font.BOLD, 20);
         setLayout(new GridLayout(1, 3, 5, 0));
 
-        equipedWeaponPanel = new JPanel(); // 소지한 무기의 패널
         equipedWeaponPanel.setBackground(CommonPanelFunction.hexToRgb("252525"));
         equipedWeaponPanel.setLayout(new BoxLayout(equipedWeaponPanel, BoxLayout.Y_AXIS));
 
@@ -43,7 +45,6 @@ public class InventoryPanel extends JPanel {
 
         add(equipedWeaponPanel);
 
-        ownedWeaponPanel = new JLayeredPane();
         ownedWeaponPanel.setBackground(CommonPanelFunction.hexToRgb("252525"));
 
         for (int idx = 0; idx < i.getWeapons().size(); idx++) {
@@ -73,7 +74,6 @@ public class InventoryPanel extends JPanel {
 
         add(ownedWeaponPanelWrapper);
 
-        exitPanel = new JPanel();
         exitPanel.setBackground(CommonPanelFunction.hexToRgb("252525"));
 
         exitPanel.setLayout(new BoxLayout(exitPanel, BoxLayout.Y_AXIS));
@@ -89,6 +89,23 @@ public class InventoryPanel extends JPanel {
         exitPanel.add(Box.createVerticalGlue());
 
         add(exitPanel);
+    }
+
+    class equippedItemMouseListener extends MouseAdapter {
+        Weapon weapon;
+        JLabel equippedLabel;
+
+        public equippedItemMouseListener(Weapon weapon, JLabel equippedLabel) {
+            this.weapon = weapon;
+            this.equippedLabel = equippedLabel;
+        }
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            equippedLabel.setText(weapon.getName());
+            weapon.subtractNumber(); // 1회 사용 횟수 차감
+
+        }
     }
 
     class OwnedItemMouseListener extends MouseAdapter {
