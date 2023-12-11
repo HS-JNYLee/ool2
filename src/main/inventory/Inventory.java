@@ -9,6 +9,8 @@ public class Inventory {
     private List<Water> water;
     private List<Weapon> weapon;
 
+    private Weapon equipedWeapon;
+
     public Inventory() {
         this.food = new ArrayList<>();
         this.water = new ArrayList<>();
@@ -36,5 +38,13 @@ public class Inventory {
     public List<Weapon> addWeapon(Weapon w) {
         weapon.add(w);
         return weapon;
+    }
+
+    public void setEquipedWeapon(Weapon equipedWeapon) {
+        this.equipedWeapon = equipedWeapon;
+    }
+
+    public Weapon getEquipedWeapon() {
+        return equipedWeapon;
     }
 }

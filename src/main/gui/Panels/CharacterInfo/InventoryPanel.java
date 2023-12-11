@@ -25,7 +25,7 @@ public class InventoryPanel extends JPanel {
         equipedWeaponPanel.setBackground(CommonPanelFunction.hexToRgb("252525"));
         equipedWeaponPanel.setLayout(new BoxLayout(equipedWeaponPanel, BoxLayout.Y_AXIS));
 
-        JLabel equipedWeapon = new JLabel("무기A");
+        JLabel equipedWeapon = new JLabel(i.getEquipedWeapon().getName());
         JLabel fightText = new JLabel("(싸운다)");
 
         equipedWeapon.setFont(f);
@@ -57,7 +57,7 @@ public class InventoryPanel extends JPanel {
             weaponLabel.setBackground(CommonPanelFunction.hexToRgb("D0D0D0"));
             weaponLabel.setForeground(Color.WHITE);
             weaponLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-            weaponLabel.addMouseListener(new MouseHoverListener(i.getWeapons().get(idx), hoverLabel));
+            weaponLabel.addMouseListener(new MouseHoverListener(i.getWeapons().get(idx), hoverLabel, equipedWeapon));
             ownedWeaponPanel.add(weaponLabel);
             ownedWeaponPanel.add(hoverLabel);
             ownedWeaponPanel.add(Box.createRigidArea(new Dimension(5, 0)));
@@ -102,11 +102,15 @@ public class InventoryPanel extends JPanel {
     class MouseHoverListener extends MouseAdapter {
         Weapon weapon;
         JLabel hoverLabel;
+        JLabel equipedLabel;
 
-        public MouseHoverListener(Weapon weapon, JLabel hoverLabel) {
+        public MouseHoverListener(Weapon weapon, JLabel hoverLabel, JLabel equipedLabel) {
             this.weapon = weapon;
             this.hoverLabel = hoverLabel;
+            this.equipedLabel = equipedLabel;
         }
+
+        @Override
         public void mouseEntered(MouseEvent e) {
             hoverLabel.setBounds(e.getComponent().getX() + 20, e.getComponent().getY() + 20, 70, 40);
             hoverLabel.setText("<html>공격력: " + weapon.getAttackStatus() + " <br>" + weapon.getRemainNumber() + "회 남음</html>");
@@ -118,6 +122,11 @@ public class InventoryPanel extends JPanel {
         @Override
         public void mouseExited(MouseEvent e) {
             hoverLabel.setVisible(false);
+        }
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            equipedLabel.setText(weapon.getName());
         }
     }
 }

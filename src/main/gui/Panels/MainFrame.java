@@ -44,6 +44,8 @@ public class MainFrame extends JFrame {
         i.addWeapon(new Weapon("불의 검", 1, 999));
         i.addWeapon(new Weapon("물의 검", 2, 777));
         i.addWeapon(new Weapon("흙의 검", 3, 888));
+        i.addWeapon(new Weapon("풀의 검", 4, 666));
+        i.setEquipedWeapon(new Weapon("불의 검", 1, 999));
         // 디버깅용 나중에 지울 것
         inventoryPanel = new InventoryPanel(i);
         inventoryPanel.setPreferredSize(new Dimension(width, (int) (height * 0.3)));
