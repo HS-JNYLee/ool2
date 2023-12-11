@@ -1,3 +1,7 @@
+package src.main.environment;
+
+import src.main.gui.Panels.TimeSettings.TimestampPanel;
+
 import java.time.LocalTime;
 
 /**
@@ -6,28 +10,42 @@ import java.time.LocalTime;
  * 게임 우측 상단에 보이는 날짜 관련 class
  **/
 
-public class Timestamp extends Thread{
+public class TimestampThread extends Thread{
     private String region; // 현재 지역
     private int day; // 생존한 일수
-    private LocalTime time; // 오늘의 시간 00:00:00 부터 시작
-    private Timestamp intervalTime; // 스레드로 초마다 돌릴 객체 생성
+    private LocalTime time = LocalTime.of(9, 0, 0); // 오늘의 시간 00:00:00 부터 시작
+    private TimestampThread intervalTime; // 스레드로 초마다 돌릴 객체 생성
+    private  TimestampPanel.TimestampLabel realtime;
+    private  TimestampPanel.TimestampLabel dayLabel;
     @Override
     public void run() {
-        try { // 초마다 1시간씩 증가
-            this.time = LocalTime.of(time.getHour() + 1, time.getMinute(), time.getSecond());
-            Thread.sleep(1000);
-        }catch (InterruptedException e) {
-            e.printStackTrace();
+        while (true) {
+            try { // 초마다 1시간씩 증가f
+                time = time.plusHours(1);
+                if(time.getHour() == 0) {
+                    day++;
+                    dayLabel.setText("Day " + String.format("%02d",day));
+                }
+                realtime.setText(String.valueOf(time));
+                Thread.sleep(500);
+            }catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    public Timestamp() {
+    public TimestampThread() {
         this.region = "서울";
         this.day = 0;
         this.time = LocalTime.of(0, 0, 0);
     }
+    public TimestampThread(TimestampPanel.TimestampLabel rt, TimestampPanel.TimestampLabel dl) {
+        this.realtime = rt;
+        this.dayLabel = dl;
+        this.day = 1;
+    }
 
-    public Timestamp(String region, int day) {
+    public TimestampThread(String region, int day) {
         this.region = region;
         this.day = day;
     }
@@ -70,11 +88,11 @@ public class Timestamp extends Thread{
         this.time = time;
     }
 
-    public Timestamp getIntervalTime() {
+    public TimestampThread getIntervalTime() {
         return intervalTime;
     }
 
-    public void setIntervalTime(Timestamp intervalTime) {
+    public void setIntervalTime(TimestampThread intervalTime) {
         this.intervalTime = intervalTime;
     }
 }

@@ -1,3 +1,5 @@
+package src.main.inventory;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -6,6 +8,8 @@ public class Inventory {
 
     private List<Water> water;
     private List<Weapon> weapon;
+
+    private Weapon equipedWeapon;
 
     public Inventory() {
         this.food = new ArrayList<>();
@@ -24,5 +28,23 @@ public class Inventory {
 
     public List<Weapon> getWeapon() {
         return weapon;
+    }
+    
+    // 소지한 아이템 [무기]의 배열 리턴
+    public List<Weapon> getWeapons() {
+        return weapon;
+    }
+
+    public List<Weapon> addWeapon(Weapon w) {
+        weapon.add(w);
+        return weapon;
+    }
+
+    public void setEquipedWeapon(Weapon equipedWeapon) {
+        this.equipedWeapon = equipedWeapon;
+    }
+
+    public Weapon getEquipedWeapon() {
+        return equipedWeapon;
     }
 }

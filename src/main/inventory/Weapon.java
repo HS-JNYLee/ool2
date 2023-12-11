@@ -1,3 +1,4 @@
+package src.main.inventory;
 
 /**
  * 작성자 : JNYLee
@@ -9,21 +10,18 @@ public class Weapon extends Item{
     private String name; // 무기의 이름
     private int remainNumber; // 사용 가능한 횟수
     private int attackStatus; // 무기의 공격력
-    private boolean equiped; // 현재 장착하고 있는지
 
     // constructor
-    Weapon() {
+    public Weapon() {
         this.name = "";
         this.remainNumber = 0;
         this.attackStatus = 0;
-        equiped = false;
     }
 
-    Weapon(String name, int remainNumber, int attackStatus) {
+    public Weapon(String name, int remainNumber, int attackStatus) {
         this.name = name;
         this.remainNumber = remainNumber;
         this.attackStatus = attackStatus;
-        this.equiped = false;
     }
 
     public void subtractNumber() { // 사용 후 사용 가능 횟수 차감
@@ -59,13 +57,5 @@ public class Weapon extends Item{
 
     public void setAttackStatus(int attackStatus) {
         this.attackStatus = attackStatus;
-    }
-
-    public boolean isEquiped() {
-        return equiped;
-    }
-
-    public void setEquiped(boolean equiped) {
-        this.equiped = equiped;
     }
 }

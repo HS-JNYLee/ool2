@@ -3,6 +3,8 @@ import src.main.gui.Panels.CharacterInfo.CharacterInfoPanel;
 import src.main.gui.Panels.CharacterInfo.InventoryPanel;
 import src.main.gui.Panels.TimeSettings.TimeSettingsPanel;
 import src.main.app.common.CommonPanelFunction;
+import src.main.inventory.Inventory;
+import src.main.inventory.Weapon;
 
 import java.awt.*;
 
@@ -37,7 +39,15 @@ public class MainFrame extends JFrame {
         characterInfoPanel.setBackground(CommonPanelFunction.hexToRgb("303030"));
         add(characterInfoPanel, BorderLayout.CENTER);
 
-        inventoryPanel = new InventoryPanel();
+        // 디버깅용 나중에 지울 것
+        Inventory i = new Inventory();
+        i.addWeapon(new Weapon("불의 검", 1, 999));
+        i.addWeapon(new Weapon("물의 검", 2, 777));
+        i.addWeapon(new Weapon("흙의 검", 3, 888));
+        i.addWeapon(new Weapon("풀의 검", 4, 666));
+        i.setEquipedWeapon(new Weapon("불의 검", 1, 999));
+        // 디버깅용 나중에 지울 것
+        inventoryPanel = new InventoryPanel(i);
         inventoryPanel.setPreferredSize(new Dimension(width, (int) (height * 0.3)));
         inventoryPanel.setBackground(CommonPanelFunction.hexToRgb("303030"));
         add(inventoryPanel, BorderLayout.SOUTH);

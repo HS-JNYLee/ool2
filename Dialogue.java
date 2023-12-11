@@ -1,3 +1,4 @@
+import src.main.inventory.Weapon;
 
 /**
  * 작성자 : JNYLee
