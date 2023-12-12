@@ -20,7 +20,10 @@ class BodyStatusPanel extends JPanel {
 
         GridBagLayout gbl = new GridBagLayout();
         GridBagConstraints gbc = new GridBagConstraints();
-    public BodyStatusPanel() {
+    public BodyStatusPanel(int healthPercentage, int fullnessPercentage, int waterPercentage) {
+        this.healthPercentage =healthPercentage;
+        this.fullnessPercentage = fullnessPercentage;
+        this.waterPercentage = waterPercentage;
         Font f = new Font("함초롱바탕", Font.BOLD, 20);
         setLayout(gbl);
         gbc.fill = GridBagConstraints.BOTH;
@@ -41,7 +44,7 @@ class BodyStatusPanel extends JPanel {
         gbc.weightx = 80; // 80%
         healthPanel = new JPanel();
         healthPanel.setLayout(new BorderLayout());
-        healthPanel.add(new ProgressBar(20, CommonPanelFunction.hexToRgb("FF3535"), CommonPanelFunction.hexToRgb("FFB5B5")));
+        healthPanel.add(new ProgressBar(this.healthPercentage, CommonPanelFunction.hexToRgb("FF3535"), CommonPanelFunction.hexToRgb("FFB5B5")));
         add(healthPanel, gbc);
 
         gbc.gridx = 0;
@@ -59,7 +62,7 @@ class BodyStatusPanel extends JPanel {
         gbc.weightx = 80; // 80%
         fullnessPanel = new JPanel();
         fullnessPanel.setLayout(new BorderLayout());
-        fullnessPanel.add(new ProgressBar(40, CommonPanelFunction.hexToRgb("57FF72"), CommonPanelFunction.hexToRgb("DEFFCF")));
+        fullnessPanel.add(new ProgressBar(this.fullnessPercentage, CommonPanelFunction.hexToRgb("57FF72"), CommonPanelFunction.hexToRgb("DEFFCF")));
         add(fullnessPanel, gbc);
 
         gbc.gridx = 0;
@@ -77,7 +80,7 @@ class BodyStatusPanel extends JPanel {
         gbc.weightx = 80; // 80%
         waterPanel = new JPanel();
         waterPanel.setLayout(new BorderLayout());
-        waterPanel.add(new ProgressBar(60, CommonPanelFunction.hexToRgb("44BCFF"), CommonPanelFunction.hexToRgb("CFF6FF")));
+        waterPanel.add(new ProgressBar(this.waterPercentage, CommonPanelFunction.hexToRgb("44BCFF"), CommonPanelFunction.hexToRgb("CFF6FF")));
         add(waterPanel, gbc);
     }
     class ProgressBar extends JPanel {

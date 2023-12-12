@@ -86,7 +86,8 @@ public class MainFrame extends JFrame {
         timeSettingsPanel.setBackground(CommonPanelFunction.hexToRgb("303030"));
         add(timeSettingsPanel, BorderLayout.NORTH);
 
-        status = new StatusPanel();
+        status = new StatusPanel(c);
+        status.getFightStatus().setDefenseLabel(c.getDefense());
         status.setBackground(CommonPanelFunction.hexToRgb("303030"));
 
         playerCharacter = new PlayerCharacterPanel();

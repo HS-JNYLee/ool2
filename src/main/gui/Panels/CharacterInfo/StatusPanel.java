@@ -1,6 +1,7 @@
 package src.main.gui.Panels.CharacterInfo;
 
 import src.main.app.common.CommonPanelFunction;
+import src.main.character.Character;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,10 +10,10 @@ public class StatusPanel extends JPanel {
     BodyStatusPanel bodyStatus; // 캐릭터 몸상태를 알려주는 패널
     FightStatusPanel fightStatus; // 캐릭터의 전투 능력치를 알려주는 패널
 
-    public StatusPanel() {
+    public StatusPanel(Character c) {
         setLayout(new GridLayout(2, 1, 0, 5));
 
-        bodyStatus = new BodyStatusPanel();
+        bodyStatus = new BodyStatusPanel(c.getHp(), c.getFullness(), c.getWater());
         bodyStatus.setBackground(CommonPanelFunction.hexToRgb("303030"));
 
         fightStatus = new FightStatusPanel();
