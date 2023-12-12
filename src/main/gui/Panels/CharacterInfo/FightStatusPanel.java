@@ -11,16 +11,14 @@ public class FightStatusPanel extends JPanel {
 
     Font f = new Font("함초롱바탕", Font.BOLD, 30);
 
-    FightStatusPanel() {
+    FightStatusPanel(int attackStatus, int defenseStatus) {
         setLayout(new GridLayout(2, 1));
-        String attackStatus = "150";
-        attackLabel = new JLabel("공격력 : " + attackStatus);
+        attackLabel = new JLabel("공격력 : " + String.format("%03d",attackStatus));
         attackLabel.setFont(f);
         attackLabel.setForeground(CommonPanelFunction.hexToRgb("A89157"));
         add(attackLabel);
 
-        String defenseStatus = "090";
-        defenseLabel = new JLabel("방어력 : " + defenseStatus);
+        defenseLabel = new JLabel("방어력 : " + String.format("%03d", defenseStatus));
         defenseLabel.setFont(f);
         defenseLabel.setForeground(CommonPanelFunction.hexToRgb("A89157"));
         add(defenseLabel);
@@ -28,7 +26,7 @@ public class FightStatusPanel extends JPanel {
 
     public void setAttackLabel(int attackStatus) {
         remove(this.attackLabel);
-        this.attackLabel = new JLabel("공격력 : " + attackStatus);
+        this.attackLabel = new JLabel("공격력 : " + String.format("%03d",attackStatus));
         attackLabel.setFont(f);
         attackLabel.setForeground(CommonPanelFunction.hexToRgb("A89157"));
         add(this.attackLabel, 0);
@@ -36,7 +34,7 @@ public class FightStatusPanel extends JPanel {
 
     public void setDefenseLabel(int defenseStatus) {
         remove(this.defenseLabel);
-        this.defenseLabel = new JLabel("방어력 : " + defenseStatus);
+        this.defenseLabel = new JLabel("방어력 : " + String.format("%03d",defenseStatus));
         defenseLabel.setFont(f);
         defenseLabel.setForeground(CommonPanelFunction.hexToRgb("A89157"));
         add(this.defenseLabel);
