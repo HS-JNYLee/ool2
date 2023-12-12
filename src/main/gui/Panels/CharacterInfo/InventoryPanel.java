@@ -41,7 +41,8 @@ Character character;
         this.equippedWeaponPanel.setBackground(CommonPanelFunction.hexToRgb("252525"));
         this.equippedWeaponPanel.setLayout(new BoxLayout(this.equippedWeaponPanel, BoxLayout.Y_AXIS));
 
-        JLabel equippedWeapon = new JLabel(character.getEquippedWeapon().getName());
+        ImageIcon equippedWeaponImage = CommonPanelFunction.resizeImage(character.getEquippedWeapon().getImgLink());
+        JLabel equippedWeapon = new JLabel(equippedWeaponImage);
         JLabel fightText = new JLabel("(싸운다)");
 
         equippedWeapon.setFont(f);
@@ -64,7 +65,8 @@ Character character;
         this.ownedWeaponPanel.setBackground(CommonPanelFunction.hexToRgb("252525"));
 
         for (int idx = 0; idx < i.getWeapons().size(); idx++) {
-            JLabel weaponLabel = new JLabel(i.getWeapons().get(idx).getName());
+            ImageIcon weaponImage = CommonPanelFunction.resizeImage(i.getWeapons().get(idx).getImgLink());
+            JLabel weaponLabel = new JLabel(weaponImage);
             JLabel hoverLabel = new JLabel();
             weaponLabel.setFont(f);
             weaponLabel.setOpaque(true);
@@ -73,9 +75,9 @@ Character character;
             weaponLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
             weaponLabel.addMouseListener(new OwnedItemMouseListener(i.getWeapons().get(idx), hoverLabel, equippedWeapon));
             int x = idx % 3 * 85 + 20; // x 좌표 설정
-            int y = idx / 3 * 40 + 60; // 높이에 따른 y 좌표 설정
+            int y = idx / 3 * 75 + 20; // 높이에 따른 y 좌표 설정
 
-            weaponLabel.setBounds(x, y, 70, 30);
+            weaponLabel.setBounds(x, y, 70, 70);
             hoverLabel.setBounds(x, y, 70, 30);
 
             this.ownedWeaponPanel.add(weaponLabel, idx);
@@ -185,7 +187,8 @@ Character character;
         ownedWeaponPanel.setBackground(CommonPanelFunction.hexToRgb("252525"));
 
         for (int idx = 0; idx < i.getWeapons().size(); idx++) {
-            JLabel weaponLabel = new JLabel(i.getWeapons().get(idx).getName());
+            ImageIcon weaponImage = CommonPanelFunction.resizeImage(i.getWeapons().get(idx).getImgLink());
+            JLabel weaponLabel = new JLabel(weaponImage);
             JLabel hoverLabel = new JLabel();
             weaponLabel.setFont(f);
             weaponLabel.setOpaque(true);
@@ -194,9 +197,9 @@ Character character;
             weaponLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
             weaponLabel.addMouseListener(new OwnedItemMouseListener(i.getWeapons().get(idx), hoverLabel, new JLabel()));
             int x = idx % 3 * 85 + 20; // x 좌표 설정
-            int y = idx / 3 * 40 + 60; // 높이에 따른 y 좌표 설정
+            int y = idx / 3 * 75 + 20; // 높이에 따른 y 좌표 설정
 
-            weaponLabel.setBounds(x, y, 70, 30);
+            weaponLabel.setBounds(x, y, 70, 70);
             hoverLabel.setSize(70, 30);
 
             ownedWeaponPanel.add(weaponLabel, idx);
@@ -297,7 +300,8 @@ Character character;
         @Override
         public void mouseClicked(MouseEvent e) {
             if (itemRouter.equals("weapon")) {
-                activeLabel.setText(weapon.getName());
+                ImageIcon newWeaponImage = CommonPanelFunction.resizeImage(weapon.getImgLink());
+                activeLabel.setIcon(newWeaponImage);
                 characterInfoPanel.remove(statusPanel);
                 statusPanel.getFightStatus().setAttackLabel(weapon.getAttackStatus());
                 characterInfoPanel.add(statusPanel, 0);

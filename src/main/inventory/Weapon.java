@@ -1,5 +1,7 @@
 package src.main.inventory;
 
+import src.main.app.common.CommonPanelFunction;
+
 /**
  * 작성자 : JNYLee
  * 마지막 수정 : 23.11.13
@@ -19,6 +21,7 @@ public class Weapon extends Item{
     }
 
     public Weapon(String name, int remainNumber, int attackStatus) {
+        setImgLink(CommonPanelFunction.getRandomPNGFileName("src/resources/images/weapons"));
         this.name = name;
         this.remainNumber = remainNumber;
         this.attackStatus = attackStatus;
