@@ -2,6 +2,7 @@ package src.main.app.common;
 
 import java.awt.*;
 import java.util.Random;
+import java.util.UUID;
 
 public class CommonPanelFunction {
     static public Color hexToRgb(String hexCode) {
@@ -15,5 +16,10 @@ public class CommonPanelFunction {
     public static boolean getRandomBoolean(double probability) {
         Random random = new Random();
         return random.nextDouble() < probability;
+    }
+
+    // 랜덤 UUID 생성 하는 코드 : 아이템 식별용
+    public static String getRandomId() {
+        return  UUID.randomUUID().toString();
     }
 }
