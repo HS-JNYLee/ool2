@@ -40,7 +40,7 @@ public class Win {
             return "<html><div style='text-align:center;'>승리하였습니다.<br>물을 획득하였습니다.</div></html>";
         } else {
             // 무기 지급
-            Weapon weapon = new Weapon ("weapon",1, 20); //
+            Weapon weapon = new Weapon ("weapon",1, 6); //
             inventory.addWeapon(weapon);
             return "<html><div style='text-align:center;'>승리하였습니다.<br>무기를 획득하였습니다.</div></html>";
         }

@@ -9,6 +9,7 @@ public class Main {
         c.setFullness(100);
         c.increaseWater(100);
         c.setAttack(20);
+        c.setDefense(40);
         new MainFrame(c);
     }
 }

@@ -1,6 +1,7 @@
 package src.main.gui.Panels.CharacterInfo;
 
 import src.main.app.common.CommonPanelFunction;
+import src.main.character.Character;
 import src.main.inventory.Food;
 import src.main.inventory.Inventory;
 import src.main.inventory.Water;
@@ -18,13 +19,21 @@ public class InventoryPanel extends JPanel {
     JLayeredPane waterPanel;
     JPanel exitPanel;
 
-    public InventoryPanel(Inventory i, JPanel equippedWeaponPanel, JLayeredPane ownedWeaponPanel, JPanel exitPanel) {
+    StatusPanel statusPanel;
+    CharacterInfoPanel characterInfoPanel;
+    JPanel waterPanelWrapper;
+    JPanel foodPanelWrapper;
+Character character;
+    public InventoryPanel(Inventory i, JPanel equippedWeaponPanel, JLayeredPane ownedWeaponPanel, JPanel exitPanel, StatusPanel statusPanel, CharacterInfoPanel characterInfoPanel, Character character) {
         this.equipedWeaponPanel = equippedWeaponPanel;
         this.ownedWeaponPanel = ownedWeaponPanel;
         this.exitPanel = exitPanel;
         this.equipedWeaponPanel.removeAll();
         this.ownedWeaponPanel.removeAll();
         this.exitPanel.removeAll();
+        this.statusPanel = statusPanel;
+        this.characterInfoPanel = characterInfoPanel;
+        this.character = character;
         Font f = new Font("NanumGothic", Font.BOLD, 20);
         setLayout(new GridLayout(1, 3, 5, 0));
 
@@ -97,15 +106,17 @@ public class InventoryPanel extends JPanel {
         add(this.exitPanel);
     }
 
-    public InventoryPanel(Inventory i, JLayeredPane foodPanel, JLayeredPane waterPanel, JLayeredPane ownedWeaponPanel) {
+    public InventoryPanel(Inventory i, JLayeredPane foodPanel, JLayeredPane waterPanel, JLayeredPane ownedWeaponPanel,StatusPanel statusPanel, CharacterInfoPanel characterInfoPanel, Character character) {
         this.foodPanel = foodPanel;
         this.waterPanel = waterPanel;
         this.ownedWeaponPanel = ownedWeaponPanel;
-
+        this.statusPanel = statusPanel;
+        this.characterInfoPanel = characterInfoPanel;
+        this.character = character;
         Font f = new Font("NanumGothic", Font.BOLD, 20);
         setLayout(new GridLayout(1, 3, 5, 0));
         //
-
+        foodPanel.removeAll();
         foodPanel.setBackground(CommonPanelFunction.hexToRgb("252525"));
 
         for (int idx = 0; idx < i.getFoods().size(); idx++) {
@@ -127,7 +138,7 @@ public class InventoryPanel extends JPanel {
             foodPanel.add(hoverLabel, idx);
         }
 
-        JPanel foodPanelWrapper = new JPanel();
+        foodPanelWrapper = new JPanel();
         foodPanelWrapper.setLayout(new BoxLayout(foodPanelWrapper, BoxLayout.Y_AXIS));
         foodPanelWrapper.setBackground(CommonPanelFunction.hexToRgb("252525"));
 
@@ -137,7 +148,7 @@ public class InventoryPanel extends JPanel {
 
         //
 
-
+        waterPanel.removeAll();
         waterPanel.setBackground(CommonPanelFunction.hexToRgb("252525"));
 
         for (int idx = 0; idx < i.getWaters().size(); idx++) {
@@ -159,7 +170,7 @@ public class InventoryPanel extends JPanel {
             waterPanel.add(hoverLabel, idx);
         }
 
-        JPanel waterPanelWrapper = new JPanel();
+        waterPanelWrapper = new JPanel();
         waterPanelWrapper.setLayout(new BoxLayout(waterPanelWrapper, BoxLayout.Y_AXIS));
         waterPanelWrapper.setBackground(CommonPanelFunction.hexToRgb("252525"));
 
@@ -216,7 +227,7 @@ public class InventoryPanel extends JPanel {
         }
     }
 
-    class OwnedItemMouseListener extends MouseAdapter {
+    public class OwnedItemMouseListener extends MouseAdapter {
         Weapon weapon;
         Water water;
         Food food;
@@ -272,8 +283,35 @@ public class InventoryPanel extends JPanel {
         public void mouseClicked(MouseEvent e) {
             if (itemRouter.equals("weapon")) {
                 activeLabel.setText(weapon.getName());
-            } else if (itemRouter.equals("water") || itemRouter.equals("food")) {
-                // activeLabel.setText(weapon.getName());
+                characterInfoPanel.remove(statusPanel);
+                statusPanel.getFightStatus().setAttackLabel(weapon.getAttackStatus());
+                characterInfoPanel.add(statusPanel, 0);
+                characterInfoPanel.revalidate();
+                characterInfoPanel.repaint();
+                character.setAttack(weapon.getAttackStatus());
+                hoverLabel.setVisible(false);
+            } else if (itemRouter.equals("water")) {
+                characterInfoPanel.remove(statusPanel);
+                statusPanel.getBodyStatus().setWaterPanel(water.getAddWater());
+                characterInfoPanel.add(statusPanel, 0);
+                waterPanel.remove((JLabel) e.getSource());
+                characterInfoPanel.revalidate();
+                characterInfoPanel.repaint();
+                character.increaseWater(water.getAddWater());
+                waterPanel.revalidate();
+                waterPanel.repaint();
+                hoverLabel.setVisible(false);
+            } else if (itemRouter.equals("food")) {
+                characterInfoPanel.remove(statusPanel);
+                statusPanel.getBodyStatus().setFullnessPanel(food.getAddSatiety());
+                characterInfoPanel.add(statusPanel, 0);
+                characterInfoPanel.revalidate();
+                characterInfoPanel.repaint();
+                character.increaseFullness(food.getAddSatiety());
+                foodPanel.remove((JLabel) e.getSource());
+                foodPanel.revalidate();
+                foodPanel.repaint();
+                hoverLabel.setVisible(false);
             }
         }
     }

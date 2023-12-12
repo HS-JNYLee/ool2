@@ -81,7 +81,7 @@ public class MainFrame extends JFrame {
         eventLog[0] = new EventLogPanel(m);
 
         timeSettingsPanel = new TimeSettingsPanel(width, (int) (height * 0.1));
-        timeSettingsPanel.getTimeStamp().setTtRegion(rm.getNodes().get(1).getValue()); // 초기 지역 설정
+        timeSettingsPanel.getTimeStamp().setTtRegion(rm.getNodes().get(0).getValue()); // 초기 지역 설정
         timeSettingsPanel.setPreferredSize(new Dimension(width, (int) (height * 0.1)));
         timeSettingsPanel.setBackground(CommonPanelFunction.hexToRgb("303030"));
         add(timeSettingsPanel, BorderLayout.NORTH);
@@ -97,12 +97,12 @@ public class MainFrame extends JFrame {
         characterInfoPanel = new CharacterInfoPanel(status, playerCharacter, eventLog[0]);
         characterInfoPanel.setPreferredSize(new Dimension(width, (int) (height * 0.5)));
         characterInfoPanel.setBackground(CommonPanelFunction.hexToRgb("303030"));
-        add(characterInfoPanel, BorderLayout.CENTER);
 
         foodPanel = new JLayeredPane();
         waterPanel = new JLayeredPane();
         ownedWeaponPanel = new JLayeredPane();
-        inventoryPanel = new InventoryPanel(i, foodPanel, waterPanel, ownedWeaponPanel);
+        inventoryPanel = new InventoryPanel(i, foodPanel, waterPanel, ownedWeaponPanel, status, characterInfoPanel, c);
+        add(characterInfoPanel, BorderLayout.CENTER);
 
         equippedWeaponPanel = new JPanel();
         exitPanel = new JPanel();
@@ -158,7 +158,7 @@ public class MainFrame extends JFrame {
         characterInfoPanel.remove(eventLog[0]);
         SwingUtilities.invokeLater(() -> {
             remove(inventoryPanel);
-            inventoryPanel = new InventoryPanel(i, foodPanel, waterPanel, ownedWeaponPanel);
+            inventoryPanel = new InventoryPanel(i, foodPanel, waterPanel, ownedWeaponPanel, status, characterInfoPanel, c);
             inventoryPanel.setPreferredSize(new Dimension(width, (int) (height * 0.3)));
             inventoryPanel.setBackground(CommonPanelFunction.hexToRgb("303030"));
             add(inventoryPanel, BorderLayout.SOUTH);
@@ -189,7 +189,7 @@ public class MainFrame extends JFrame {
                     eventLog[0] = new EventLogPanel(m);
                     characterInfoPanel.add(eventLog[0]);
                     characterInfoPanel.revalidate();
-                    inventoryPanel = new InventoryPanel(i, equippedWeaponPanel, ownedWeaponPanel, exitPanel);
+                    inventoryPanel = new InventoryPanel(i, equippedWeaponPanel, ownedWeaponPanel, exitPanel, status, characterInfoPanel, c);
                     inventoryPanel.setPreferredSize(new Dimension(width, (int) (height * 0.3)));
                     inventoryPanel.setBackground(CommonPanelFunction.hexToRgb("303030"));
                     add(inventoryPanel, BorderLayout.SOUTH);
@@ -202,7 +202,7 @@ public class MainFrame extends JFrame {
 
                 SwingUtilities.invokeLater(() -> {
                     remove(inventoryPanel);
-                    inventoryPanel = new InventoryPanel(i, foodPanel, waterPanel, ownedWeaponPanel);
+                    inventoryPanel = new InventoryPanel(i, foodPanel, waterPanel, ownedWeaponPanel, status, characterInfoPanel, c);
                     inventoryPanel.setPreferredSize(new Dimension(width, (int) (height * 0.3)));
                     inventoryPanel.setBackground(CommonPanelFunction.hexToRgb("303030"));
                     add(inventoryPanel, BorderLayout.SOUTH);

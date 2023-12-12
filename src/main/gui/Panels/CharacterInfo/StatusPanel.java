@@ -21,4 +21,12 @@ public class StatusPanel extends JPanel {
         add(bodyStatus);
         add(fightStatus);
     }
+
+    public BodyStatusPanel getBodyStatus() {
+        return bodyStatus;
+    }
+
+    public FightStatusPanel getFightStatus() {
+        return fightStatus;
+    }
 } // 캐릭터의 종합적인 수치를 보여주는 패널
