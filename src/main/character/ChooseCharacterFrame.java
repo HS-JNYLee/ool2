@@ -23,11 +23,14 @@ public class ChooseCharacterFrame extends JFrame {
     private JProgressBar ch1Bar2;
     private JProgressBar ch1Bar3;
     private JProgressBar ch1Bar4;
+    private JProgressBar ch1Bar5;
 
     private JProgressBar ch2Bar1;
     private JProgressBar ch2Bar2;
     private JProgressBar ch2Bar3;
     private JProgressBar ch2Bar4;
+    private JProgressBar ch2Bar5;
+
     private Clip clip;
 
     public ChooseCharacterFrame() {
@@ -46,7 +49,7 @@ public class ChooseCharacterFrame extends JFrame {
         add(label);
 
         try {
-            File bgmFile = new File("src/sounds/soundsample.wav");
+            File bgmFile = new File("src/resources/sounds/soundsample.wav");
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(bgmFile);
 
             clip = AudioSystem.getClip();
@@ -70,6 +73,7 @@ public class ChooseCharacterFrame extends JFrame {
             }
         });
         settingButton.setBounds(1, 1, 60, 30);
+        add(settingButton, BorderLayout.WEST);
         settingButton.setBackground(Color.WHITE);  // 버튼 배경색 변경
         settingButton.setForeground(Color.BLACK);  // 글씨 색 변경
         add(settingButton);
@@ -89,13 +93,18 @@ public class ChooseCharacterFrame extends JFrame {
         ch1Bar3 = new JProgressBar();
         ch1Bar3.setBounds(150, 410, 200, 20);
         ch1Bar3.setStringPainted(true);
-        ch1Bar3.setForeground(Color.GREEN);  // 포만감 바의 색상
+        ch1Bar3.setForeground(Color.DARK_GRAY);  // 방어력 바의 색상
         add(ch1Bar3);
         ch1Bar4 = new JProgressBar();
         ch1Bar4.setBounds(150, 430, 200, 20);
         ch1Bar4.setStringPainted(true);
-        ch1Bar4.setForeground(Color.CYAN);  // 수분 바의 색상
+        ch1Bar4.setForeground(Color.GREEN);  // 포만감 바의 색상
         add(ch1Bar4);
+        ch1Bar5 = new JProgressBar();
+        ch1Bar5.setBounds(150, 450, 200, 20);
+        ch1Bar5.setStringPainted(true);
+        ch1Bar5.setForeground(Color.CYAN);  // 수분 바의 색상
+        add(ch1Bar5);
         JLabel ch1Label1 = new JLabel("HP");
         ch1Label1.setBounds(90, 370, 100, 20);
         ch1Label1.setForeground(Color.WHITE);
@@ -104,14 +113,18 @@ public class ChooseCharacterFrame extends JFrame {
         ch1Label2.setBounds(90, 390, 100, 20);
         ch1Label2.setForeground(Color.WHITE);
         add(ch1Label2);
-        JLabel ch1Label3 = new JLabel("FULLness");
+        JLabel ch1Label3 = new JLabel("DEFENSE");
         ch1Label3.setBounds(90, 410, 100, 20);
         ch1Label3.setForeground(Color.WHITE);
         add(ch1Label3);
-        JLabel ch1Label4 = new JLabel("WATER");
+        JLabel ch1Label4 = new JLabel("FULLness");
         ch1Label4.setBounds(90, 430, 100, 20);
         ch1Label4.setForeground(Color.WHITE);
         add(ch1Label4);
+        JLabel ch1Label5 = new JLabel("WATER");
+        ch1Label5.setBounds(90, 450, 100, 20);
+        ch1Label5.setForeground(Color.WHITE);
+        add(ch1Label5);
 
 
         // 캐릭터 2의 막대 그래프
@@ -123,18 +136,23 @@ public class ChooseCharacterFrame extends JFrame {
         ch2Bar2 = new JProgressBar();
         ch2Bar2.setBounds(550, 390, 200, 20);
         ch2Bar2.setStringPainted(true);
-        ch2Bar2.setForeground(Color.MAGENTA);  // ATK 바의 색상
+        ch2Bar2.setForeground(Color.MAGENTA);  // 공격력 바의 색상
         add(ch2Bar2);
         ch2Bar3 = new JProgressBar();
         ch2Bar3.setBounds(550, 410, 200, 20);
         ch2Bar3.setStringPainted(true);
-        ch2Bar3.setForeground(Color.GREEN);  // 포만감 바의 색상
+        ch2Bar3.setForeground(Color.DARK_GRAY);  // 방어력 바의 색상
         add(ch2Bar3);
         ch2Bar4 = new JProgressBar();
         ch2Bar4.setBounds(550, 430, 200, 20);
         ch2Bar4.setStringPainted(true);
-        ch2Bar4.setForeground(Color.CYAN);  // 수분 바의 색상
+        ch2Bar4.setForeground(Color.GREEN);  // 포만감 바의 색상
         add(ch2Bar4);
+        ch2Bar5 = new JProgressBar();
+        ch2Bar5.setBounds(550, 450, 200, 20);
+        ch2Bar5.setStringPainted(true);
+        ch2Bar5.setForeground(Color.CYAN);  // 수분 바의 색상
+        add(ch2Bar5);
         JLabel ch2Label1 = new JLabel("HP");
         ch2Label1.setBounds(490, 370, 100, 20);
         ch2Label1.setForeground(Color.WHITE);
@@ -143,25 +161,31 @@ public class ChooseCharacterFrame extends JFrame {
         ch2Label2.setBounds(490, 390, 100, 20);
         ch2Label2.setForeground(Color.WHITE);
         add(ch2Label2);
-        JLabel ch2Label3 = new JLabel("FULLness");
+        JLabel ch2Label3 = new JLabel("DEFENSE");
         ch2Label3.setBounds(490, 410, 100, 20);
         ch2Label3.setForeground(Color.WHITE);
         add(ch2Label3);
-        JLabel ch2Label4 = new JLabel("WATER");
+        JLabel ch2Label4 = new JLabel("FULLness");
         ch2Label4.setBounds(490, 430, 100, 20);
         ch2Label4.setForeground(Color.WHITE);
         add(ch2Label4);
+        JLabel ch2Label5 = new JLabel("WATER");
+        ch2Label5.setBounds(490, 450, 100, 20);
+        ch2Label5.setForeground(Color.WHITE);
+        add(ch2Label5);
 
         //최초 그래프 설정
-        updateProgressBar(ch1Bar1, 80);
-        updateProgressBar(ch1Bar2, 10);
-        updateProgressBar(ch1Bar3, 70);
-        updateProgressBar(ch1Bar4, 40);
+        updateProgressBar(ch1Bar1,80); //체력
+        updateProgressBar(ch1Bar2, 20); //공격력
+        updateProgressBar(ch1Bar3, 60); //방어력
+        updateProgressBar(ch1Bar4, 40); //포만감
+        updateProgressBar(ch1Bar5, 70); //수분
 
-        updateProgressBar(ch2Bar1, 70);
-        updateProgressBar(ch2Bar2, 10);
-        updateProgressBar(ch2Bar3, 50);
-        updateProgressBar(ch2Bar4, 60);
+        updateProgressBar(ch2Bar1, 70);  //체력
+        updateProgressBar(ch2Bar2, 60);  //공격력
+        updateProgressBar(ch2Bar3, 30);  //방어력
+        updateProgressBar(ch2Bar4, 70);  //포만감
+        updateProgressBar(ch2Bar5, 50);  //수분
 
         JLayeredPane layeredPane = new JLayeredPane();
         layeredPane.setBounds(0, 40, 900, 420);
@@ -208,16 +232,19 @@ public class ChooseCharacterFrame extends JFrame {
         ch1AtkButton.setBounds(360, 390, 40, 20);
         ch1AtkButton.setBackground(Color.WHITE);  // 버튼 배경색 변경
         add(ch1AtkButton);
-
+        JButton ch1DefenseButton = createIncreaseButton1(ch1Bar3, character1, "+", availablePoints, availablePointsLabel);
+        ch1DefenseButton.setBounds(360, 410, 40, 20);
+        ch1DefenseButton.setBackground(Color.WHITE);  // 버튼 배경색 변경
+        add(ch1DefenseButton);
         // "FULLness +1" 버튼
-        JButton ch1FullnessButton = createIncreaseButton1(ch1Bar3, character1, "+", availablePoints, availablePointsLabel);
-        ch1FullnessButton.setBounds(360, 410, 40, 20);
+        JButton ch1FullnessButton = createIncreaseButton1(ch1Bar4, character1, "+", availablePoints, availablePointsLabel);
+        ch1FullnessButton.setBounds(360, 430, 40, 20);
         ch1FullnessButton.setBackground(Color.WHITE);  // 버튼 배경색 변경
         add(ch1FullnessButton);
 
         // "WATER +1" 버튼
-        JButton ch1WaterButton = createIncreaseButton1(ch1Bar4, character1, "+", availablePoints, availablePointsLabel);
-        ch1WaterButton.setBounds(360, 430, 40, 20);
+        JButton ch1WaterButton = createIncreaseButton1(ch1Bar5, character1, "+", availablePoints, availablePointsLabel);
+        ch1WaterButton.setBounds(360, 450, 40, 20);
         ch1WaterButton.setBackground(Color.WHITE);  // 버튼 배경색 변경
         add(ch1WaterButton);
 
@@ -231,14 +258,16 @@ public class ChooseCharacterFrame extends JFrame {
         ch2AtkButton.setBounds(760, 390, 40, 20);
         ch2AtkButton.setBackground(Color.WHITE);  // 버튼 배경색 변경
         add(ch2AtkButton);
-
-        JButton ch2FullnessButton = createIncreaseButton2(ch2Bar3, character2, "+", availablePoints2, availablePointsLabel2);
-        ch2FullnessButton.setBounds(760, 410, 40, 20);
+        JButton ch2DefenseButton = createIncreaseButton2(ch2Bar3, character2, "+", availablePoints2, availablePointsLabel2);
+        ch2DefenseButton.setBounds(760, 410, 40, 20);
+        ch2DefenseButton.setBackground(Color.WHITE);  // 버튼 배경색 변경
+        add(ch2DefenseButton);
+        JButton ch2FullnessButton = createIncreaseButton2(ch2Bar4, character2, "+", availablePoints2, availablePointsLabel2);
+        ch2FullnessButton.setBounds(760, 430, 40, 20);
         ch2FullnessButton.setBackground(Color.WHITE);  // 버튼 배경색 변경
         add(ch2FullnessButton);
-
-        JButton ch2WaterButton = createIncreaseButton2(ch2Bar4, character2, "+", availablePoints2, availablePointsLabel2);
-        ch2WaterButton.setBounds(760, 430, 40, 20);
+        JButton ch2WaterButton = createIncreaseButton2(ch2Bar5, character2, "+", availablePoints2, availablePointsLabel2);
+        ch2WaterButton.setBounds(760, 450, 40, 20);
         ch2WaterButton.setBackground(Color.WHITE);  // 버튼 배경색 변경
         add(ch2WaterButton);
 
@@ -256,10 +285,12 @@ public class ChooseCharacterFrame extends JFrame {
         //그래프 옆 버튼 폰트 설정
         ch1HpButton.setFont(new Font("Arial", Font.BOLD, 10));
         ch1AtkButton.setFont(new Font("Arial", Font.BOLD, 10));
+        ch1DefenseButton.setFont(new Font("Arial", Font.BOLD, 10));
         ch1FullnessButton.setFont(new Font("Arial", Font.BOLD, 10));
         ch1WaterButton.setFont(new Font("Arial", Font.BOLD, 10));
         ch2HpButton.setFont(new Font("Arial", Font.BOLD, 10));
         ch2AtkButton.setFont(new Font("Arial", Font.BOLD, 10));
+        ch2DefenseButton.setFont(new Font("Arial", Font.BOLD, 10));
         ch2FullnessButton.setFont(new Font("Arial", Font.BOLD, 10));
         ch2WaterButton.setFont(new Font("Arial", Font.BOLD, 10));
 
@@ -268,30 +299,30 @@ public class ChooseCharacterFrame extends JFrame {
         setVisible(true);
     }
 
-    private void Ch1setvalue(Character character) {  //캐릭터 1
+    private void Ch1setvalue(Character character1) {  //캐릭터 1
         // 캐릭터 초기값 설정
-        character.setHp(80);
-        character.setAttack(10);
-        character.increaseFullness(70);
-        character.increaseWater(40);
+        character1.setHp(80);
+        character1.setAttack(20);
+        character1.setDefense(60);
+        character1.increaseFullness(40);
+        character1.increaseWater(70);
     }
 
     private void Ch2setvalue(Character character2) {  //캐릭터 2
         // 캐릭터 초기값 설정
         character2.setHp(70);
-        character2.setAttack(10);
-        character2.increaseFullness(50);
-        character2.setWater(60);
+        character2.setAttack(60);
+        character2.setDefense(30);
+        character2.increaseFullness(70);
+        character2.setWater(50);
     }
 
     private void updateProgressBar(JProgressBar progressBar, int value) {
         progressBar.setValue(value);
         progressBar.setString(String.valueOf(value));
     }
-    public static void main(String[] args) {
-        new ChooseCharacterFrame();
-    }
-    private JButton createIncreaseButton1(JProgressBar progressBar, Character character, String property, AtomicInteger availablePoints, JLabel availablePointsLabel) {
+
+    private JButton createIncreaseButton1(JProgressBar progressBar, Character character1, String property, AtomicInteger availablePoints, JLabel availablePointsLabel) {
         JButton button = new JButton(property);
         button.addActionListener(e -> {
             int currentPoints = this.availablePoints.get();
@@ -302,16 +333,19 @@ public class ChooseCharacterFrame extends JFrame {
 
                 switch (property) {
                     case "HP":
-                        character.increaseHp(1);
+                        character1.increaseHp(1);
                         break;
                     case "ATK":
-                        character.increaseAttack(1);
+                        character1.increaseAttack(1);
+                        break;
+                    case "DEFENSE":
+                        character1.increaseDefense(1);
                         break;
                     case "FULLness":
-                        character.increaseFullness(1);
+                        character1.increaseFullness(1);
                         break;
                     case "WATER":
-                        character.increaseWater(1);
+                        character1.increaseWater(1);
                         break;
                 }
 
@@ -338,6 +372,9 @@ public class ChooseCharacterFrame extends JFrame {
                     case "ATK":
                         character2.increaseAttack(1);
                         break;
+                    case "DEFENSE":
+                        character2.increaseDefense(1);
+                        break;
                     case "FULLness":
                         character2.increaseFullness(1);
                         break;
@@ -350,5 +387,8 @@ public class ChooseCharacterFrame extends JFrame {
             }
         });
         return button;
+    }
+    public static void main(String[] args) {
+        new ChooseCharacterFrame();
     }
 }
