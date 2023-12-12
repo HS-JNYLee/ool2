@@ -12,6 +12,8 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class InventoryPanel extends JPanel {
     JPanel equippedWeaponPanel;
@@ -299,7 +301,12 @@ Character character;
 
         @Override
         public void mouseClicked(MouseEvent e) {
+            ExecutorService executor = Executors.newFixedThreadPool(2); // 병렬 실행을 위한 스레드 풀 생성
             if (itemRouter.equals("weapon")) {
+                executor.execute(() -> {
+                CommonPanelFunction.playClickSound("change.wav");
+                });
+                executor.execute(() -> {
                 ImageIcon newWeaponImage = CommonPanelFunction.resizeImage(weapon.getImgLink());
                 activeLabel.setIcon(newWeaponImage);
                 characterInfoPanel.remove(statusPanel);
@@ -310,7 +317,12 @@ Character character;
                 character.setAttack(weapon.getAttackStatus());
                 character.setEquippedWeapon(weapon); // 작용 장비 교체
                 hoverLabel.setVisible(false);
+                });
             } else if (itemRouter.equals("water")) { // 물을 먹었을 때
+                executor.execute(() -> {
+                CommonPanelFunction.playClickSound("drink.wav");
+                });
+                executor.execute(() -> {
                 // 인벤토리에서 해당 아이템 삭제
                 inventory.deleteWater(water);
 
@@ -325,7 +337,12 @@ Character character;
                 waterPanel.revalidate();
                 waterPanel.repaint();
                 hoverLabel.setVisible(false);
+                });
             } else if (itemRouter.equals("food")) { // 음식을 먹었을 떄
+                executor.execute(() -> {
+                CommonPanelFunction.playClickSound("eat.wav");
+                });
+                executor.execute(() -> {
                 // 인벤토리에서 해당 아이템 삭제
                 inventory.deleteFood(food);
 
@@ -340,7 +357,9 @@ Character character;
                 foodPanel.revalidate();
                 foodPanel.repaint();
                 hoverLabel.setVisible(false);
+                });
             }
+            executor.shutdown(); // 작업 완료 후 스레드 풀 종료
         }
     }
 }

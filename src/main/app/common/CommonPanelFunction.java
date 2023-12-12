@@ -1,5 +1,6 @@
 package src.main.app.common;
 
+import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
@@ -75,5 +76,42 @@ public class CommonPanelFunction {
     public static int getRandomInt(int start, int end) {
         Random random = new Random();
         return random.nextInt((end - start) + 1) + start;
+    }
+
+    // 효과음 재생 메서드
+    public static void playClickSound(String filename) {
+        try {
+            // 효과음 파일 경로 설정
+            File soundFile = new File("src/resources/sounds/"+filename); // 여기에 실제 효과음 파일 경로를 넣어주세요
+
+            // 오디오 입력 스트림 생성
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(soundFile);
+
+            // 오디오 포맷 가져오기
+            AudioFormat audioFormat = audioInputStream.getFormat();
+
+            // 데이터를 읽기 위한 SourceDataLine 열기
+            DataLine.Info dataLineInfo = new DataLine.Info(SourceDataLine.class, audioFormat);
+            SourceDataLine sourceDataLine = (SourceDataLine) AudioSystem.getLine(dataLineInfo);
+
+            // 효과음 재생 준비
+            sourceDataLine.open(audioFormat);
+            sourceDataLine.start();
+
+            // 효과음 데이터를 버퍼에 쓰고 재생
+            int bufferSize = 1024;
+            byte[] buffer = new byte[bufferSize];
+            int bytesRead = 0;
+            while ((bytesRead = audioInputStream.read(buffer)) != -1) {
+                sourceDataLine.write(buffer, 0, bytesRead);
+            }
+
+            // 재생이 끝나면 리소스 해제
+            sourceDataLine.drain();
+            sourceDataLine.close();
+            audioInputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
