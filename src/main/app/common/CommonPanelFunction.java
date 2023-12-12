@@ -62,4 +62,18 @@ public class CommonPanelFunction {
 
             return new ImageIcon(resizeImage);
     }
+
+    public static ImageIcon resizeImage(String filePath, int width, int height) {
+            ImageIcon originImage = new ImageIcon(filePath);
+            Image image = originImage.getImage();
+            Image resizeImage = image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+
+            return new ImageIcon(resizeImage);
+    }
+
+    // 랜덤한 정수 리턴
+    public static int getRandomInt(int start, int end) {
+        Random random = new Random();
+        return random.nextInt((end - start) + 1) + start;
+    }
 }

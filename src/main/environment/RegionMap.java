@@ -1,5 +1,8 @@
 package src.main.environment;
 
+import src.main.app.common.CommonPanelFunction;
+import src.main.character.Monster;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,10 +10,13 @@ public class RegionMap {
     public static class Node {
         String value;
         List<Node> neighbors;
+        Monster monster;
 
         public Node(String value) {
             this.value = value;
             this.neighbors = new ArrayList<>();
+            this.monster = new Monster(CommonPanelFunction.getRandomInt(0, 100), value + "의 왕");
+            this.monster.setImgLink("src/resources/images/monsters/" + value + ".png");
         }
 
         public String getValue() {
@@ -20,38 +26,42 @@ public class RegionMap {
         public List<Node> getNeighbors() {
             return neighbors;
         }
+
+        public Monster getMonster() {
+            return monster;
+        }
     }
 
     private List<Node> nodes;
 
     public RegionMap() {
         this.nodes = new ArrayList<>();
-        addNode("서울");
-        addNode("경기");
-        addNode("충북");
-        addNode("강원");
-        addNode("충남");
-        addNode("경북");
-        addNode("전북");
-        addNode("경남");
-        addNode("전남");
-        addNode("부산");
+        addNode("서울"); // 서울
+        addNode("경기도"); // 경기도
+        addNode("충주"); // 충주
+        addNode("강원도"); // 강원도
+        addNode("보령"); // 보령
+        addNode("대구"); // 대구
+        addNode("대전"); // 대전
+        addNode("경주"); // 경주
+        addNode("전주"); // 전주
+        addNode("부산"); // 부산
         addNode("제주도");
         
-        addEdge("서울", "경기");
-        addEdge("경기", "충북");
-        addEdge("경기", "강원");
-        addEdge("경기", "충남");
-        addEdge("충북", "경북");
-        addEdge("강원", "경북");
-        addEdge("강원", "전북");
-        addEdge("충남", "전북");
-        addEdge("경북", "경남");
-        addEdge("전북", "경남");
-        addEdge("전북", "전남");
-        addEdge("경남", "부산");
+        addEdge("서울", "경기도");
+        addEdge("경기도", "충주");
+        addEdge("경기도", "강원도");
+        addEdge("경기도", "보령");
+        addEdge("충주", "대구");
+        addEdge("강원도", "대구");
+        addEdge("강원도", "대전");
+        addEdge("보령", "대전");
+        addEdge("대구", "경주");
+        addEdge("대전", "경주");
+        addEdge("대전", "전주");
+        addEdge("경주", "부산");
         addEdge("부산", "제주도");
-        addEdge("전남", "제주도");
+        addEdge("전주", "제주도");
     }
 
     public void addNode(String value) {
@@ -79,4 +89,5 @@ public class RegionMap {
     public List<Node> getNodes() {
         return nodes;
     }
+
 }

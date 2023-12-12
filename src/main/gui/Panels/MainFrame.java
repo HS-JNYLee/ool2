@@ -76,17 +76,17 @@ public class MainFrame extends JFrame {
         i.addWeapon(new Weapon("빛의 검", 4, 78));
         c.setEquippedWeapon(i.getWeapons().get(0)); // 기본 첫 번째 무기 장착
 
-        m = new Monster(100, "오우거");
-        rm = new RegionMap();
         // 디버깅용 나중에 지울 것
-
-        eventLog[0] = new EventLogPanel(m);
+        rm = new RegionMap();
 
         timeSettingsPanel = new TimeSettingsPanel(width, (int) (height * 0.1));
         timeSettingsPanel.getTimeStamp().setTtRegion(rm.getNodes().get(0).getValue()); // 초기 지역 설정
         timeSettingsPanel.setPreferredSize(new Dimension(width, (int) (height * 0.1)));
         timeSettingsPanel.setBackground(CommonPanelFunction.hexToRgb("303030"));
         add(timeSettingsPanel, BorderLayout.NORTH);
+
+        m = rm.getNode(timeSettingsPanel.getTimeStamp().getTt().getRegion()).getMonster();
+        eventLog[0] = new EventLogPanel(m);
 
         status = new StatusPanel(c);
         status.getFightStatus().setDefenseLabel(c.getDefense());
@@ -241,6 +241,7 @@ public class MainFrame extends JFrame {
                 SwingUtilities.invokeLater(() -> {
                     remove(inventoryPanel);
                     characterInfoPanel.remove(eventLog[0]);
+                    m = rm.getNode(timeSettingsPanel.getTimeStamp().getTt().getRegion()).getMonster();
                     eventLog[0] = new EventLogPanel(m);
                     characterInfoPanel.add(eventLog[0]);
                     characterInfoPanel.revalidate();

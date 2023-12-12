@@ -23,17 +23,12 @@ public class EventLogPanel extends JPanel {
         eventPanel = new JPanel();
         eventPanel.setLayout(new GridBagLayout());
         eventPanel.setBackground(Color.BLACK);
-
         GridBagConstraints gbc = new GridBagConstraints();
-        String monsterImageLink = "src/resources/images/monsters/서울.png";
-        ImageIcon monsterImageIcon = new ImageIcon(monsterImageLink);
 
-        Image beforeImage = monsterImageIcon.getImage();
-        Image resizeImage = beforeImage.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
-        monsterImageIcon = new ImageIcon(resizeImage);
+        ImageIcon monsterImage = CommonPanelFunction.resizeImage(m.getImgLink(), 200, 200);
 
         JLabel monsterImageLabel;
-        monsterImageLabel = new JLabel(monsterImageIcon);
+        monsterImageLabel = new JLabel(monsterImage);
         monsterImageLabel.setBounds(150, 30, 0, 0);
         gbc.gridx = 0;
         gbc.gridy = 0;

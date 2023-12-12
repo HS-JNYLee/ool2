@@ -1,6 +1,8 @@
 package src.main.character;
 
-public class Monster {
+import src.main.inventory.Item;
+
+public class Monster extends Item {
     int attack;
     private String name;
     public Monster(int attack, String name) { //몬스터 생성(공격력,이름)
