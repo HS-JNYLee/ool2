@@ -69,14 +69,14 @@ public class MainFrame extends JFrame {
         i.addWater(new Water(2, 2));
         i.addWater(new Water(12, 21));
 
-        i.addWeapon(new Weapon("불의 검", 1, 999));
-        i.addWeapon(new Weapon("물의 검", 2, 777));
-        i.addWeapon(new Weapon("흙의 검", 3, 888));
-        i.addWeapon(new Weapon("풀의 검", 4, 666));
-        i.addWeapon(new Weapon("빛의 검", 4, 666));
+        i.addWeapon(new Weapon("불의 검", 1, 111));
+        i.addWeapon(new Weapon("물의 검", 2, 21));
+        i.addWeapon(new Weapon("흙의 검", 3, 45));
+        i.addWeapon(new Weapon("풀의 검", 4, 67));
+        i.addWeapon(new Weapon("빛의 검", 4, 78));
         i.setEquipedWeapon(i.getWeapons().get(0));
 
-        m = new Monster(10, "오우거");
+        m = new Monster(100, "오우거");
         rm = new RegionMap();
         // 디버깅용 나중에 지울 것
 
@@ -137,7 +137,11 @@ public class MainFrame extends JFrame {
                     eventLog[0].setMouseEvent(rm.getNode(timeSettingsPanel.getTimeStamp().getTt().getRegion()).getNeighbors()); // 다음 지역 이동 이벤트
                 } else {
                     eventLog[0] = new EventLogPanel("패배...");
+                    c.decreaseHp(c.getDefense()-m.getAttack());
                     characterInfoPanel.add(eventLog[0]);
+                    characterInfoPanel.remove(status);
+                    status.getBodyStatus().setHealthPanel(c.getHp());
+                    characterInfoPanel.add(status, 0);
                 }
                 characterInfoPanel.revalidate();
             }
@@ -234,7 +238,7 @@ public class MainFrame extends JFrame {
                     revalidate();
                     repaint();
                 });
-            } else if (6 <= watchedValue.get() && watchedValue.get() < 21 && !isMorning[0]) {
+            } else if (6 <= watchedValue.get() && watchedValue.get() < 21 && !isMorning[0]) { // 아침 아이템 확인 및 사용
                 isMorning[0] = true;
                 isNight[0] = false;
 

@@ -5,7 +5,7 @@ import src.main.app.common.CommonPanelFunction;
 import javax.swing.*;
 import java.awt.*;
 
-class BodyStatusPanel extends JPanel {
+public class BodyStatusPanel extends JPanel {
     JLabel healthText;
     JLabel fullnessText;
     JLabel waterText;
@@ -112,7 +112,7 @@ class BodyStatusPanel extends JPanel {
     }
 
     public void setHealthPanel(int percentage) {
-        healthPercentage += percentage;
+        healthPercentage = percentage;
         healthPanel.removeAll();
         healthPanel.add(new ProgressBar(healthPercentage, CommonPanelFunction.hexToRgb("FF3535"), CommonPanelFunction.hexToRgb("FFB5B5")));
     }

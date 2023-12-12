@@ -36,10 +36,12 @@ public class Character {
         this.attack = attack; // 공격력 설정
     }
 
-    void decreaseHp(int hp) {
-        this.hp -= hp;
+    public void decreaseHp(int hp) {
+
+        this.hp += hp;
+        if(this.hp < 0) this.hp =0;
     }
-    void increaseHp(int hp) {
+    public void increaseHp(int hp) {
         this.hp += hp;
     }
 
