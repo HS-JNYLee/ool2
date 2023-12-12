@@ -11,6 +11,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 
 public class InventoryPanel extends JPanel {
     JPanel equippedWeaponPanel;
@@ -120,7 +121,8 @@ Character character;
         foodPanel.setBackground(CommonPanelFunction.hexToRgb("252525"));
 
         for (int idx = 0; idx < i.getFoods().size(); idx++) {
-            JLabel foodLabel = new JLabel("음식"+ idx+1);
+            ImageIcon foodImage = CommonPanelFunction.resizeImage(i.getFoods().get(idx).getImgLink());
+            JLabel foodLabel = new JLabel(foodImage);
             JLabel hoverLabel = new JLabel();
             foodLabel.setFont(f);
             foodLabel.setOpaque(true);
@@ -129,10 +131,10 @@ Character character;
             foodLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
             foodLabel.addMouseListener(new OwnedItemMouseListener(i, i.getFoods().get(idx), hoverLabel, new JLabel()));
             int x = idx % 3 * 85 + 20; // x 좌표 설정
-            int y = idx / 3 * 40 + 60; // 높이에 따른 y 좌표 설정
+            int y = idx / 3 * 75 + 20; // 높이에 따른 y 좌표 설정
 
-            foodLabel.setBounds(x, y, 70, 30);
-            hoverLabel.setBounds(x, y, 70, 30);
+            foodLabel.setBounds(x, y, 70, 70);
+            hoverLabel.setSize(70, 30);
 
             foodPanel.add(foodLabel, idx);
             foodPanel.add(hoverLabel, idx);
@@ -152,7 +154,8 @@ Character character;
         waterPanel.setBackground(CommonPanelFunction.hexToRgb("252525"));
 
         for (int idx = 0; idx < i.getWaters().size(); idx++) {
-            JLabel waterLabel = new JLabel("물"+idx+1);
+            ImageIcon waterImage = CommonPanelFunction.resizeImage(i.getWaters().get(idx).getImgLink());
+            JLabel waterLabel = new JLabel(waterImage);
             JLabel hoverLabel = new JLabel();
             waterLabel.setFont(f);
             waterLabel.setOpaque(true);
@@ -161,10 +164,10 @@ Character character;
             waterLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
             waterLabel.addMouseListener(new OwnedItemMouseListener(i, i.getWaters().get(idx), hoverLabel, new JLabel()));
             int x = idx % 3 * 85 + 20; // x 좌표 설정
-            int y = idx / 3 * 40 + 60; // 높이에 따른 y 좌표 설정
+            int y = idx / 3 * 75 + 20; // 높이에 따른 y 좌표 설정
 
-            waterLabel.setBounds(x, y, 70, 30);
-            hoverLabel.setBounds(x, y, 70, 30);
+            waterLabel.setBounds(x, y, 70, 70);
+            hoverLabel.setSize(70, 30);
 
             waterPanel.add(waterLabel, idx);
             waterPanel.add(hoverLabel, idx);
@@ -194,7 +197,7 @@ Character character;
             int y = idx / 3 * 40 + 60; // 높이에 따른 y 좌표 설정
 
             weaponLabel.setBounds(x, y, 70, 30);
-            hoverLabel.setBounds(x, y, 70, 30);
+            hoverLabel.setSize(70, 30);
 
             ownedWeaponPanel.add(weaponLabel, idx);
             ownedWeaponPanel.add(hoverLabel, idx);
@@ -271,7 +274,16 @@ Character character;
                 hoverLabel.setText("<html>"+food.getRemainDays() + "일 남음</html>");
 
             }
-            hoverLabel.setBounds(e.getComponent().getX() + 20, e.getComponent().getY() + 20, 70, 40);
+
+            Component eComp = e.getComponent();
+            eComp.addMouseMotionListener(new MouseMotionAdapter() {
+                @Override
+                public void mouseMoved(MouseEvent e) {
+                    // 마우스의 위치를 JLabel 위치로 설정
+                    hoverLabel.setLocation(e.getX() + eComp.getX() + 12, e.getY() + eComp.getY() + 15);
+                    e.getComponent().repaint(); // 프레임을 다시 그리기
+                }
+            });
             hoverLabel.setOpaque(true);
             hoverLabel.setBackground(Color.WHITE);
             hoverLabel.setVisible(true);

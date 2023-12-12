@@ -1,5 +1,7 @@
 package src.main.inventory;
 
+import src.main.app.common.CommonPanelFunction;
+
 /**
  * 작성자 : JNYLee
  * 마지막 수정 : 23.11.13
@@ -16,6 +18,7 @@ public class Food extends Item{
     }
 
     public Food(int remainDays, int addSatiety) { // 음식 객체를 생성할 때 남은 날짜와 포만감 수치를 정해줌
+        setImgLink(CommonPanelFunction.getRandomPNGFileName("src/resources/images/foods"));
         this.remainDays = remainDays;
         this.addSatiety = addSatiety;
     }

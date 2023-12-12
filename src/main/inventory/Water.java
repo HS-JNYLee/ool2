@@ -1,5 +1,7 @@
 package src.main.inventory;
 
+import src.main.app.common.CommonPanelFunction;
+
 /**
  * 작성자 : JNYLee
  * 마지막 수정 : 23.11.13
@@ -16,6 +18,7 @@ public class Water extends Item{
     }
 
     public Water(int remainDays, int addWater) { // 물 객체를 생성할 때 남은 날짜와 수분 수치를 정해줌
+        setImgLink(CommonPanelFunction.getRandomPNGFileName("src/resources/images/waters"));
         this.remainDays = remainDays;
         this.addWater = addWater;
     }
