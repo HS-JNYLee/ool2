@@ -31,17 +31,17 @@ public class Win {
         if (rewardIndex == 0) {
             // 식량 지급
             Food food = new Food( 3, 10);
-            inventory.getFood().add(food);
+            inventory.addFood(food);
             return "<html><div style='text-align:center;'>승리하였습니다.<br>식량을 획득하였습니다.</div></html>";
         } else if (rewardIndex == 1) {
             // 물 지급
             Water water = new Water( 3, 10);
-            inventory.getWater().add(water);
+            inventory.addWater(water);
             return "<html><div style='text-align:center;'>승리하였습니다.<br>물을 획득하였습니다.</div></html>";
         } else {
             // 무기 지급
-            Weapon weapon = new Weapon ("weapon",1, 20); //
-            inventory.getWeapon().add(weapon);
+            Weapon weapon = new Weapon ("weapon",1, 6); //
+            inventory.addWeapon(weapon);
             return "<html><div style='text-align:center;'>승리하였습니다.<br>무기를 획득하였습니다.</div></html>";
         }
     }

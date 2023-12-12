@@ -7,6 +7,11 @@ public class Character {
     int attack; // 공격력
     private int defense; // 방어력
 
+    public Character() {
+        hp = 100;
+        fullness = 0;
+        water = 0;
+    }
     public void increaseFullness(int fullness) {
         this.fullness += fullness; // 포만감 증가
     }

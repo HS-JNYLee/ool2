@@ -14,11 +14,18 @@ class BodyStatusPanel extends JPanel {
     JPanel fullnessPanel;
     JPanel waterPanel;
 
-    BodyStatusPanel() {
-        Font f = new Font("함초롱바탕", Font.BOLD, 20);
+    int healthPercentage =0;
+    int fullnessPercentage = 0;
+    int waterPercentage= 0;
+
         GridBagLayout gbl = new GridBagLayout();
-        setLayout(gbl);
         GridBagConstraints gbc = new GridBagConstraints();
+    public BodyStatusPanel(int healthPercentage, int fullnessPercentage, int waterPercentage) {
+        this.healthPercentage =healthPercentage;
+        this.fullnessPercentage = fullnessPercentage;
+        this.waterPercentage = waterPercentage;
+        Font f = new Font("함초롱바탕", Font.BOLD, 20);
+        setLayout(gbl);
         gbc.fill = GridBagConstraints.BOTH;
 
         gbc.gridx = 0;
@@ -37,7 +44,7 @@ class BodyStatusPanel extends JPanel {
         gbc.weightx = 80; // 80%
         healthPanel = new JPanel();
         healthPanel.setLayout(new BorderLayout());
-        healthPanel.add(new ProgressBar(20, CommonPanelFunction.hexToRgb("FF3535"), CommonPanelFunction.hexToRgb("FFB5B5")));
+        healthPanel.add(new ProgressBar(this.healthPercentage, CommonPanelFunction.hexToRgb("FF3535"), CommonPanelFunction.hexToRgb("FFB5B5")));
         add(healthPanel, gbc);
 
         gbc.gridx = 0;
@@ -55,7 +62,7 @@ class BodyStatusPanel extends JPanel {
         gbc.weightx = 80; // 80%
         fullnessPanel = new JPanel();
         fullnessPanel.setLayout(new BorderLayout());
-        fullnessPanel.add(new ProgressBar(40, CommonPanelFunction.hexToRgb("57FF72"), CommonPanelFunction.hexToRgb("DEFFCF")));
+        fullnessPanel.add(new ProgressBar(this.fullnessPercentage, CommonPanelFunction.hexToRgb("57FF72"), CommonPanelFunction.hexToRgb("DEFFCF")));
         add(fullnessPanel, gbc);
 
         gbc.gridx = 0;
@@ -73,7 +80,7 @@ class BodyStatusPanel extends JPanel {
         gbc.weightx = 80; // 80%
         waterPanel = new JPanel();
         waterPanel.setLayout(new BorderLayout());
-        waterPanel.add(new ProgressBar(60, CommonPanelFunction.hexToRgb("44BCFF"), CommonPanelFunction.hexToRgb("CFF6FF")));
+        waterPanel.add(new ProgressBar(this.waterPercentage, CommonPanelFunction.hexToRgb("44BCFF"), CommonPanelFunction.hexToRgb("CFF6FF")));
         add(waterPanel, gbc);
     }
     class ProgressBar extends JPanel {
@@ -96,5 +103,23 @@ class BodyStatusPanel extends JPanel {
             remainPanel.setBackground(remainColor);
             add(remainPanel, gbc);
         }
+    }
+
+    public void setFullnessPanel(int percentage) {
+        fullnessPercentage += percentage;
+        fullnessPanel.removeAll();
+        fullnessPanel.add(new ProgressBar(fullnessPercentage, CommonPanelFunction.hexToRgb("57FF72"), CommonPanelFunction.hexToRgb("DEFFCF")));
+    }
+
+    public void setHealthPanel(int percentage) {
+        healthPercentage += percentage;
+        healthPanel.removeAll();
+        healthPanel.add(new ProgressBar(healthPercentage, CommonPanelFunction.hexToRgb("FF3535"), CommonPanelFunction.hexToRgb("FFB5B5")));
+    }
+
+    public void setWaterPanel(int percentage) {
+        waterPercentage += percentage;
+        waterPanel.removeAll();
+        waterPanel.add(new ProgressBar(waterPercentage, CommonPanelFunction.hexToRgb("44BCFF"), CommonPanelFunction.hexToRgb("CFF6FF")));
     }
 } // 체력, 포만감, 수분을 보여주는 패널
