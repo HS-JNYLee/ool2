@@ -12,7 +12,7 @@ import java.util.Random;
 public class GameOverPanel extends JFrame {
     private static final String[] TIPS = {
             //게임에서 승리할 수 있는 조언들
-            "Tip 1: .",
+            "Tip 1: 상상부기는 거북이 이므로 방어력이 높아요!",
             "Tip 2: 뭐 쓰지",
             "Tip 3: ??."
 

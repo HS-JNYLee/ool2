@@ -1,13 +1,14 @@
 package src.main.character;
 
 import src.main.gui.Panels.SettingPanel.SettingPanel;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.sound.sampled.*;
 import java.io.File;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import static src.main.gui.Panels.SettingPanel.SettingPanel.*;
 
 public class ChooseCharacterFrame extends JFrame {
     private AtomicInteger availablePoints = new AtomicInteger(20); //왼쪽 캐릭터에게 부여할 수 있는 능력치 포인트 20
@@ -32,6 +33,7 @@ public class ChooseCharacterFrame extends JFrame {
     private JProgressBar ch2Bar5;
 
     private Clip clip;
+    SettingPanel SettingPanel = new SettingPanel(null); // null 대신 실제 Clip 인스턴스를 전달해야 합니다.
 
     public ChooseCharacterFrame() {
         super("Game");
@@ -42,14 +44,18 @@ public class ChooseCharacterFrame extends JFrame {
         Ch1setvalue(character1); //초기값
         Ch2setvalue(character2);
         // 배경화면을 검은색으로 설정
+
+        // 다른 클래스에서 updateVolume 메서드 호출
+        SettingPanel.updateVolume();
+        int volume = SettingPanel.getVolume();
+        setVolume();
         getContentPane().setBackground(Color.BLACK);
         JLabel label = new JLabel("");
         label.setBounds(100, 100, 100, 30);
         label.setForeground(Color.WHITE);  // 글씨 색 변경
         add(label);
-
         try {
-            File bgmFile = new File("src/resources/sounds/soundsample.wav");
+            File bgmFile = new File("src/resources/sounds/in_day.wav");
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(bgmFile);
 
             clip = AudioSystem.getClip();
@@ -388,6 +394,12 @@ public class ChooseCharacterFrame extends JFrame {
         });
         return button;
     }
+    private void setVolume() {
+        int volume = SettingPanel.getVolume();
+        SettingPanel.updateVolume(); // 볼륨이 업데이트되었는지 확인
+        // 다른 구성 요소에 볼륨을 설정, 예: 배경 음악
+    }
+
     public static void main(String[] args) {
         new ChooseCharacterFrame();
     }
