@@ -18,7 +18,9 @@ public class Character {
         water = 0;
     }
     public void increaseFullness(int fullness) {
+
         this.fullness += fullness; // 포만감 증가
+        if(this.fullness >= 100) this.fullness = 100;
     }
 
     public Weapon getEquippedWeapon() {
@@ -33,6 +35,7 @@ public class Character {
     void setHp(int hp){ this.hp=hp;}
    public void increaseWater(int water) {
         this.water += water; // 수분 증가
+       if(this.water >= 100) this.water = 100;
     }
 
     public void setAttack(int attack) {
@@ -40,16 +43,18 @@ public class Character {
     }
 
     public void decreaseHp(int hp) {
-
         this.hp += hp;
         if(this.hp < 0) this.hp =0;
     }
     public void increaseHp(int hp) {
         this.hp += hp;
+        if(this.hp >= 100) this.hp = 100;
     }
 
     void increaseAttack(int attack) {
+
         this.attack += attack;
+
     }
 
     public int getHp() {

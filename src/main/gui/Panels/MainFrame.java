@@ -45,8 +45,8 @@ public class MainFrame extends JFrame {
     MouseAdapter exitEvent;
 
     Container cp;
-    public MainFrame(Character c) {
-        this.c = c;
+    public MainFrame(Character character) {
+        this.c = character;
         this.setTitle("Main Frame");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         getContentPane().setBackground(CommonPanelFunction.hexToRgb("303030"));
@@ -112,7 +112,7 @@ public class MainFrame extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 characterInfoPanel.remove(eventLog[0]);
-                i.useWeapon(c, c.getEquippedWeapon()); // 장착 무기 사용
+                i.useWeapon(c, character.getEquippedWeapon()); // 장착 무기 사용
                 // 무기가 횟수가 다 되서 무기가 변경됐을 떄 사용자의 공격력도 변경함
                 characterInfoPanel.remove(status);
                 status.getFightStatus().setAttackLabel(c.getAttack());
@@ -132,13 +132,13 @@ public class MainFrame extends JFrame {
                     eventLog[0].setMouseEvent(rm.getNode(timeSettingsPanel.getTimeStamp().getTt().getRegion()).getNeighbors()); // 다음 지역 이동 이벤트
                 } else { // 싸워서 졌으면
                     eventLog[0] = new EventLogPanel("패배...");
-                    c.decreaseHp(c.getDefense() - m.getAttack());
+                    character.decreaseHp(c.getDefense() - m.getAttack());
 
                     characterInfoPanel.add(eventLog[0]);
                     characterInfoPanel.remove(status);
                     status.getBodyStatus().setHealthPanel(c.getHp());
                     characterInfoPanel.add(status, 0);
-                    if (c.getHp() <= 0) { // 캐릭터의 체력이 0이 되면
+                    if (character.getHp() <= 0) { // 캐릭터의 체력이 0이 되면
                         // 게임 종료 (엔딩으로 가기)
                     }
                     // 제력이 0이 아니면 체력만 깎고 다음 스테이지 진행
@@ -148,22 +148,7 @@ public class MainFrame extends JFrame {
                 characterInfoPanel.revalidate();
             }
         });
-        exitEvent = new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                characterInfoPanel.remove(eventLog[0]);
-                eventLog[0] = new EventLogPanel("무사히 도망쳤습니다.");
-                characterInfoPanel.add(eventLog[0]);
-                eventLog[0].setMouseEvent(rm.getNode(timeSettingsPanel.getTimeStamp().getTt().getRegion()).getNeighbors()); // 다음 지역 이동 이벤트
-                characterInfoPanel.revalidate();
-            }
-        };
-
-        if (c.getFullness() == 100 && c.getWater() == 100) {
-            exitPanel.addMouseListener(exitEvent);
-        } else {
-            exitPanel.removeMouseListener(exitEvent);
-        }
+        setExit();
         setNight();
 
         inventoryPanel.setPreferredSize(new Dimension(width, (int) (height * 0.3)));
@@ -193,7 +178,24 @@ public class MainFrame extends JFrame {
             repaint();
         });
     }
+    public void setExit() {
+        exitEvent = new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                characterInfoPanel.remove(eventLog[0]);
+                eventLog[0] = new EventLogPanel("무사히 도망쳤습니다.");
+                characterInfoPanel.add(eventLog[0]);
+                eventLog[0].setMouseEvent(rm.getNode(timeSettingsPanel.getTimeStamp().getTt().getRegion()).getNeighbors()); // 다음 지역 이동 이벤트
+                characterInfoPanel.revalidate();
+            }
+        };
 
+        if (c.getFullness() == 100 && c.getWater() == 100) {
+            exitPanel.addMouseListener(exitEvent);
+        } else {
+            exitPanel.removeMouseListener(exitEvent);
+        }
+    }
     public void setNight() {
         final AtomicInteger watchedValue = new AtomicInteger(0);
         final ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
@@ -205,10 +207,11 @@ public class MainFrame extends JFrame {
             int currentValue = timeSettingsPanel.getTimeStamp().getTt().getTime().getHour();
             watchedValue.set(currentValue);
             double showMonster = 1;
+            // 몬스터 출몰시
             if ((watchedValue.get() < 6 || 21 <= watchedValue.get()) && !isNight[0] && CommonPanelFunction.getRandomBoolean(showMonster)) {
                 isNight[0] = true;
                 isMorning[0] = false;
-
+                setExit();
                 timeSettingsPanel.getTimeStamp().getTt().stopThread();
 
                 SwingUtilities.invokeLater(() -> {
