@@ -289,6 +289,7 @@ Character character;
                 characterInfoPanel.revalidate();
                 characterInfoPanel.repaint();
                 character.setAttack(weapon.getAttackStatus());
+                character.setEquippedWeaponId(weapon.getName());
                 hoverLabel.setVisible(false);
             } else if (itemRouter.equals("water")) {
                 characterInfoPanel.remove(statusPanel);

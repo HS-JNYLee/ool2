@@ -14,6 +14,7 @@ import src.main.inventory.Weapon;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -45,12 +46,13 @@ public class MainFrame extends JFrame {
     JPanel exitPanel;
     MouseAdapter exitEvent;
 
+    Container cp;
     public MainFrame(Character c) {
         this.c = c;
         this.setTitle("Main Frame");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         getContentPane().setBackground(CommonPanelFunction.hexToRgb("303030"));
-
+        cp = getContentPane();
         BorderLayout b = new BorderLayout();
         b.setVgap(10);
         setLayout(b);
@@ -111,6 +113,23 @@ public class MainFrame extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 characterInfoPanel.remove(eventLog[0]);
+                List<Weapon> weaponsToRemove = new ArrayList<>();
+                for(Weapon useWeapon : i.getWeapons()) {
+                    if(useWeapon.getName().equals(c.getEquippedWeaponId())) {
+                        useWeapon.decreaseRemainNumber(1); // 사용횟수 1회 차감
+                        if(useWeapon.getRemainNumber() <= 0) { // 0회로 떨어지면
+                            weaponsToRemove.add(useWeapon); // 제거할 무기를 추가 // 소지 무기에서 삭제
+                        }
+                    }
+                }
+                    i.getWeapons().removeAll(weaponsToRemove);
+                        cp.remove(inventoryPanel);
+                        inventoryPanel = new InventoryPanel(i, equippedWeaponPanel, ownedWeaponPanel, exitPanel, status, characterInfoPanel, c);
+                        inventoryPanel.setPreferredSize(new Dimension(width, (int) (height * 0.3)));
+                        inventoryPanel.setBackground(CommonPanelFunction.hexToRgb("303030"));
+                        add(inventoryPanel, BorderLayout.SOUTH);
+                            cp.revalidate();
+                            cp.repaint();
                 if (c.getAttack() > m.getAttack()) {
                     Win w = new Win(i);
                     eventLog[0] = new EventLogPanel(w.reward());
@@ -178,7 +197,7 @@ public class MainFrame extends JFrame {
         executor.scheduleAtFixedRate(() -> {
             int currentValue = timeSettingsPanel.getTimeStamp().getTt().getTime().getHour();
             watchedValue.set(currentValue);
-            double showMonster = 0.5;
+            double showMonster = 1;
             if ((watchedValue.get() < 6 || 21 <= watchedValue.get()) && !isNight[0] && CommonPanelFunction.getRandomBoolean(showMonster)) {
                 isNight[0] = true;
                 isMorning[0] = false;

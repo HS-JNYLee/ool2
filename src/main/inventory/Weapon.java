@@ -51,6 +51,10 @@ public class Weapon extends Item{
         this.remainNumber = remainNumber;
     }
 
+    public void decreaseRemainNumber(int diffCount) {
+        this.remainNumber -= diffCount;
+    }
+
     public int getAttackStatus() {
         return attackStatus;
     }

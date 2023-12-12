@@ -7,6 +7,9 @@ public class Character {
     int attack; // 공격력
     private int defense; // 방어력
 
+
+    String equippedWeaponId; // 장비하고 있는 무기명
+
     public Character() {
         hp = 100;
         fullness = 0;
@@ -14,6 +17,14 @@ public class Character {
     }
     public void increaseFullness(int fullness) {
         this.fullness += fullness; // 포만감 증가
+    }
+    
+    public String getEquippedWeaponId() {
+        return equippedWeaponId;
+    }
+
+    public void setEquippedWeaponId(String equippedWeaponId) {
+        this.equippedWeaponId = equippedWeaponId;
     }
 
     void setHp(int hp){ this.hp=hp;}
