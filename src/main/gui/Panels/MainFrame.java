@@ -206,6 +206,7 @@ public class MainFrame extends JFrame {
         final AtomicInteger watchedValue = new AtomicInteger(0);
         final ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
         final boolean[] isNight = {false};
+        final boolean[] isMonster = {false};
         final boolean[] isMorning = {false};
         final boolean[] isPass = {false};
 
@@ -213,9 +214,14 @@ public class MainFrame extends JFrame {
         executor.scheduleAtFixedRate(() -> {
             int currentValue = timeSettingsPanel.getTimeStamp().getTt().getTime().getHour();
             watchedValue.set(currentValue);
-            double showMonster = 0.8;
+            double showMonster = 0.2;
+            boolean hasMonster = false;
+            if(watchedValue.get() < 6 || 21 <= watchedValue.get() && !isMonster[0]) { // 밤이 되었을 떄 몬스터 출현 가능성
+                hasMonster = CommonPanelFunction.getRandomBoolean(showMonster);
+            }
             if(watchedValue.get() == 5 && !isPass[0]) {
-                isPass[0] = true;
+                isPass[0] = true; // 밤 종료 루프 중지
+                isMorning[0] = false; // 몬스터 루프 시작
                 characterInfoPanel.remove(eventLog[0]);
                 timeSettingsPanel.getTimeStamp().getTt().stopThread();
                 eventLog[0] = new EventLogPanel("아무일도 일어나지 않았습니다...");
@@ -225,9 +231,10 @@ public class MainFrame extends JFrame {
                 repaint();
             }
             // 몬스터 출몰시
-            else if ((watchedValue.get() < 6 || 21 <= watchedValue.get()) && !isNight[0] && CommonPanelFunction.getRandomBoolean(showMonster)) {
-                isNight[0] = true;
-                isMorning[0] = false;
+            else if (hasMonster && !isMonster[0]) {
+                isMonster[0] = true; // 몬스터 루프 중지
+                isNight[0] = true; // 밤 루프 중지
+                isMorning[0] = false; // 낮 루프 시작
                 setExit();
                 timeSettingsPanel.getTimeStamp().getTt().stopThread();
 
@@ -245,9 +252,8 @@ public class MainFrame extends JFrame {
                     repaint();
                 });
             } else if ((watchedValue.get() < 6 || 21 <= watchedValue.get()) && !isNight[0]) {
-                isNight[0] = true;
-                isMorning[0] = false;
-
+                isNight[0] = true; // 밤 루프 중지
+                isMorning[0] = false; // 낮 루프 시작
                 SwingUtilities.invokeLater(() -> {
                     remove(inventoryPanel);
                     characterInfoPanel.remove(eventLog[0]);
@@ -262,9 +268,10 @@ public class MainFrame extends JFrame {
                     repaint();
                 });
             } else if (6 <= watchedValue.get() && watchedValue.get() < 21 && !isMorning[0]) { // 아침 아이템 확인 및 사용
-                isMorning[0] = true;
-                isNight[0] = false;
-                isPass[0] = false;
+                isMorning[0] = true; // 낮 루프 중지
+                isNight[0] = false; // 밤 루프 시작
+                isMonster[0] = false; // 몬스터 루프 시작
+                isPass[0] = false; // 밤 종료 이벤트 루프 시작
                 SwingUtilities.invokeLater(() -> {
                     remove(inventoryPanel);
                     inventoryPanel = new InventoryPanel(i, foodPanel, waterPanel, ownedWeaponPanel, status, characterInfoPanel, c);
