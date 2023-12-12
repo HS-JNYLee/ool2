@@ -1,5 +1,6 @@
 package src.main.character;
 
+import src.main.gui.Panels.MainFrame;
 import src.main.gui.Panels.SettingPanel.SettingPanel;
 import javax.swing.*;
 import java.awt.*;
@@ -208,7 +209,9 @@ public class ChooseCharacterFrame extends JFrame {
         character1Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                clip.stop();
+                new MainFrame(character1);
+                dispose();
             }
         });
         layeredPane.add(character1Button, Integer.valueOf(2));
@@ -222,7 +225,9 @@ public class ChooseCharacterFrame extends JFrame {
         character2Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                clip.stop();
+                new MainFrame(character2);
+                dispose();
             }
         });
         layeredPane.add(character2Button, Integer.valueOf(1));
@@ -312,6 +317,8 @@ public class ChooseCharacterFrame extends JFrame {
         character1.setDefense(60);
         character1.increaseFullness(40);
         character1.increaseWater(70);
+        character1.setName("부기");
+        character1.setImgLink("src/resources/images/character1.png");
     }
 
     private void Ch2setvalue(Character character2) {  //캐릭터 2
@@ -321,6 +328,8 @@ public class ChooseCharacterFrame extends JFrame {
         character2.setDefense(30);
         character2.increaseFullness(70);
         character2.setWater(50);
+        character2.setName("어니");
+        character2.setImgLink("src/resources/images/character2.png");
     }
 
     private void updateProgressBar(JProgressBar progressBar, int value) {

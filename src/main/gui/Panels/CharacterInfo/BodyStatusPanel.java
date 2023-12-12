@@ -106,7 +106,7 @@ public class BodyStatusPanel extends JPanel {
     }
 
     public void setFullnessPanel(int percentage) {
-        fullnessPercentage += percentage;
+        fullnessPercentage = percentage;
         fullnessPanel.removeAll();
         fullnessPanel.add(new ProgressBar(fullnessPercentage, CommonPanelFunction.hexToRgb("57FF72"), CommonPanelFunction.hexToRgb("DEFFCF")));
     }
@@ -118,7 +118,7 @@ public class BodyStatusPanel extends JPanel {
     }
 
     public void setWaterPanel(int percentage) {
-        waterPercentage += percentage;
+        waterPercentage = percentage;
         waterPanel.removeAll();
         waterPanel.add(new ProgressBar(waterPercentage, CommonPanelFunction.hexToRgb("44BCFF"), CommonPanelFunction.hexToRgb("CFF6FF")));
     }

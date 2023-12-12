@@ -1,9 +1,12 @@
 package src.main.gui.Panels.CharacterInfo;
 
 import src.main.app.common.CommonPanelFunction;
+import src.main.character.Character;
 import src.main.character.Monster;
 import src.main.environment.RegionMap;
+import src.main.gui.Panels.EndingPanel.CharacaterEndingPanel;
 import src.main.gui.Panels.MainFrame;
+import src.main.inventory.Inventory;
 
 import javax.swing.*;
 import java.awt.*;
@@ -67,7 +70,8 @@ public class EventLogPanel extends JPanel {
         add(eventPanel, BorderLayout.CENTER);
     }
 
-    public void setMouseEvent(List<RegionMap.Node> neighbors) {
+    public void setMouseEvent(List<RegionMap.Node> neighbors, Character character, Inventory inventory, CharacterInfoPanel characterInfoPanel, MainFrame mainFrame) {
+
         eventPanel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -99,8 +103,23 @@ public class EventLogPanel extends JPanel {
                     j.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
+                            if(n.getValue().equals("제주도")) {
+                                mainFrame.dispose();
+                                new CharacaterEndingPanel(character);
+                            }
                             // 버튼의 텍스트 값을 최상위 부모 패널로 전달
                             Component parent = getParent();
+                            character.decreaseFullnessAndWater(); // 일일치 포만감, 수분 감소
+                            inventory.decreaseRemainDays(); // 유통기한 감소시키기
+
+                            StatusPanel statusPanel = characterInfoPanel.getStatus();
+                            characterInfoPanel.remove(statusPanel);
+                            statusPanel.getBodyStatus().setWaterPanel(character.getWater());
+                            statusPanel.getBodyStatus().setFullnessPanel(character.getFullness());
+                            characterInfoPanel.add(statusPanel, 0);
+                            characterInfoPanel.revalidate();
+                            characterInfoPanel.repaint();
+
                             while (parent.getParent() != null) {
                                 parent = parent.getParent(); // 부모 패널 계층 구조 따라가기
                             }

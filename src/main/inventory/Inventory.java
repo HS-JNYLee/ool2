@@ -3,6 +3,7 @@ package src.main.inventory;
 import src.main.character.Character;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class Inventory {
@@ -102,5 +103,24 @@ public class Inventory {
         return foods;
     }
 
+    // 유통기한 감소시키기
+    public void decreaseRemainDays() {
+        Iterator<Water> waterIterator = waters.iterator();
+        while (waterIterator.hasNext()) {
+            Water w = waterIterator.next();
+            w.subtractDay();
+            if (w.getRemainDays() == 0) {
+                waterIterator.remove(); // Removes the current element from the iterator and the underlying collection
+            }
+        }
 
+        Iterator<Food> foodIterator = foods.iterator();
+        while (foodIterator.hasNext()) {
+            Food f = foodIterator.next();
+            f.subtractDay();
+            if (f.getRemainDays() == 0) {
+                foodIterator.remove(); // Removes the current element from the iterator and the underlying collection
+            }
+        }
+    }
 }

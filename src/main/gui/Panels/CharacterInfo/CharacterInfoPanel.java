@@ -37,4 +37,8 @@ public class CharacterInfoPanel extends JPanel {
             repaint(); // 다시 그리기
         });
     }
+
+    public StatusPanel getStatus() {
+        return status;
+    }
 } // 중앙 패널
