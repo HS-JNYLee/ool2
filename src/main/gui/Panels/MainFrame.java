@@ -203,14 +203,25 @@ public class MainFrame extends JFrame {
         final ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
         final boolean[] isNight = {false};
         final boolean[] isMorning = {false};
+        final boolean[] isPass = {false};
 
         // 시간 감지용
         executor.scheduleAtFixedRate(() -> {
             int currentValue = timeSettingsPanel.getTimeStamp().getTt().getTime().getHour();
             watchedValue.set(currentValue);
-            double showMonster = 1;
+            double showMonster = 0.01;
+            if(watchedValue.get() == 5 && !isPass[0]) {
+                isPass[0] = true;
+                characterInfoPanel.remove(eventLog[0]);
+                timeSettingsPanel.getTimeStamp().getTt().stopThread();
+                eventLog[0] = new EventLogPanel("아무일도 일어나지 않았습니다...");
+                characterInfoPanel.add(eventLog[0]);
+                eventLog[0].setMouseEvent(rm.getNode(timeSettingsPanel.getTimeStamp().getTt().getRegion()).getNeighbors(), c, i, characterInfoPanel); // 다음 지역 이동 이벤트
+                characterInfoPanel.revalidate();
+                repaint();
+            }
             // 몬스터 출몰시
-            if ((watchedValue.get() < 6 || 21 <= watchedValue.get()) && !isNight[0] && CommonPanelFunction.getRandomBoolean(showMonster)) {
+            else if ((watchedValue.get() < 6 || 21 <= watchedValue.get()) && !isNight[0] && CommonPanelFunction.getRandomBoolean(showMonster)) {
                 isNight[0] = true;
                 isMorning[0] = false;
                 setExit();
@@ -249,7 +260,7 @@ public class MainFrame extends JFrame {
             } else if (6 <= watchedValue.get() && watchedValue.get() < 21 && !isMorning[0]) { // 아침 아이템 확인 및 사용
                 isMorning[0] = true;
                 isNight[0] = false;
-
+                isPass[0] = false;
                 SwingUtilities.invokeLater(() -> {
                     remove(inventoryPanel);
                     inventoryPanel = new InventoryPanel(i, foodPanel, waterPanel, ownedWeaponPanel, status, characterInfoPanel, c);
