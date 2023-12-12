@@ -32,7 +32,9 @@ public class Character {
         this.attack = equippedWeapon.getAttackStatus();
     }
 
-    void setHp(int hp){ this.hp=hp;}
+    int setHp(int hp){ this.hp=hp;
+        return hp;
+    }
    public void increaseWater(int water) {
         this.water += water; // 수분 증가
        if(this.water >= 100) this.water = 100;
@@ -55,6 +57,9 @@ public class Character {
 
         this.attack += attack;
 
+    }
+    void increaseDefense(int defense) {
+        this.defense += defense;
     }
 
     public int getHp() {

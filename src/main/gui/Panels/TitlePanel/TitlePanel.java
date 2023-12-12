@@ -2,12 +2,20 @@ package src.main.gui.Panels.TitlePanel;
 
 import src.main.gui.Panels.SettingPanel.SettingPanel;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+
+import src.main.character.ChooseCharacterFrame;
+import src.main.gui.Panels.SettingPanel.SettingPanel;
 
 public class TitlePanel extends JFrame {
+    private Clip clip;
 
     public TitlePanel() {
         super("게임");
@@ -16,7 +24,35 @@ public class TitlePanel extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
+        try {
+            File bgmFile = new File("src/resources/sounds/soundsample.wav");
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(bgmFile);
 
+            clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            // 무한 반복하도록 설정합니다.
+            clip.stop();
+            // 클립을 처음으로 되감습니다.
+            clip.setFramePosition(0);
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
+            // 배경음악을 재생합니다.
+            clip.start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        JButton settingButton = new JButton("설정");
+        settingButton.addActionListener(new ActionListener() {  //음량 조절
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                SettingPanel settingPanel = new SettingPanel(clip);  //음악 재생 clip
+                JOptionPane.showMessageDialog(TitlePanel.this, settingPanel, "설정", JOptionPane.PLAIN_MESSAGE);
+            }
+        });
+        settingButton.setBounds(1, 1, 60, 30);
+        add(settingButton, BorderLayout.WEST);
+        settingButton.setBackground(Color.WHITE);  // 버튼 배경색 변경
+        settingButton.setForeground(Color.BLACK);  // 글씨 색 변경
+        add(settingButton);
         // 전체 패널
         // 전체 패널
         JPanel mainPanel = new JPanel(new BorderLayout());
@@ -49,7 +85,9 @@ public class TitlePanel extends JFrame {
         startButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            //src.main.character.ChooseCharacterFrame 이동
+            //ChooseCharacterFrame 이동
+                new ChooseCharacterFrame();
+                dispose();
 
             }
         });
@@ -67,7 +105,7 @@ public class TitlePanel extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
               //   settingPanel = new SettingPanel(clip);  //음악 재생 clip
-              //  JOptionPane.showMessageDialog(src.main.character.ChooseCharacterFrame.this, settingPanel, "설정", JOptionPane.PLAIN_MESSAGE);
+              //  JOptionPane.showMessageDialog(ChooseCharacterFrame.this, settingPanel, "설정", JOptionPane.PLAIN_MESSAGE);
             }
         });
         infoButtonPanel.add(infoButton);  // 버튼을 패널에 추가
@@ -93,6 +131,7 @@ public class TitlePanel extends JFrame {
         buttonPanel.add(exitButtonPanel);  // 패널을 버튼 패널에 추가
 
         mainPanel.add(buttonPanel, BorderLayout.SOUTH);
+
 
         // 창 크기 설정
         setSize(900, 600);
