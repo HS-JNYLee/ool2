@@ -299,7 +299,8 @@ Character character;
                 inventory.deleteWater(water);
 
                 characterInfoPanel.remove(statusPanel);
-                statusPanel.getBodyStatus().setWaterPanel(water.getAddWater());
+                character.increaseWater(water.getAddWater());
+                statusPanel.getBodyStatus().setWaterPanel(character.getWater());
                 characterInfoPanel.add(statusPanel, 0);
                 waterPanel.remove((JLabel) e.getSource());
                 characterInfoPanel.revalidate();
@@ -313,7 +314,8 @@ Character character;
                 inventory.deleteFood(food);
 
                 characterInfoPanel.remove(statusPanel);
-                statusPanel.getBodyStatus().setFullnessPanel(food.getAddSatiety());
+                character.increaseFullness(food.getAddSatiety());
+                statusPanel.getBodyStatus().setFullnessPanel(character.getFullness());
                 characterInfoPanel.add(statusPanel, 0);
                 characterInfoPanel.revalidate();
                 characterInfoPanel.repaint();

@@ -45,9 +45,17 @@ public class Character {
     }
 
     public void decreaseHp(int hp) {
-        this.hp += hp;
+        this.hp -= hp;
         if(this.hp < 0) this.hp =0;
     }
+    public void decreaseFullnessAndWater() { // 포만감과 수분 하루치 감소
+        int decreaseSize = 30; // 감소하는 정도
+        this.water -= decreaseSize;
+        this.fullness -= decreaseSize;
+        if(this.water < 0) this.water =0;
+        if(this.fullness < 0) this.fullness =0;
+    }
+
     public void increaseHp(int hp) {
         this.hp += hp;
         if(this.hp >= 100) this.hp = 100;

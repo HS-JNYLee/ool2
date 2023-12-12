@@ -129,10 +129,10 @@ public class MainFrame extends JFrame {
                     Win w = new Win(i);
                     eventLog[0] = new EventLogPanel(w.reward());
                     characterInfoPanel.add(eventLog[0]);
-                    eventLog[0].setMouseEvent(rm.getNode(timeSettingsPanel.getTimeStamp().getTt().getRegion()).getNeighbors()); // 다음 지역 이동 이벤트
+                    eventLog[0].setMouseEvent(rm.getNode(timeSettingsPanel.getTimeStamp().getTt().getRegion()).getNeighbors(), c, i, characterInfoPanel); // 다음 지역 이동 이벤트
                 } else { // 싸워서 졌으면
                     eventLog[0] = new EventLogPanel("패배...");
-                    character.decreaseHp(c.getDefense() - m.getAttack());
+                    character.decreaseHp(m.getAttack() - c.getDefense());
 
                     characterInfoPanel.add(eventLog[0]);
                     characterInfoPanel.remove(status);
@@ -143,7 +143,7 @@ public class MainFrame extends JFrame {
                     }
                     // 제력이 0이 아니면 체력만 깎고 다음 스테이지 진행
                     else
-                        eventLog[0].setMouseEvent(rm.getNode(timeSettingsPanel.getTimeStamp().getTt().getRegion()).getNeighbors()); // 다음 지역 이동 이벤트
+                        eventLog[0].setMouseEvent(rm.getNode(timeSettingsPanel.getTimeStamp().getTt().getRegion()).getNeighbors(), c, i, characterInfoPanel); // 다음 지역 이동 이벤트
                 }
                 characterInfoPanel.revalidate();
             }
@@ -185,7 +185,7 @@ public class MainFrame extends JFrame {
                 characterInfoPanel.remove(eventLog[0]);
                 eventLog[0] = new EventLogPanel("무사히 도망쳤습니다.");
                 characterInfoPanel.add(eventLog[0]);
-                eventLog[0].setMouseEvent(rm.getNode(timeSettingsPanel.getTimeStamp().getTt().getRegion()).getNeighbors()); // 다음 지역 이동 이벤트
+                eventLog[0].setMouseEvent(rm.getNode(timeSettingsPanel.getTimeStamp().getTt().getRegion()).getNeighbors(), c, i, characterInfoPanel); // 다음 지역 이동 이벤트
                 characterInfoPanel.revalidate();
             }
         };
