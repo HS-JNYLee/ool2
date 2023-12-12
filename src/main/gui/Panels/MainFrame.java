@@ -180,6 +180,9 @@ public class MainFrame extends JFrame {
         });
     }
     public void setExit() {
+        if (exitEvent != null) {
+            exitPanel.removeMouseListener(exitEvent); // 이전 exitEvent가 존재하면 제거합니다.
+        }
         exitEvent = new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -193,8 +196,6 @@ public class MainFrame extends JFrame {
 
         if (c.getFullness() == 100 && c.getWater() == 100) {
             exitPanel.addMouseListener(exitEvent);
-        } else {
-            exitPanel.removeMouseListener(exitEvent);
         }
     }
     public void setNight() {
