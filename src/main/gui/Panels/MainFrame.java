@@ -112,19 +112,7 @@ public class MainFrame extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 characterInfoPanel.remove(eventLog[0]);
-                i.useWeapon(c, character.getEquippedWeapon()); // 장착 무기 사용
-                // 무기가 횟수가 다 되서 무기가 변경됐을 떄 사용자의 공격력도 변경함
-                characterInfoPanel.remove(status);
-                status.getFightStatus().setAttackLabel(c.getAttack());
-                characterInfoPanel.add(status, 0);
-                //
-                cp.remove(inventoryPanel);
-                inventoryPanel = new InventoryPanel(i, equippedWeaponPanel, ownedWeaponPanel, exitPanel, status, characterInfoPanel, c);
-                inventoryPanel.setPreferredSize(new Dimension(width, (int) (height * 0.3)));
-                inventoryPanel.setBackground(CommonPanelFunction.hexToRgb("303030"));
-                add(inventoryPanel, BorderLayout.SOUTH);
-                cp.revalidate();
-                cp.repaint();
+
                 if (c.getAttack() > m.getAttack()) { // 싸워서 이겼으면
                     Win w = new Win(i);
                     eventLog[0] = new EventLogPanel(w.reward());
@@ -145,6 +133,19 @@ public class MainFrame extends JFrame {
                     else
                         eventLog[0].setMouseEvent(rm.getNode(timeSettingsPanel.getTimeStamp().getTt().getRegion()).getNeighbors(), c, i, characterInfoPanel); // 다음 지역 이동 이벤트
                 }
+                i.useWeapon(c, character.getEquippedWeapon()); // 장착 무기 사용
+                // 무기가 횟수가 다 되서 무기가 변경됐을 떄 사용자의 공격력도 변경함
+                characterInfoPanel.remove(status);
+                status.getFightStatus().setAttackLabel(c.getAttack());
+                characterInfoPanel.add(status, 0);
+                //
+                cp.remove(inventoryPanel);
+                inventoryPanel = new InventoryPanel(i, equippedWeaponPanel, ownedWeaponPanel, exitPanel, status, characterInfoPanel, c);
+                inventoryPanel.setPreferredSize(new Dimension(width, (int) (height * 0.3)));
+                inventoryPanel.setBackground(CommonPanelFunction.hexToRgb("303030"));
+                add(inventoryPanel, BorderLayout.SOUTH);
+                cp.revalidate();
+                cp.repaint();
                 characterInfoPanel.revalidate();
             }
         });
