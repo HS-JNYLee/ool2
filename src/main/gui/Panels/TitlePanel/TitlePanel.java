@@ -86,6 +86,7 @@ public class TitlePanel extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
             //ChooseCharacterFrame 이동
+                clip.stop();
                 new ChooseCharacterFrame();
                 dispose();
 
