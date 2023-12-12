@@ -1,14 +1,15 @@
 package src.main.character;
 
+import src.main.inventory.Item;
 import src.main.inventory.Weapon;
 
-public class Character {
+public class Character extends Item {
     private int hp; // 체력
     private int fullness; // 포만감
     private int water; // 수분
     int attack; // 공격력
     private int defense; // 방어력
-
+    private String name;
 
     Weapon equippedWeapon; // 장비하고 있는 무기명
 
@@ -17,6 +18,15 @@ public class Character {
         fullness = 0;
         water = 0;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public void increaseFullness(int fullness) {
 
         this.fullness += fullness; // 포만감 증가

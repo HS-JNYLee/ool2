@@ -4,6 +4,7 @@ import src.main.character.Monster;
 import src.main.character.Win;
 import src.main.environment.RegionMap;
 import src.main.gui.Panels.CharacterInfo.*;
+import src.main.gui.Panels.EndingPanel.GameOverPanel;
 import src.main.gui.Panels.TimeSettings.TimeSettingsPanel;
 import src.main.app.common.CommonPanelFunction;
 import src.main.inventory.Food;
@@ -43,9 +44,10 @@ public class MainFrame extends JFrame {
     JPanel equippedWeaponPanel;
     JPanel exitPanel;
     MouseAdapter exitEvent;
-
+    MainFrame mf;
     Container cp;
     public MainFrame(Character character) {
+        mf = this;
         this.c = character;
         this.setTitle("Main Frame");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -91,7 +93,7 @@ public class MainFrame extends JFrame {
         status.getFightStatus().setAttackLabel(c.getAttack());
         status.setBackground(CommonPanelFunction.hexToRgb("303030"));
 
-        playerCharacter = new PlayerCharacterPanel();
+        playerCharacter = new PlayerCharacterPanel(c);
         playerCharacter.setBackground(CommonPanelFunction.hexToRgb("303030"));
 
         eventLog[0].setBackground(CommonPanelFunction.hexToRgb("303030"));
@@ -117,7 +119,7 @@ public class MainFrame extends JFrame {
                     Win w = new Win(i);
                     eventLog[0] = new EventLogPanel(w.reward());
                     characterInfoPanel.add(eventLog[0]);
-                    eventLog[0].setMouseEvent(rm.getNode(timeSettingsPanel.getTimeStamp().getTt().getRegion()).getNeighbors(), c, i, characterInfoPanel); // 다음 지역 이동 이벤트
+                    eventLog[0].setMouseEvent(rm.getNode(timeSettingsPanel.getTimeStamp().getTt().getRegion()).getNeighbors(), c, i, characterInfoPanel, mf); // 다음 지역 이동 이벤트
                 } else { // 싸워서 졌으면
                     eventLog[0] = new EventLogPanel("패배...");
                     character.decreaseHp(m.getAttack() - c.getDefense());
@@ -128,10 +130,12 @@ public class MainFrame extends JFrame {
                     characterInfoPanel.add(status, 0);
                     if (character.getHp() <= 0) { // 캐릭터의 체력이 0이 되면
                         // 게임 종료 (엔딩으로 가기)
+                        dispose();
+                        new GameOverPanel();
                     }
                     // 제력이 0이 아니면 체력만 깎고 다음 스테이지 진행
                     else
-                        eventLog[0].setMouseEvent(rm.getNode(timeSettingsPanel.getTimeStamp().getTt().getRegion()).getNeighbors(), c, i, characterInfoPanel); // 다음 지역 이동 이벤트
+                        eventLog[0].setMouseEvent(rm.getNode(timeSettingsPanel.getTimeStamp().getTt().getRegion()).getNeighbors(), c, i, characterInfoPanel, mf); // 다음 지역 이동 이벤트
                 }
                 i.useWeapon(c, character.getEquippedWeapon()); // 장착 무기 사용
                 // 무기가 횟수가 다 되서 무기가 변경됐을 떄 사용자의 공격력도 변경함
@@ -189,7 +193,7 @@ public class MainFrame extends JFrame {
                 characterInfoPanel.remove(eventLog[0]);
                 eventLog[0] = new EventLogPanel("무사히 도망쳤습니다.");
                 characterInfoPanel.add(eventLog[0]);
-                eventLog[0].setMouseEvent(rm.getNode(timeSettingsPanel.getTimeStamp().getTt().getRegion()).getNeighbors(), c, i, characterInfoPanel); // 다음 지역 이동 이벤트
+                eventLog[0].setMouseEvent(rm.getNode(timeSettingsPanel.getTimeStamp().getTt().getRegion()).getNeighbors(), c, i, characterInfoPanel, mf); // 다음 지역 이동 이벤트
                 characterInfoPanel.revalidate();
             }
         };
@@ -209,14 +213,14 @@ public class MainFrame extends JFrame {
         executor.scheduleAtFixedRate(() -> {
             int currentValue = timeSettingsPanel.getTimeStamp().getTt().getTime().getHour();
             watchedValue.set(currentValue);
-            double showMonster = 0.01;
+            double showMonster = 0.8;
             if(watchedValue.get() == 5 && !isPass[0]) {
                 isPass[0] = true;
                 characterInfoPanel.remove(eventLog[0]);
                 timeSettingsPanel.getTimeStamp().getTt().stopThread();
                 eventLog[0] = new EventLogPanel("아무일도 일어나지 않았습니다...");
                 characterInfoPanel.add(eventLog[0]);
-                eventLog[0].setMouseEvent(rm.getNode(timeSettingsPanel.getTimeStamp().getTt().getRegion()).getNeighbors(), c, i, characterInfoPanel); // 다음 지역 이동 이벤트
+                eventLog[0].setMouseEvent(rm.getNode(timeSettingsPanel.getTimeStamp().getTt().getRegion()).getNeighbors(), c, i, characterInfoPanel, this); // 다음 지역 이동 이벤트
                 characterInfoPanel.revalidate();
                 repaint();
             }

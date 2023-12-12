@@ -4,6 +4,7 @@ import src.main.app.common.CommonPanelFunction;
 import src.main.character.Character;
 import src.main.character.Monster;
 import src.main.environment.RegionMap;
+import src.main.gui.Panels.EndingPanel.CharacaterEndingPanel;
 import src.main.gui.Panels.MainFrame;
 import src.main.inventory.Inventory;
 
@@ -69,7 +70,7 @@ public class EventLogPanel extends JPanel {
         add(eventPanel, BorderLayout.CENTER);
     }
 
-    public void setMouseEvent(List<RegionMap.Node> neighbors, Character character, Inventory inventory, CharacterInfoPanel characterInfoPanel) {
+    public void setMouseEvent(List<RegionMap.Node> neighbors, Character character, Inventory inventory, CharacterInfoPanel characterInfoPanel, MainFrame mainFrame) {
 
         eventPanel.addMouseListener(new MouseAdapter() {
             @Override
@@ -102,6 +103,10 @@ public class EventLogPanel extends JPanel {
                     j.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
+                            if(n.getValue().equals("제주도")) {
+                                mainFrame.dispose();
+                                new CharacaterEndingPanel(character);
+                            }
                             // 버튼의 텍스트 값을 최상위 부모 패널로 전달
                             Component parent = getParent();
                             character.decreaseFullnessAndWater(); // 일일치 포만감, 수분 감소
