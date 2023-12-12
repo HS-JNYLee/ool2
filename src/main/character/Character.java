@@ -42,7 +42,7 @@ public class Character extends Item {
         this.attack = equippedWeapon.getAttackStatus();
     }
 
-    int setHp(int hp){ this.hp=hp;
+    public int setHp(int hp){ this.hp=hp;
         return hp;
     }
    public void increaseWater(int water) {
@@ -59,9 +59,12 @@ public class Character extends Item {
         if(this.hp < 0) this.hp =0;
     }
     public void decreaseFullnessAndWater() { // 포만감과 수분 하루치 감소
-        int decreaseSize = 30; // 감소하는 정도
-        this.water -= decreaseSize;
-        this.fullness -= decreaseSize;
+        int starvedDecreaseSize = 10; // 감소하는 정도
+        if(this.water == 0) decreaseHp(starvedDecreaseSize); // 이미 수분이 0이라면 체력 감소
+        if(this.fullness == 0) decreaseHp(starvedDecreaseSize); // 이미 포만감이 0이라면 체력 감소
+        int dayOfDecreaseSize = 30; // 감소하는 정도
+        this.water -= dayOfDecreaseSize;
+        this.fullness -= dayOfDecreaseSize;
         if(this.water < 0) this.water =0;
         if(this.fullness < 0) this.fullness =0;
     }
