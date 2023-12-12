@@ -7,8 +7,17 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Random;
 
 public class GameOverPanel extends JFrame {
+    private static final String[] TIPS = {
+            //게임에서 승리할 수 있는 조언들
+            "Tip 1: .",
+            "Tip 2: 뭐 쓰지",
+            "Tip 3: ??."
+
+    };
+
     public GameOverPanel() {
         super("Game Over");
 
@@ -20,6 +29,17 @@ public class GameOverPanel extends JFrame {
         // 게임 오버 이미지
         ImageIcon gameOverImage = new ImageIcon("src/resources/images/gameover2.png");
         JLabel gameOverImageLabel = new JLabel(gameOverImage);
+
+        // 팁 표시 라벨
+        JLabel tipLabel = new JLabel(getRandomTip());
+        tipLabel.setHorizontalAlignment(JLabel.CENTER);
+        tipLabel.setFont(new Font("NanumGothic", Font.TRUETYPE_FONT, 15));
+        tipLabel.setForeground(Color.WHITE); // 글자색을 흰색으로 설정
+
+        // 팁을 담을 패널
+        JPanel tipPanel = new JPanel();
+        tipPanel.setBackground(Color.BLACK); // 패널 배경색을 검은색으로 설정
+        tipPanel.add(tipLabel);
 
         // 게임 다시 시작 버튼
         JButton restartButton = new JButton("  재시작   ");
@@ -43,7 +63,6 @@ public class GameOverPanel extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-
             }
         });
         // 버튼 크기 설정
@@ -64,6 +83,7 @@ public class GameOverPanel extends JFrame {
 
         mainPanel.add(gameOverImageLabel, BorderLayout.CENTER);
         mainPanel.add(buttonPanel, BorderLayout.SOUTH);
+        mainPanel.add(tipPanel, BorderLayout.NORTH);  // 팁 패널을 상단에 추가
 
         // 프레임 설정
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -72,8 +92,15 @@ public class GameOverPanel extends JFrame {
         setVisible(true);
     }
 
+    private String getRandomTip() {
+        // 랜덤으로 팁을 선택
+        Random random = new Random();
+        int index = random.nextInt(TIPS.length);
+        return TIPS[index];
+    }
+
     public static void main(String[] args) {
-        // 예제 사용법
+        // 예제 실행
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
