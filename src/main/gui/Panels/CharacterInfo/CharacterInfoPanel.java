@@ -21,6 +21,14 @@ public class CharacterInfoPanel extends JPanel {
         add(this.playerCharacter);
         add(this.eventLog);
     }
+    public CharacterInfoPanel(StatusPanel status, PlayerCharacterPanel playerCharacter) {
+        setLayout(new GridLayout(1, 2));
+        this.status = status;
+        this.playerCharacter = playerCharacter;
+
+        add(this.status);
+        add(this.playerCharacter);
+    }
 
     public void setEventLogPanelVisible(Boolean b) {
         SwingUtilities.invokeLater(() -> {

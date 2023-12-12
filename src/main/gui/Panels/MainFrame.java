@@ -95,7 +95,7 @@ public class MainFrame extends JFrame {
 
         eventLog[0].setBackground(CommonPanelFunction.hexToRgb("303030"));
 
-        characterInfoPanel = new CharacterInfoPanel(status, playerCharacter, eventLog[0]);
+        characterInfoPanel = new CharacterInfoPanel(status, playerCharacter);
         characterInfoPanel.setPreferredSize(new Dimension(width, (int) (height * 0.5)));
         characterInfoPanel.setBackground(CommonPanelFunction.hexToRgb("303030"));
 
@@ -178,16 +178,34 @@ public class MainFrame extends JFrame {
         executor.scheduleAtFixedRate(() -> {
             int currentValue = timeSettingsPanel.getTimeStamp().getTt().getTime().getHour();
             watchedValue.set(currentValue);
-
-            if ((watchedValue.get() < 6 || 21 <= watchedValue.get()) && !isNight[0]) {
+            double showMonster = 0.5;
+            if ((watchedValue.get() < 6 || 21 <= watchedValue.get()) && !isNight[0] && CommonPanelFunction.getRandomBoolean(showMonster)) {
                 isNight[0] = true;
                 isMorning[0] = false;
+
                 timeSettingsPanel.getTimeStamp().getTt().stopThread();
 
                 SwingUtilities.invokeLater(() -> {
                     remove(inventoryPanel);
                     characterInfoPanel.remove(eventLog[0]);
                     eventLog[0] = new EventLogPanel(m);
+                    characterInfoPanel.add(eventLog[0]);
+                    characterInfoPanel.revalidate();
+                    inventoryPanel = new InventoryPanel(i, equippedWeaponPanel, ownedWeaponPanel, exitPanel, status, characterInfoPanel, c);
+                    inventoryPanel.setPreferredSize(new Dimension(width, (int) (height * 0.3)));
+                    inventoryPanel.setBackground(CommonPanelFunction.hexToRgb("303030"));
+                    add(inventoryPanel, BorderLayout.SOUTH);
+                    revalidate();
+                    repaint();
+                });
+            }else if((watchedValue.get() < 6 || 21 <= watchedValue.get()) && !isNight[0]){
+                isNight[0] = true;
+                isMorning[0] = false;
+
+                SwingUtilities.invokeLater(() -> {
+                    remove(inventoryPanel);
+                    characterInfoPanel.remove(eventLog[0]);
+                    eventLog[0] = new EventLogPanel("밤이 되었습니다.");
                     characterInfoPanel.add(eventLog[0]);
                     characterInfoPanel.revalidate();
                     inventoryPanel = new InventoryPanel(i, equippedWeaponPanel, ownedWeaponPanel, exitPanel, status, characterInfoPanel, c);
