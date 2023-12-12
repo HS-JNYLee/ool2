@@ -16,7 +16,7 @@ public class StatusPanel extends JPanel {
         bodyStatus = new BodyStatusPanel(c.getHp(), c.getFullness(), c.getWater());
         bodyStatus.setBackground(CommonPanelFunction.hexToRgb("303030"));
 
-        fightStatus = new FightStatusPanel();
+        fightStatus = new FightStatusPanel(c.getAttack(), c.getDefense());
         fightStatus.setBackground(CommonPanelFunction.hexToRgb("201A07"));
 
         add(bodyStatus);

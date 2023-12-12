@@ -1,5 +1,7 @@
 package src.main.character;
 
+import src.main.inventory.Weapon;
+
 public class Character {
     private int hp; // 체력
     private int fullness; // 포만감
@@ -8,7 +10,7 @@ public class Character {
     private int defense; // 방어력
 
 
-    String equippedWeaponId; // 장비하고 있는 무기명
+    Weapon equippedWeapon; // 장비하고 있는 무기명
 
     public Character() {
         hp = 100;
@@ -18,13 +20,14 @@ public class Character {
     public void increaseFullness(int fullness) {
         this.fullness += fullness; // 포만감 증가
     }
-    
-    public String getEquippedWeaponId() {
-        return equippedWeaponId;
+
+    public Weapon getEquippedWeapon() {
+        return equippedWeapon;
     }
 
-    public void setEquippedWeaponId(String equippedWeaponId) {
-        this.equippedWeaponId = equippedWeaponId;
+    public void setEquippedWeapon(Weapon equippedWeapon) {
+        this.equippedWeapon = equippedWeapon;
+        this.attack = equippedWeapon.getAttackStatus();
     }
 
     void setHp(int hp){ this.hp=hp;}

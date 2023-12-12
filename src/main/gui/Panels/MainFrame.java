@@ -14,8 +14,6 @@ import src.main.inventory.Weapon;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -74,7 +72,7 @@ public class MainFrame extends JFrame {
         i.addWeapon(new Weapon("흙의 검", 3, 45));
         i.addWeapon(new Weapon("풀의 검", 4, 67));
         i.addWeapon(new Weapon("빛의 검", 4, 78));
-        i.setEquipedWeapon(i.getWeapons().get(0));
+        c.setEquippedWeapon(i.getWeapons().get(0)); // 기본 첫 번째 무기 장착
 
         m = new Monster(100, "오우거");
         rm = new RegionMap();
@@ -90,6 +88,7 @@ public class MainFrame extends JFrame {
 
         status = new StatusPanel(c);
         status.getFightStatus().setDefenseLabel(c.getDefense());
+        status.getFightStatus().setAttackLabel(c.getAttack());
         status.setBackground(CommonPanelFunction.hexToRgb("303030"));
 
         playerCharacter = new PlayerCharacterPanel();
@@ -113,35 +112,38 @@ public class MainFrame extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 characterInfoPanel.remove(eventLog[0]);
-                List<Weapon> weaponsToRemove = new ArrayList<>();
-                for(Weapon useWeapon : i.getWeapons()) {
-                    if(useWeapon.getName().equals(c.getEquippedWeaponId())) {
-                        useWeapon.decreaseRemainNumber(1); // 사용횟수 1회 차감
-                        if(useWeapon.getRemainNumber() <= 0) { // 0회로 떨어지면
-                            weaponsToRemove.add(useWeapon); // 제거할 무기를 추가 // 소지 무기에서 삭제
-                        }
-                    }
-                }
-                    i.getWeapons().removeAll(weaponsToRemove);
-                        cp.remove(inventoryPanel);
-                        inventoryPanel = new InventoryPanel(i, equippedWeaponPanel, ownedWeaponPanel, exitPanel, status, characterInfoPanel, c);
-                        inventoryPanel.setPreferredSize(new Dimension(width, (int) (height * 0.3)));
-                        inventoryPanel.setBackground(CommonPanelFunction.hexToRgb("303030"));
-                        add(inventoryPanel, BorderLayout.SOUTH);
-                            cp.revalidate();
-                            cp.repaint();
-                if (c.getAttack() > m.getAttack()) {
+                i.useWeapon(c, c.getEquippedWeapon()); // 장착 무기 사용
+                // 무기가 횟수가 다 되서 무기가 변경됐을 떄 사용자의 공격력도 변경함
+                characterInfoPanel.remove(status);
+                status.getFightStatus().setAttackLabel(c.getAttack());
+                characterInfoPanel.add(status, 0);
+                //
+                cp.remove(inventoryPanel);
+                inventoryPanel = new InventoryPanel(i, equippedWeaponPanel, ownedWeaponPanel, exitPanel, status, characterInfoPanel, c);
+                inventoryPanel.setPreferredSize(new Dimension(width, (int) (height * 0.3)));
+                inventoryPanel.setBackground(CommonPanelFunction.hexToRgb("303030"));
+                add(inventoryPanel, BorderLayout.SOUTH);
+                cp.revalidate();
+                cp.repaint();
+                if (c.getAttack() > m.getAttack()) { // 싸워서 이겼으면
                     Win w = new Win(i);
                     eventLog[0] = new EventLogPanel(w.reward());
                     characterInfoPanel.add(eventLog[0]);
                     eventLog[0].setMouseEvent(rm.getNode(timeSettingsPanel.getTimeStamp().getTt().getRegion()).getNeighbors()); // 다음 지역 이동 이벤트
-                } else {
+                } else { // 싸워서 졌으면
                     eventLog[0] = new EventLogPanel("패배...");
-                    c.decreaseHp(c.getDefense()-m.getAttack());
+                    c.decreaseHp(c.getDefense() - m.getAttack());
+
                     characterInfoPanel.add(eventLog[0]);
                     characterInfoPanel.remove(status);
                     status.getBodyStatus().setHealthPanel(c.getHp());
                     characterInfoPanel.add(status, 0);
+                    if (c.getHp() <= 0) { // 캐릭터의 체력이 0이 되면
+                        // 게임 종료 (엔딩으로 가기)
+                    }
+                    // 제력이 0이 아니면 체력만 깎고 다음 스테이지 진행
+                    else
+                        eventLog[0].setMouseEvent(rm.getNode(timeSettingsPanel.getTimeStamp().getTt().getRegion()).getNeighbors()); // 다음 지역 이동 이벤트
                 }
                 characterInfoPanel.revalidate();
             }
@@ -176,7 +178,8 @@ public class MainFrame extends JFrame {
     public void handleButtonClick(String buttonText) {
         timeSettingsPanel.getTimeStamp().setTtRegion(buttonText); // 초기 지역 설정
         int hour = timeSettingsPanel.getTimeStamp().getTt().getTime().getHour();
-        if(hour > 9) timeSettingsPanel.getTimeStamp().setTtDay(timeSettingsPanel.getTimeStamp().getTt().getDay() + 1); // 초기 지역 설정
+        if (hour > 9)
+            timeSettingsPanel.getTimeStamp().setTtDay(timeSettingsPanel.getTimeStamp().getTt().getDay() + 1); // 초기 지역 설정
         timeSettingsPanel.getTimeStamp().getTt().resetThread(); // 시간 초기화
         timeSettingsPanel.getTimeStamp().getTt().startThread(); // 시간 시작
         characterInfoPanel.remove(eventLog[0]);
@@ -221,7 +224,7 @@ public class MainFrame extends JFrame {
                     revalidate();
                     repaint();
                 });
-            }else if((watchedValue.get() < 6 || 21 <= watchedValue.get()) && !isNight[0]){
+            } else if ((watchedValue.get() < 6 || 21 <= watchedValue.get()) && !isNight[0]) {
                 isNight[0] = true;
                 isMorning[0] = false;
 

@@ -13,7 +13,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class InventoryPanel extends JPanel {
-    JPanel equipedWeaponPanel;
+    JPanel equippedWeaponPanel;
     JLayeredPane ownedWeaponPanel;
     JLayeredPane foodPanel;
     JLayeredPane waterPanel;
@@ -25,10 +25,10 @@ public class InventoryPanel extends JPanel {
     JPanel foodPanelWrapper;
 Character character;
     public InventoryPanel(Inventory i, JPanel equippedWeaponPanel, JLayeredPane ownedWeaponPanel, JPanel exitPanel, StatusPanel statusPanel, CharacterInfoPanel characterInfoPanel, Character character) {
-        this.equipedWeaponPanel = equippedWeaponPanel;
+        this.equippedWeaponPanel = equippedWeaponPanel;
         this.ownedWeaponPanel = ownedWeaponPanel;
         this.exitPanel = exitPanel;
-        this.equipedWeaponPanel.removeAll();
+        this.equippedWeaponPanel.removeAll();
         this.ownedWeaponPanel.removeAll();
         this.exitPanel.removeAll();
         this.statusPanel = statusPanel;
@@ -37,28 +37,28 @@ Character character;
         Font f = new Font("NanumGothic", Font.BOLD, 20);
         setLayout(new GridLayout(1, 3, 5, 0));
 
-        this.equipedWeaponPanel.setBackground(CommonPanelFunction.hexToRgb("252525"));
-        this.equipedWeaponPanel.setLayout(new BoxLayout(this.equipedWeaponPanel, BoxLayout.Y_AXIS));
+        this.equippedWeaponPanel.setBackground(CommonPanelFunction.hexToRgb("252525"));
+        this.equippedWeaponPanel.setLayout(new BoxLayout(this.equippedWeaponPanel, BoxLayout.Y_AXIS));
 
-        JLabel equipedWeapon = new JLabel(i.getEquipedWeapon().getName());
+        JLabel equippedWeapon = new JLabel(character.getEquippedWeapon().getName());
         JLabel fightText = new JLabel("(싸운다)");
 
-        equipedWeapon.setFont(f);
-        equipedWeapon.setForeground(Color.WHITE);
-        equipedWeapon.setAlignmentY(Component.CENTER_ALIGNMENT);
-        equipedWeapon.setAlignmentX(Component.CENTER_ALIGNMENT);
+        equippedWeapon.setFont(f);
+        equippedWeapon.setForeground(Color.WHITE);
+        equippedWeapon.setAlignmentY(Component.CENTER_ALIGNMENT);
+        equippedWeapon.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         fightText.setFont(f);
         fightText.setForeground(Color.WHITE);
         fightText.setAlignmentY(Component.CENTER_ALIGNMENT);
         fightText.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        this.equipedWeaponPanel.add(Box.createVerticalGlue());
-        this.equipedWeaponPanel.add(equipedWeapon);
-        this.equipedWeaponPanel.add(fightText);
-        this.equipedWeaponPanel.add(Box.createVerticalGlue());
+        this.equippedWeaponPanel.add(Box.createVerticalGlue());
+        this.equippedWeaponPanel.add(equippedWeapon);
+        this.equippedWeaponPanel.add(fightText);
+        this.equippedWeaponPanel.add(Box.createVerticalGlue());
 
-        add(this.equipedWeaponPanel);
+        add(this.equippedWeaponPanel);
 
         this.ownedWeaponPanel.setBackground(CommonPanelFunction.hexToRgb("252525"));
 
@@ -70,7 +70,7 @@ Character character;
             weaponLabel.setBackground(CommonPanelFunction.hexToRgb("D0D0D0"));
             weaponLabel.setForeground(Color.WHITE);
             weaponLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-            weaponLabel.addMouseListener(new OwnedItemMouseListener(i.getWeapons().get(idx), hoverLabel, equipedWeapon));
+            weaponLabel.addMouseListener(new OwnedItemMouseListener(i.getWeapons().get(idx), hoverLabel, equippedWeapon));
             int x = idx % 3 * 85 + 20; // x 좌표 설정
             int y = idx / 3 * 40 + 60; // 높이에 따른 y 좌표 설정
 
@@ -127,7 +127,7 @@ Character character;
             foodLabel.setBackground(CommonPanelFunction.hexToRgb("D0D0D0"));
             foodLabel.setForeground(Color.WHITE);
             foodLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-            foodLabel.addMouseListener(new OwnedItemMouseListener(i.getFoods().get(idx), hoverLabel, new JLabel()));
+            foodLabel.addMouseListener(new OwnedItemMouseListener(i, i.getFoods().get(idx), hoverLabel, new JLabel()));
             int x = idx % 3 * 85 + 20; // x 좌표 설정
             int y = idx / 3 * 40 + 60; // 높이에 따른 y 좌표 설정
 
@@ -159,7 +159,7 @@ Character character;
             waterLabel.setBackground(CommonPanelFunction.hexToRgb("D0D0D0"));
             waterLabel.setForeground(Color.WHITE);
             waterLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-            waterLabel.addMouseListener(new OwnedItemMouseListener(i.getWaters().get(idx), hoverLabel, new JLabel()));
+            waterLabel.addMouseListener(new OwnedItemMouseListener(i, i.getWaters().get(idx), hoverLabel, new JLabel()));
             int x = idx % 3 * 85 + 20; // x 좌표 설정
             int y = idx / 3 * 40 + 60; // 높이에 따른 y 좌표 설정
 
@@ -235,6 +235,7 @@ Character character;
         JLabel activeLabel; // 상호작용이 나타날 라벨
 
         String itemRouter;
+        Inventory inventory;
 
         public OwnedItemMouseListener(Weapon weapon, JLabel hoverLabel, JLabel equippedLabel) {
             this.weapon = weapon;
@@ -243,18 +244,20 @@ Character character;
             this.itemRouter = "weapon";
         }
 
-        public OwnedItemMouseListener(Water water, JLabel hoverLabel, JLabel activeLabel) {
+        public OwnedItemMouseListener(Inventory i, Water water, JLabel hoverLabel, JLabel activeLabel) {
             this.water = water;
             this.hoverLabel = hoverLabel;
             this.activeLabel = activeLabel;
             this.itemRouter = "water";
+            this.inventory = i;
         }
 
-        public OwnedItemMouseListener(Food food, JLabel hoverLabel, JLabel activeLabel) {
+        public OwnedItemMouseListener(Inventory i, Food food, JLabel hoverLabel, JLabel activeLabel) {
             this.food = food;
             this.hoverLabel = hoverLabel;
             this.activeLabel = activeLabel;
             this.itemRouter = "food";
+            this.inventory = i;
         }
 
 
@@ -289,9 +292,12 @@ Character character;
                 characterInfoPanel.revalidate();
                 characterInfoPanel.repaint();
                 character.setAttack(weapon.getAttackStatus());
-                character.setEquippedWeaponId(weapon.getName());
+                character.setEquippedWeapon(weapon); // 작용 장비 교체
                 hoverLabel.setVisible(false);
-            } else if (itemRouter.equals("water")) {
+            } else if (itemRouter.equals("water")) { // 물을 먹었을 때
+                // 인벤토리에서 해당 아이템 삭제
+                inventory.deleteWater(water);
+
                 characterInfoPanel.remove(statusPanel);
                 statusPanel.getBodyStatus().setWaterPanel(water.getAddWater());
                 characterInfoPanel.add(statusPanel, 0);
@@ -302,7 +308,10 @@ Character character;
                 waterPanel.revalidate();
                 waterPanel.repaint();
                 hoverLabel.setVisible(false);
-            } else if (itemRouter.equals("food")) {
+            } else if (itemRouter.equals("food")) { // 음식을 먹었을 떄
+                // 인벤토리에서 해당 아이템 삭제
+                inventory.deleteFood(food);
+
                 characterInfoPanel.remove(statusPanel);
                 statusPanel.getBodyStatus().setFullnessPanel(food.getAddSatiety());
                 characterInfoPanel.add(statusPanel, 0);
