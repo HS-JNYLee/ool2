@@ -12,7 +12,6 @@ public class Character2EndingPanel extends JFrame {
     private static final String[] TIPS = {
             //게임에서 승리할 수 있는 조언들
             "안전지대인 제주도로 탈출에 성공했어요!!",
-
     };
 
     public Character2EndingPanel() {

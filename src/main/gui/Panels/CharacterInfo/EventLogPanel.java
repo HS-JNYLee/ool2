@@ -25,7 +25,7 @@ public class EventLogPanel extends JPanel {
         eventPanel.setBackground(Color.BLACK);
 
         GridBagConstraints gbc = new GridBagConstraints();
-        String monsterImageLink = "src/resources/images/seoulMonster.png";
+        String monsterImageLink = "src/resources/images/monsters/서울.png";
         ImageIcon monsterImageIcon = new ImageIcon(monsterImageLink);
 
         Image beforeImage = monsterImageIcon.getImage();

@@ -1,7 +1,6 @@
 package src.main.gui.Panels.TitlePanel;
 
 import src.main.gui.Panels.SettingPanel.SettingPanel;
-
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -12,7 +11,6 @@ import java.awt.event.ActionListener;
 import java.io.File;
 
 import src.main.character.ChooseCharacterFrame;
-import src.main.gui.Panels.SettingPanel.SettingPanel;
 
 public class TitlePanel extends JFrame {
     private Clip clip;
@@ -25,7 +23,7 @@ public class TitlePanel extends JFrame {
         setLayout(new BorderLayout());
 
         try {
-            File bgmFile = new File("src/resources/sounds/soundsample.wav");
+            File bgmFile = new File("src/resources/sounds/in_day.wav");
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(bgmFile);
 
             clip = AudioSystem.getClip();
