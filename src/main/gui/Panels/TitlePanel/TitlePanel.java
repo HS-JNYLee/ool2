@@ -73,25 +73,24 @@ public class TitlePanel extends JFrame {
         int buttonWidth = 250;  // 버튼 가로 길이를 150으로 설정
         int buttonHeight = 40;  // 버튼 세로 길이를 40으로 설정
         // 게임 시작 버튼
-        JPanel startButtonPanel = new JPanel();  // JPanel 객체를 생성
-        startButtonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));  // 레이아웃을 FlowLayout으로 설정
-        startButtonPanel.setBackground(Color.BLACK);  // 패널의 배경색을 검은색으로 설정
-        JButton startButton = new JButton("게임 시작");  // JButton 객체를 생성
+        JPanel startButtonPanel = new JPanel();
+        startButtonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+        startButtonPanel.setBackground(Color.BLACK);
+        JButton startButton = new JButton("게임 시작");
         startButton.setPreferredSize(new Dimension(buttonWidth, buttonHeight));
-        startButton.setBackground(Color.WHITE);  // 버튼 배경색을 하얀색으로 변경
-
-        startButton.setForeground(Color.BLACK);  // 글씨 색을 검은색으로 변경
+        startButton.setBackground(Color.WHITE);
+        startButton.setForeground(Color.BLACK);
         startButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new ChooseCharacterFrame();
-                dispose();
+                // AnimatedTextPanel을 만들고 표시
+new ChooseCharacterFrame();                // 현재 프레임 닫기
+                //dispose();
             }
         });
 
-
-        startButtonPanel.add(startButton);  // 버튼을 패널에 추가
-        buttonPanel.add(startButtonPanel);  // 패널을 버튼 패널에 추가
+        startButtonPanel.add(startButton);
+        buttonPanel.add(startButtonPanel);
         // 게임 설명 버튼
         JPanel infoButtonPanel = new JPanel();  // JPanel 객체를 생성
         infoButtonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));  // 레이아웃을 FlowLayout으로 설정
