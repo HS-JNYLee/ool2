@@ -14,14 +14,15 @@ public class BodyStatusPanel extends JPanel {
     JPanel fullnessPanel;
     JPanel waterPanel;
 
-    int healthPercentage =0;
+    int healthPercentage = 0;
     int fullnessPercentage = 0;
-    int waterPercentage= 0;
+    int waterPercentage = 0;
 
-        GridBagLayout gbl = new GridBagLayout();
-        GridBagConstraints gbc = new GridBagConstraints();
+    GridBagLayout gbl = new GridBagLayout();
+    GridBagConstraints gbc = new GridBagConstraints();
+
     public BodyStatusPanel(int healthPercentage, int fullnessPercentage, int waterPercentage) {
-        this.healthPercentage =healthPercentage;
+        this.healthPercentage = healthPercentage;
         this.fullnessPercentage = fullnessPercentage;
         this.waterPercentage = waterPercentage;
         Font f = new Font("함초롱바탕", Font.BOLD, 20);
@@ -83,9 +84,11 @@ public class BodyStatusPanel extends JPanel {
         waterPanel.add(new ProgressBar(this.waterPercentage, CommonPanelFunction.hexToRgb("44BCFF"), CommonPanelFunction.hexToRgb("CFF6FF")));
         add(waterPanel, gbc);
     }
+
     class ProgressBar extends JPanel {
         JPanel completePanel;
         JPanel remainPanel;
+
         ProgressBar(int completePortion, Color completeColor, Color remainColor) {
             setLayout(new GridBagLayout());
             setBackground(CommonPanelFunction.hexToRgb("303030"));
@@ -94,14 +97,17 @@ public class BodyStatusPanel extends JPanel {
             gbc.fill = GridBagConstraints.BOTH;
 
             gbc.weightx = completePortion;
-            completePanel = new JPanel();
-            completePanel.setBackground(completeColor);
-            add(completePanel, gbc);
-
-            gbc.weightx = 100-completePortion;
-            remainPanel = new JPanel();
-            remainPanel.setBackground(remainColor);
-            add(remainPanel, gbc);
+            if (gbc.weightx != 0) {
+                completePanel = new JPanel();
+                completePanel.setBackground(completeColor);
+                add(completePanel, gbc);
+            }
+            gbc.weightx = 100 - completePortion;
+            if (gbc.weightx != 0) {
+                remainPanel = new JPanel();
+                remainPanel.setBackground(remainColor);
+                add(remainPanel, gbc);
+            }
         }
     }
 
