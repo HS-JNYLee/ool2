@@ -44,7 +44,7 @@ public class TimestampThread extends Thread{
                     SwingUtilities.invokeLater(() -> dayLabel.setText("Day " + String.format("%02d",day)));
                 }
                 SwingUtilities.invokeLater(() -> realtime.setText(String.valueOf(time)));
-                Thread.sleep(300);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
