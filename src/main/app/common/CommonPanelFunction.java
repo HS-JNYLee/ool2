@@ -173,4 +173,17 @@ public class CommonPanelFunction {
         }
         return clip;
     }
+
+    // 자식 컴포넌트의 테두리 제거하기
+    public static void removeBordersRecursively(Component comp) {
+        if (comp instanceof Container) {
+            Component[] components = ((Container) comp).getComponents();
+            for (Component component : components) {
+                if (component instanceof JLabel) {
+                    ((JLabel) component).setBorder(null); // 테두리 제거
+                }
+                removeBordersRecursively(component); // 재귀적으로 자식 컴포넌트 탐색
+            }
+        }
+    }
 }

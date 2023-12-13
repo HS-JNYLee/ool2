@@ -8,6 +8,7 @@ import src.main.inventory.Water;
 import src.main.inventory.Weapon;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -70,6 +71,10 @@ Character character;
             ImageIcon weaponImage = CommonPanelFunction.resizeImage(i.getWeapons().get(idx).getImgLink());
             JLabel weaponLabel = new JLabel(weaponImage);
             JLabel hoverLabel = new JLabel();
+            if(idx == 0) { // 기본 장착 무기 표시
+                Border border = BorderFactory.createLineBorder(Color.WHITE, 2); // 검은색 테두리, 두께 2
+                weaponLabel.setBorder(border);
+            }
             weaponLabel.setFont(f);
             weaponLabel.setOpaque(true);
             weaponLabel.setBackground(CommonPanelFunction.hexToRgb("D0D0D0"));
@@ -192,6 +197,7 @@ Character character;
             ImageIcon weaponImage = CommonPanelFunction.resizeImage(i.getWeapons().get(idx).getImgLink());
             JLabel weaponLabel = new JLabel(weaponImage);
             JLabel hoverLabel = new JLabel();
+
             weaponLabel.setFont(f);
             weaponLabel.setOpaque(true);
             weaponLabel.setBackground(CommonPanelFunction.hexToRgb("D0D0D0"));
@@ -307,6 +313,10 @@ Character character;
                 CommonPanelFunction.playClickSound("change.wav");
                 });
                 executor.execute(() -> {
+                    Component parentComponent = e.getComponent().getParent();
+                    CommonPanelFunction.removeBordersRecursively(parentComponent);
+                    Border border = BorderFactory.createLineBorder(Color.WHITE, 2); // 검은색 테두리, 두께 2
+                    ((JLabel)e.getComponent()).setBorder(border);
                 ImageIcon newWeaponImage = CommonPanelFunction.resizeImage(weapon.getImgLink());
                 activeLabel.setIcon(newWeaponImage);
                 characterInfoPanel.remove(statusPanel);
