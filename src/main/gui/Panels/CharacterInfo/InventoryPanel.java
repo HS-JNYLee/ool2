@@ -71,7 +71,7 @@ Character character;
             ImageIcon weaponImage = CommonPanelFunction.resizeImage(i.getWeapons().get(idx).getImgLink());
             JLabel weaponLabel = new JLabel(weaponImage);
             JLabel hoverLabel = new JLabel();
-            if(idx == 0) { // 기본 장착 무기 표시
+            if(character.getEquippedWeapon().getId().equals(i.getWeapons().get(idx).getId())) { // 기본 장착 무기 표시
                 Border border = BorderFactory.createLineBorder(Color.WHITE, 2); // 검은색 테두리, 두께 2
                 weaponLabel.setBorder(border);
             }
