@@ -1,5 +1,6 @@
 package src.main.gui.Panels.EndingPanel;
 
+import src.main.app.common.CommonPanelFunction;
 import src.main.character.ChooseCharacterFrame;
 import src.main.character.TitlePanel;
 
@@ -8,6 +9,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class GameOverPanel extends JFrame {
     private static final String[] TIPS = {
@@ -20,7 +23,11 @@ public class GameOverPanel extends JFrame {
 
     public GameOverPanel() {
         super("Game Over");
-
+        ExecutorService executor = Executors.newFixedThreadPool(2); // 병렬 실행을 위한 스레드 풀 생성
+        executor.execute(() -> {
+            CommonPanelFunction.playClickSound("game_over.wav");
+        });
+        executor.execute(() -> {
         // 패널을 생성할 때 배경색을 검은색으로 설정
         JPanel mainPanel = new JPanel(new BorderLayout());
         mainPanel.setBackground(Color.BLACK);  // 전체 패널의 배경색을 검은색으로 변경
@@ -90,6 +97,8 @@ public class GameOverPanel extends JFrame {
         setSize(900, 600);
         setLocationRelativeTo(null);
         setVisible(true);
+        });
+        executor.shutdown();
     }
 
     private String getRandomTip() {

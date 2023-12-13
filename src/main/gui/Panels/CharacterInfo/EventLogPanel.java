@@ -114,8 +114,15 @@ public class EventLogPanel extends JPanel {
                                 });
                                 executor2.execute(() -> {
                                     if (n.getValue().equals("제주도")) {
-                                        mainFrame.dispose();
-                                        new CharacaterEndingPanel(character);
+                                        ExecutorService executor3 = Executors.newFixedThreadPool(2); // 병렬 실행을 위한 스레드 풀 생성
+                                        executor3.execute(() -> {
+                                            CommonPanelFunction.playClickSound("game_end.wav");
+                                        });
+                                        executor3.execute(() -> {
+                                            mainFrame.dispose();
+                                            new CharacaterEndingPanel(character);
+                                        });
+                                        executor3.shutdown();
                                     }
                                     // 버튼의 텍스트 값을 최상위 부모 패널로 전달
                                     Component parent = getParent();
