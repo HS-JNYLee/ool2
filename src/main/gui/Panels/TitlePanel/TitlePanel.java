@@ -1,5 +1,6 @@
 package src.main.gui.Panels.TitlePanel;
 
+import src.main.gui.Panels.ExplainPanel.ExplainPanel;
 import src.main.gui.Panels.SettingPanel.SettingPanel;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -102,8 +103,18 @@ public class TitlePanel extends JFrame {
         infoButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-              //   settingPanel = new SettingPanel(clip);  //음악 재생 clip
-              //  JOptionPane.showMessageDialog(ChooseCharacterFrame.this, settingPanel, "설정", JOptionPane.PLAIN_MESSAGE);
+                JFrame explainFrame = new JFrame("게임 설명서");
+                explainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                explainFrame.setSize(900, 600);
+                explainFrame.setLocationRelativeTo(null);
+
+                ExplainPanel explainPanel = new ExplainPanel();
+                explainFrame.add(explainPanel);
+
+                // 게임 설명서를 표시하고 현재 프레임의 배경음악을 정지
+                explainFrame.setVisible(true);
+                clip.stop();
+                //  JOptionPane.showMessageDialog(ChooseCharacterFrame.this, settingPanel, "설정", JOptionPane.PLAIN_MESSAGE);
             }
         });
         infoButtonPanel.add(infoButton);  // 버튼을 패널에 추가
