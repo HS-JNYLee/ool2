@@ -15,9 +15,11 @@ import java.util.concurrent.Executors;
 public class GameOverPanel extends JFrame {
     private static final String[] TIPS = {
             //게임에서 승리할 수 있는 조언들
-            "Tip 1: 상상부기는 거북이 이므로 방어력이 높아요!",
-            "Tip 2: 뭐 쓰지",
-            "Tip 3: ??."
+            "Tip : 상상부기는 거북이 이므로 방어력이 높아요!!",
+            "Tip : 고양이는 기본으로 주는 공격력이 높아서 초반에 살아 남을 수 있어요!!",
+            "Tip : 처음 스탯을 체력에 모두 투자해서 오래 살아남는 것도 방법입니다!!",
+            "Tip : 결국엔 오래 살아남는게 제주도에 도착할 확률이 높아요!!",
+            "Tip : 식량 없이 7일 살 수 있으니 식량을 아끼는 것도 방법이에요!!"
 
     };
 
