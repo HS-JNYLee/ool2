@@ -1,6 +1,6 @@
 package src.main.gui.Panels.TitlePanel;
-
 import src.main.gui.Panels.ExplainPanel.ExplainPanel;
+import src.main.character.AnimatedTextPanel;
 import src.main.gui.Panels.SettingPanel.SettingPanel;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -84,13 +84,12 @@ public class TitlePanel extends JFrame {
         startButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            //ChooseCharacterFrame 이동
-                clip.stop();
                 new ChooseCharacterFrame();
                 dispose();
-
             }
         });
+
+
         startButtonPanel.add(startButton);  // 버튼을 패널에 추가
         buttonPanel.add(startButtonPanel);  // 패널을 버튼 패널에 추가
         // 게임 설명 버튼
@@ -104,20 +103,25 @@ public class TitlePanel extends JFrame {
         infoButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFrame explainFrame = new JFrame("게임 설명서");
-                explainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                explainFrame.setSize(900, 600);
-                explainFrame.setLocationRelativeTo(null);
+                SwingUtilities.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        JFrame explainFrame = new JFrame("게임 설명서");
+                        explainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                        explainFrame.setSize(900, 600);
+                        explainFrame.setLocationRelativeTo(null);
 
-                ExplainPanel explainPanel = new ExplainPanel();
-                explainFrame.add(explainPanel);
+                        ExplainPanel explainPanel = new ExplainPanel();
+                        explainFrame.add(explainPanel);
 
-                // 게임 설명서를 표시하고 현재 프레임의 배경음악을 정지
-                explainFrame.setVisible(true);
-                clip.stop();
-                //  JOptionPane.showMessageDialog(ChooseCharacterFrame.this, settingPanel, "설정", JOptionPane.PLAIN_MESSAGE);
+                        // 게임 설명서를 표시하고 현재 프레임의 배경음악을 정지
+                        explainFrame.setVisible(true);
+                        clip.stop();
+                    }
+                });
             }
         });
+
         infoButtonPanel.add(infoButton);  // 버튼을 패널에 추가
         buttonPanel.add(infoButtonPanel);  // 패널을 버튼 패널에 추가
         // 게임 종료 버튼
@@ -150,11 +154,16 @@ public class TitlePanel extends JFrame {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new TitlePanel();
-            }
+        SwingUtilities.invokeLater(() -> {
+            JFrame frame = new JFrame("Your Game");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setSize(900, 600);
+            frame.setLocationRelativeTo(null);
+
+            TitlePanel titlePanel = new TitlePanel();
+            frame.add(titlePanel);
+
+            frame.setVisible(true);
         });
     }
 }

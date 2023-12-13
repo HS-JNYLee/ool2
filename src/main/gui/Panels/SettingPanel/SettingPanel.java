@@ -22,9 +22,9 @@ public class SettingPanel extends JPanel {
         setBackground(Color.BLACK);  // 배경색을 검은색으로 변경
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));  // 세로로 정렬된 레이아웃으로 변경
 
-        JLabel label = new JLabel("배경 음악 설정");
+        JLabel label = new JLabel("소리 설정");
         label.setForeground(Color.WHITE);  // 글자색을 흰색으로 변경
-        label.setFont(new Font("Arial", Font.BOLD, 20));  // 글자 크기 및 스타일 조절
+        label.setFont(new Font("NanumGothic", Font.TRUETYPE_FONT, 20));  // 글자 크기 및 스타일 조절
         add(label);
 
         // 슬라이더 생성
@@ -42,6 +42,9 @@ public class SettingPanel extends JPanel {
 
         JButton applyButton = new JButton("적용");
         applyButton.addActionListener(e -> saveVolume(volumeSlider.getValue()));
+        applyButton.setForeground(Color.WHITE); // 글자색을 흰색으로 설정
+        applyButton.setBackground(Color.BLACK); // 글자색을 흰색으로 설정
+
         add(applyButton);
     }
 

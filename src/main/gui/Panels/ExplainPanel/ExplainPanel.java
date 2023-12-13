@@ -16,7 +16,7 @@ public class ExplainPanel extends JPanel {
         // 각 페이지를 나타내는 패널들을 생성
         JPanel page1 = createPage("", "src/resources/images/explain1.png");
         JPanel page2 = createPage("", "src/resources/images/explain.png");
-        JPanel page3 = createPage("", "src/resources/images/explain3.png");
+        JPanel page3 = createPage("", "src/resources/images/explainn.png");
 
         // 각 페이지를 cardPanel에 추가
         cardPanel.add(page1, "Page 1");
