@@ -15,6 +15,7 @@ import src.main.inventory.Weapon;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -113,6 +114,11 @@ public class MainFrame extends JFrame {
         equippedWeaponPanel.addMouseListener(new MouseAdapter() { // '싸운다'를 클릭했을 때
             @Override
             public void mouseClicked(MouseEvent e) {
+                ExecutorService executor = Executors.newFixedThreadPool(2); // 병렬 실행을 위한 스레드 풀 생성
+                executor.execute(() -> {
+                    CommonPanelFunction.playClickSound("punch.wav");
+                });
+                executor.execute(() -> {
                 characterInfoPanel.remove(eventLog[0]);
 
                 if (c.getAttack() > m.getAttack()) { // 싸워서 이겼으면
@@ -151,6 +157,8 @@ public class MainFrame extends JFrame {
                 cp.revalidate();
                 cp.repaint();
                 characterInfoPanel.revalidate();
+                });
+                executor.shutdown();
             }
         });
         setExit();
@@ -190,11 +198,18 @@ public class MainFrame extends JFrame {
         exitEvent = new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                ExecutorService executor = Executors.newFixedThreadPool(2); // 병렬 실행을 위한 스레드 풀 생성
+                executor.execute(() -> {
+                    CommonPanelFunction.playClickSound("exit.wav");
+                });
+                executor.execute(() -> {
                 characterInfoPanel.remove(eventLog[0]);
                 eventLog[0] = new EventLogPanel("무사히 도망쳤습니다.");
                 characterInfoPanel.add(eventLog[0]);
                 eventLog[0].setMouseEvent(rm.getNode(timeSettingsPanel.getTimeStamp().getTt().getRegion()).getNeighbors(), c, i, characterInfoPanel, mf); // 다음 지역 이동 이벤트
                 characterInfoPanel.revalidate();
+                });
+                executor.shutdown();
             }
         };
 
