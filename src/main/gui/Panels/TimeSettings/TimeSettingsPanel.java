@@ -1,9 +1,13 @@
 package src.main.gui.Panels.TimeSettings;
 
 import src.main.app.common.CommonPanelFunction;
+import src.main.gui.Panels.SettingPanel.SettingPanel;
 
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class TimeSettingsPanel extends JPanel {
     JButton setting; // 설정 버튼
@@ -22,6 +26,16 @@ public class TimeSettingsPanel extends JPanel {
 
     public TimestampPanel getTimeStamp() {
         return timeStamp;
+    }
+
+    public void setSettingEventListener(Clip clip) {
+        setting.addActionListener(new ActionListener() {  //음량 조절
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                SettingPanel settingPanel = new SettingPanel(clip);  //음악 재생 clip
+                JOptionPane.showMessageDialog(null, settingPanel, "설정", JOptionPane.PLAIN_MESSAGE);
+            }
+        });
     }
 }
 

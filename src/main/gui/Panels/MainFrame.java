@@ -21,6 +21,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 
 public class MainFrame extends JFrame {
@@ -48,8 +49,11 @@ public class MainFrame extends JFrame {
     MouseAdapter exitEvent;
     MainFrame mf;
     Container cp;
+    private Clip clip;
 
     public MainFrame(Character character) {
+        clip = CommonPanelFunction.playBgmSoundByClip("in_day.wav");
+
         mf = this;
         this.c = character;
         this.setTitle("Main Frame");
@@ -83,6 +87,7 @@ public class MainFrame extends JFrame {
         rm = new RegionMap();
 
         timeSettingsPanel = new TimeSettingsPanel(width, (int) (height * 0.1));
+        timeSettingsPanel.setSettingEventListener(clip);
         timeSettingsPanel.getTimeStamp().setTtRegion(rm.getNodes().get(0).getValue()); // 초기 지역 설정
         timeSettingsPanel.setPreferredSize(new Dimension(width, (int) (height * 0.1)));
         timeSettingsPanel.setBackground(CommonPanelFunction.hexToRgb("303030"));
@@ -250,6 +255,8 @@ public class MainFrame extends JFrame {
                 hasMonster = CommonPanelFunction.getRandomBoolean(showMonster);
             }
             if (watchedValue.get() == 5 && !isPass[0]) {
+                clip.close();
+                clip = CommonPanelFunction.playBgmSoundByClip("in_day.wav");
                 isPass[0] = true; // 밤 종료 루프 중지
                 isMorning[0] = false; // 몬스터 루프 시작
                 characterInfoPanel.remove(eventLog[0]);
@@ -262,6 +269,8 @@ public class MainFrame extends JFrame {
             }
             // 몬스터 출몰시
             else if (hasMonster && !isMonster[0]) {
+                clip.close();
+                clip = CommonPanelFunction.playBgmSoundByClip("in_night.wav");
                 isMonster[0] = true; // 몬스터 루프 중지
                 isNight[0] = true; // 밤 루프 중지
                 isMorning[0] = false; // 낮 루프 시작
@@ -283,6 +292,8 @@ public class MainFrame extends JFrame {
                     repaint();
                 });
             } else if ((watchedValue.get() < 6 || 21 <= watchedValue.get()) && !isNight[0]) {
+                clip.close();
+                clip = CommonPanelFunction.playBgmSoundByClip("in_night.wav");
                 isNight[0] = true; // 밤 루프 중지
                 isMorning[0] = false; // 낮 루프 시작
                 SwingUtilities.invokeLater(() -> {
@@ -299,6 +310,8 @@ public class MainFrame extends JFrame {
                     repaint();
                 });
             } else if (6 <= watchedValue.get() && watchedValue.get() < 21 && !isMorning[0]) { // 아침 아이템 확인 및 사용
+                clip.close();
+                clip = CommonPanelFunction.playBgmSoundByClip("in_day.wav");
                 isMorning[0] = true; // 낮 루프 중지
                 isNight[0] = false; // 밤 루프 시작
                 isMonster[0] = false; // 몬스터 루프 시작
