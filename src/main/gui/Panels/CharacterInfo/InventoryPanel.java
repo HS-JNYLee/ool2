@@ -143,7 +143,7 @@ Character character;
             int y = idx / 3 * 75 + 20; // 높이에 따른 y 좌표 설정
 
             foodLabel.setBounds(x, y, 70, 70);
-            hoverLabel.setSize(70, 30);
+            hoverLabel.setSize(80, 30);
 
             foodPanel.add(foodLabel, idx);
             foodPanel.add(hoverLabel, idx);
@@ -176,7 +176,7 @@ Character character;
             int y = idx / 3 * 75 + 20; // 높이에 따른 y 좌표 설정
 
             waterLabel.setBounds(x, y, 70, 70);
-            hoverLabel.setSize(70, 30);
+            hoverLabel.setSize(80, 30);
 
             waterPanel.add(waterLabel, idx);
             waterPanel.add(hoverLabel, idx);
@@ -208,7 +208,7 @@ Character character;
             int y = idx / 3 * 75 + 20; // 높이에 따른 y 좌표 설정
 
             weaponLabel.setBounds(x, y, 70, 70);
-            hoverLabel.setSize(70, 30);
+            hoverLabel.setSize(80, 30);
 
             ownedWeaponPanel.add(weaponLabel, idx);
             ownedWeaponPanel.add(hoverLabel, idx);
@@ -278,11 +278,11 @@ Character character;
         @Override
         public void mouseEntered(MouseEvent e) {
             if (itemRouter.equals("weapon")) {
-                hoverLabel.setText("<html>공격력: " + weapon.getAttackStatus() + " <br>" + weapon.getRemainNumber() + "회 남음</html>");
+                hoverLabel.setText("<html><div style='text-align:center;'>공격력: " + weapon.getAttackStatus() + " <br>" + weapon.getRemainNumber() + "회 남음</div></html>");
             } else if (itemRouter.equals("water")) {
-                hoverLabel.setText("<html>"+water.getRemainDays() + "일 남음</html>");
+                hoverLabel.setText("<html><div style='text-align:center;'>수분 " + water.getAddWater() + " 증가 <br>" +water.getRemainDays() + "일 남음</div></html>");
             }else if(itemRouter.equals("food")) {
-                hoverLabel.setText("<html>"+food.getRemainDays() + "일 남음</html>");
+                hoverLabel.setText("<html><div style='text-align:center;'>포만감 "+ food.getAddSatiety() + " 증가 <br>" +food.getRemainDays() + "일 남음</div></html>");
 
             }
 
