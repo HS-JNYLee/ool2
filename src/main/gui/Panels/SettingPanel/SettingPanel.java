@@ -24,7 +24,7 @@ public class SettingPanel extends JPanel {
 
         JLabel label = new JLabel("배경 음악 설정");
         label.setForeground(Color.WHITE);  // 글자색을 흰색으로 변경
-        label.setFont(new Font("Arial", Font.BOLD, 20));  // 글자 크기 및 스타일 조절
+        label.setFont(new Font("NanumGothic", Font.BOLD, 20));  // 글자 크기 및 스타일 조절
         add(label);
 
         // 슬라이더 생성
@@ -48,7 +48,7 @@ public class SettingPanel extends JPanel {
 
 
     private int loadVolume() {
-        try (BufferedReader reader = new BufferedReader(new FileReader("volume.txt"))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader("src/resources/volume.txt"))) {
             String line = reader.readLine();
             if (line != null) {
                 return Integer.parseInt(line);
@@ -72,7 +72,7 @@ public class SettingPanel extends JPanel {
         }
     }
     public void saveVolume(int volume) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("volume.txt"))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/resources/volume.txt"))) {
             writer.write(Integer.toString(volume));
         } catch (IOException e) {
             e.printStackTrace();
