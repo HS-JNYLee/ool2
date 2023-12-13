@@ -1,4 +1,5 @@
 package src.main.gui.Panels;// panel switching
+
 import src.main.character.Character;
 import src.main.character.Monster;
 import src.main.character.Win;
@@ -47,6 +48,7 @@ public class MainFrame extends JFrame {
     MouseAdapter exitEvent;
     MainFrame mf;
     Container cp;
+
     public MainFrame(Character character) {
         mf = this;
         this.c = character;
@@ -114,51 +116,62 @@ public class MainFrame extends JFrame {
         equippedWeaponPanel.addMouseListener(new MouseAdapter() { // '싸운다'를 클릭했을 때
             @Override
             public void mouseClicked(MouseEvent e) {
-                ExecutorService executor = Executors.newFixedThreadPool(2); // 병렬 실행을 위한 스레드 풀 생성
-                executor.execute(() -> {
+                ExecutorService executor1 = Executors.newFixedThreadPool(2); // 병렬 실행을 위한 스레드 풀 생성
+                executor1.execute(() -> {
                     CommonPanelFunction.playClickSound("punch.wav");
                 });
-                executor.execute(() -> {
-                characterInfoPanel.remove(eventLog[0]);
+                executor1.execute(() -> {
+                    characterInfoPanel.remove(eventLog[0]);
+                    ExecutorService executor2 = Executors.newFixedThreadPool(2); // 병렬 실행을 위한 스레드 풀 생성
+                    if (c.getAttack() > m.getAttack()) { // 싸워서 이겼으면
+                        executor2.execute(() -> {
+                            CommonPanelFunction.playClickSound("reward.wav");
+                        });
+                        executor2.execute(() -> {
+                            Win w = new Win(i);
+                            eventLog[0] = new EventLogPanel(w.reward());
+                            characterInfoPanel.add(eventLog[0]);
+                            eventLog[0].setMouseEvent(rm.getNode(timeSettingsPanel.getTimeStamp().getTt().getRegion()).getNeighbors(), c, i, characterInfoPanel, mf); // 다음 지역 이동 이벤트
+                        });
+                        executor2.shutdown();
+                    } else { // 싸워서 졌으면
+                        executor2.execute(() -> {
+                            CommonPanelFunction.playClickSound("defeat.wav");
+                        });
+                        executor2.execute(() -> {
+                            eventLog[0] = new EventLogPanel("패배...");
+                            character.decreaseHp(m.getAttack() - c.getDefense());
 
-                if (c.getAttack() > m.getAttack()) { // 싸워서 이겼으면
-                    Win w = new Win(i);
-                    eventLog[0] = new EventLogPanel(w.reward());
-                    characterInfoPanel.add(eventLog[0]);
-                    eventLog[0].setMouseEvent(rm.getNode(timeSettingsPanel.getTimeStamp().getTt().getRegion()).getNeighbors(), c, i, characterInfoPanel, mf); // 다음 지역 이동 이벤트
-                } else { // 싸워서 졌으면
-                    eventLog[0] = new EventLogPanel("패배...");
-                    character.decreaseHp(m.getAttack() - c.getDefense());
-
-                    characterInfoPanel.add(eventLog[0]);
-                    characterInfoPanel.remove(status);
-                    status.getBodyStatus().setHealthPanel(c.getHp());
-                    characterInfoPanel.add(status, 0);
-                    if (character.getHp() <= 0) { // 캐릭터의 체력이 0이 되면
-                        // 게임 종료 (엔딩으로 가기)
-                        dispose();
-                        new GameOverPanel();
+                            characterInfoPanel.add(eventLog[0]);
+                            characterInfoPanel.remove(status);
+                            status.getBodyStatus().setHealthPanel(c.getHp());
+                            characterInfoPanel.add(status, 0);
+                            if (character.getHp() <= 0) { // 캐릭터의 체력이 0이 되면
+                                // 게임 종료 (엔딩으로 가기)
+                                dispose();
+                                new GameOverPanel();
+                            }
+                            // 제력이 0이 아니면 체력만 깎고 다음 스테이지 진행
+                            else
+                                eventLog[0].setMouseEvent(rm.getNode(timeSettingsPanel.getTimeStamp().getTt().getRegion()).getNeighbors(), c, i, characterInfoPanel, mf); // 다음 지역 이동 이벤트
+                        });
                     }
-                    // 제력이 0이 아니면 체력만 깎고 다음 스테이지 진행
-                    else
-                        eventLog[0].setMouseEvent(rm.getNode(timeSettingsPanel.getTimeStamp().getTt().getRegion()).getNeighbors(), c, i, characterInfoPanel, mf); // 다음 지역 이동 이벤트
-                }
-                i.useWeapon(c, character.getEquippedWeapon()); // 장착 무기 사용
-                // 무기가 횟수가 다 되서 무기가 변경됐을 떄 사용자의 공격력도 변경함
-                characterInfoPanel.remove(status);
-                status.getFightStatus().setAttackLabel(c.getAttack());
-                characterInfoPanel.add(status, 0);
-                //
-                cp.remove(inventoryPanel);
-                inventoryPanel = new InventoryPanel(i, equippedWeaponPanel, ownedWeaponPanel, exitPanel, status, characterInfoPanel, c);
-                inventoryPanel.setPreferredSize(new Dimension(width, (int) (height * 0.3)));
-                inventoryPanel.setBackground(CommonPanelFunction.hexToRgb("303030"));
-                add(inventoryPanel, BorderLayout.SOUTH);
-                cp.revalidate();
-                cp.repaint();
-                characterInfoPanel.revalidate();
+                    i.useWeapon(c, character.getEquippedWeapon()); // 장착 무기 사용
+                    // 무기가 횟수가 다 되서 무기가 변경됐을 떄 사용자의 공격력도 변경함
+                    characterInfoPanel.remove(status);
+                    status.getFightStatus().setAttackLabel(c.getAttack());
+                    characterInfoPanel.add(status, 0);
+                    //
+                    cp.remove(inventoryPanel);
+                    inventoryPanel = new InventoryPanel(i, equippedWeaponPanel, ownedWeaponPanel, exitPanel, status, characterInfoPanel, c);
+                    inventoryPanel.setPreferredSize(new Dimension(width, (int) (height * 0.3)));
+                    inventoryPanel.setBackground(CommonPanelFunction.hexToRgb("303030"));
+                    add(inventoryPanel, BorderLayout.SOUTH);
+                    cp.revalidate();
+                    cp.repaint();
+                    characterInfoPanel.revalidate();
                 });
-                executor.shutdown();
+                executor1.shutdown();
             }
         });
         setExit();
@@ -191,6 +204,7 @@ public class MainFrame extends JFrame {
             repaint();
         });
     }
+
     public void setExit() {
         if (exitEvent != null) {
             exitPanel.removeMouseListener(exitEvent); // 이전 exitEvent가 존재하면 제거합니다.
@@ -203,11 +217,11 @@ public class MainFrame extends JFrame {
                     CommonPanelFunction.playClickSound("exit.wav");
                 });
                 executor.execute(() -> {
-                characterInfoPanel.remove(eventLog[0]);
-                eventLog[0] = new EventLogPanel("무사히 도망쳤습니다.");
-                characterInfoPanel.add(eventLog[0]);
-                eventLog[0].setMouseEvent(rm.getNode(timeSettingsPanel.getTimeStamp().getTt().getRegion()).getNeighbors(), c, i, characterInfoPanel, mf); // 다음 지역 이동 이벤트
-                characterInfoPanel.revalidate();
+                    characterInfoPanel.remove(eventLog[0]);
+                    eventLog[0] = new EventLogPanel("무사히 도망쳤습니다.");
+                    characterInfoPanel.add(eventLog[0]);
+                    eventLog[0].setMouseEvent(rm.getNode(timeSettingsPanel.getTimeStamp().getTt().getRegion()).getNeighbors(), c, i, characterInfoPanel, mf); // 다음 지역 이동 이벤트
+                    characterInfoPanel.revalidate();
                 });
                 executor.shutdown();
             }
@@ -217,6 +231,7 @@ public class MainFrame extends JFrame {
             exitPanel.addMouseListener(exitEvent);
         }
     }
+
     public void setNight() {
         final AtomicInteger watchedValue = new AtomicInteger(0);
         final ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
@@ -231,10 +246,10 @@ public class MainFrame extends JFrame {
             watchedValue.set(currentValue);
             double showMonster = 0.2;
             boolean hasMonster = false;
-            if(watchedValue.get() < 6 || 21 <= watchedValue.get() && !isMonster[0]) { // 밤이 되었을 떄 몬스터 출현 가능성
+            if (watchedValue.get() < 6 || 21 <= watchedValue.get() && !isMonster[0]) { // 밤이 되었을 떄 몬스터 출현 가능성
                 hasMonster = CommonPanelFunction.getRandomBoolean(showMonster);
             }
-            if(watchedValue.get() == 5 && !isPass[0]) {
+            if (watchedValue.get() == 5 && !isPass[0]) {
                 isPass[0] = true; // 밤 종료 루프 중지
                 isMorning[0] = false; // 몬스터 루프 시작
                 characterInfoPanel.remove(eventLog[0]);
