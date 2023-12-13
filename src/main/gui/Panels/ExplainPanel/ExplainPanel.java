@@ -39,6 +39,8 @@ public class ExplainPanel extends JPanel {
         JPanel buttonPanel = new JPanel();
         buttonPanel.setBackground(Color.BLACK);  // 검은색 배경으로 설정
         buttonPanel.add(nextButton);
+        nextButton.setForeground(Color.BLACK);
+        nextButton.setBackground(Color.WHITE);
 
         add(buttonPanel, BorderLayout.SOUTH);
     }
