@@ -1,4 +1,4 @@
-package src.main.character;
+package src.main.inventory;
 
 import src.main.inventory.Item;
 

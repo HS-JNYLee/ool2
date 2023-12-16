@@ -1,7 +1,7 @@
 package src.main.gui.Panels.CharacterInfo;
 
 import src.main.app.common.CommonPanelFunction;
-import src.main.character.Character;
+import src.main.inventory.Character;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,5 +1,7 @@
 package src.main.character;
 
+import src.main.inventory.Monster;
+
 //서울, 부천, 수원, 평택, 대전, 대구, 부산, 제주도
 public class Map {
     private String name;  // 지역 이름

@@ -1,4 +1,4 @@
-package src.main.character;
+package src.main.inventory;
 
 import src.main.inventory.Item;
 import src.main.inventory.Weapon;
@@ -76,12 +76,12 @@ public class Character extends Item {
         if(this.hp >= 100) this.hp = 100;
     }
 
-    void increaseAttack(int attack) {
+    public void increaseAttack(int attack) {
 
         this.attack += attack;
 
     }
-    void increaseDefense(int defense) {
+    public void increaseDefense(int defense) {
         this.defense += defense;
     }
 
