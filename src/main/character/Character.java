@@ -55,8 +55,10 @@ public class Character extends Item {
     }
 
     public void decreaseHp(int hp) {
-        this.hp -= hp;
-        if(this.hp < 0) this.hp =0;
+        if(hp >= 0) {
+            this.hp -= hp;
+            if(this.hp < 0) this.hp =0;
+        }
     }
     public void decreaseFullnessAndWater() { // 포만감과 수분 하루치 감소
         int starvedDecreaseSize = 10; // 감소하는 정도
