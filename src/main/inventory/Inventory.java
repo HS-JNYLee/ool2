@@ -1,7 +1,5 @@
 package src.main.inventory;
 
-import src.main.character.Character;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;

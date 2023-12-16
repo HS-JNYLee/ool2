@@ -1,9 +1,7 @@
 package src.main.character;
 
-import src.main.inventory.Food;
-import src.main.inventory.Inventory;
-import src.main.inventory.Water;
-import src.main.inventory.Weapon;
+import src.main.inventory.*;
+import src.main.inventory.Character;
 
 import java.util.Random;
 

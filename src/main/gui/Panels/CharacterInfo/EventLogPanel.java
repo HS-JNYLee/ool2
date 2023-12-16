@@ -1,8 +1,8 @@
 package src.main.gui.Panels.CharacterInfo;
 
 import src.main.app.common.CommonPanelFunction;
-import src.main.character.Character;
-import src.main.character.Monster;
+import src.main.inventory.Character;
+import src.main.inventory.Monster;
 import src.main.environment.RegionMap;
 import src.main.gui.Panels.EndingPanel.CharacaterEndingPanel;
 import src.main.gui.Panels.MainFrame;

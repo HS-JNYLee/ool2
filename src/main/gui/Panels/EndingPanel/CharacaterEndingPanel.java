@@ -1,6 +1,6 @@
 package src.main.gui.Panels.EndingPanel;
 
-import src.main.character.Character;
+import src.main.inventory.Character;
 import src.main.character.TitlePanel;
 
 import javax.swing.*;

@@ -1,5 +1,8 @@
 package src.main.character;
 
+import src.main.inventory.Character;
+import src.main.inventory.Monster;
+
 public class Lose {
     //public String getImgLink() {
       // return imgLink;

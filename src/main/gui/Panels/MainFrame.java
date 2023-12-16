@@ -1,7 +1,7 @@
 package src.main.gui.Panels;// panel switching
 
-import src.main.character.Character;
-import src.main.character.Monster;
+import src.main.inventory.Character;
+import src.main.inventory.Monster;
 import src.main.character.Win;
 import src.main.environment.RegionMap;
 import src.main.gui.Panels.CharacterInfo.*;

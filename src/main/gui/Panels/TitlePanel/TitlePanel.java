@@ -1,6 +1,5 @@
 package src.main.gui.Panels.TitlePanel;
 import src.main.gui.Panels.ExplainPanel.ExplainPanel;
-import src.main.character.AnimatedTextPanel;
 import src.main.gui.Panels.SettingPanel.SettingPanel;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -10,7 +9,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-
 import src.main.character.ChooseCharacterFrame;
 
 public class TitlePanel extends JFrame {
@@ -85,7 +83,7 @@ public class TitlePanel extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 // AnimatedTextPanel을 만들고 표시
 new ChooseCharacterFrame();                // 현재 프레임 닫기
-                //dispose();
+                dispose();
             }
         });
 

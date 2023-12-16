@@ -1,7 +1,7 @@
 package src.main.environment;
 
 import src.main.app.common.CommonPanelFunction;
-import src.main.character.Monster;
+import src.main.inventory.Monster;
 
 import java.util.ArrayList;
 import java.util.List;

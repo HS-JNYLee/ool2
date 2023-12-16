@@ -2,14 +2,14 @@ package src.main.character;
 
 import src.main.gui.Panels.MainFrame;
 import src.main.gui.Panels.SettingPanel.SettingPanel;
+import src.main.inventory.Character;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.sound.sampled.*;
 import java.io.File;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import static src.main.gui.Panels.SettingPanel.SettingPanel.*;
 
 public class ChooseCharacterFrame extends JFrame {
     private AtomicInteger availablePoints = new AtomicInteger(20); //왼쪽 캐릭터에게 부여할 수 있는 능력치 포인트 20
